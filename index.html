@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ektorpsvägen Directory</title>
+
+<meta http-equiv="refresh" content="1800">
+
+<style>
+
+:root{
+    --bg:#121212;
+    --panel:#1C1F1A;
+    --header:#566F19;
+    --accent:#8AA64A;
+    --text:#F2F2F2;
+    --sub:#C8C8C8;
+    --border:#444444;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Segoe UI, Arial, sans-serif;
+    height:100vh;
+    overflow:hidden;
+}
+
+.container{
+    display:grid;
+    grid-template-columns: 78% 22%;
+    grid-template-rows: 90px auto;
+    height:100vh;
+}
+
+.header{
+    grid-column:1 / span 2;
+    background:var(--header);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 25px;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-area img{
+    height:55px;
+}
+
+.title{
+    font-size:32px;
+    font-weight:700;
+}
+
+.datetime{
+    font-size:22px;
+}
+
+.main{
+    padding:12px;
+}
+
+.directory{
+    background:var(--panel);
+    border:1px solid var(--border);
+    height:100%;
+    padding:10px;
+}
+
+.directory-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:6px;
+}
+
+.person{
+    border-bottom:1px solid var(--border);
+    padding:4px;
+    font-size:14px;
+}
+
+.room{
+    color:var(--accent);
+    font-weight:bold;
+}
+
+.sidebar{
+    padding:12px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    padding:15px;
+}
+
+.weather{
+    height:180px;
+}
+
+.weather-temp{
+    font-size:48px;
+    font-weight:bold;
+}
+
+.weather-city{
+    color:var(--sub);
+}
+
+.area{
+    flex:1;
+}
+
+.area h2{
+    margin-bottom:10px;
+    color:var(--accent);
+}
+
+.notice{
+    margin-bottom:10px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header class="header">
+
+<div class="logo-area">
+
+<!-- Replace logo.png with your logo file -->
+<img src="logo.png" alt="Logo">
+
+<div class="title">
+Ektorpsvägen Directory
+</div>
+
+</div>
+
+<div class="datetime" id="datetime">
+Loading...
+</div>
+
+</header>
+
+<div class="main">
+
+<div class="directory">
+
+<div class="directory-grid" id="directoryGrid">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="sidebar">
+
+<div class="card weather">
+
+<div class="weather-temp" id="temp">
+--
+</div>
+
+<div class="weather-city">
+Nacka
+</div>
+
+<div id="weatherDesc">
+Loading weather...
+</div>
+
+</div>
+
+<div class="card area">
+
+<h2>Area A</h2>
+
+<div class="notice">
+Annual Meeting - 25 June
+</div>
+
+<div class="notice">
+Laundry Room Inspection
+</div>
+
+<div class="notice">
+Garage Cleaning Next Week
+</div>
+
+</div>
+
+<div class="card area">
+
+<h2>Area B</h2>
+
+<div class="notice">
+Visitor Information
+</div>
+
+<div class="notice">
+Emergency Contacts
+</div>
+
+<div class="notice">
+Building Updates
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// CLOCK
+
+function updateClock(){
+
+const now = new Date();
+
+document.getElementById("datetime").innerHTML =
+now.toLocaleDateString('sv-SE') +
+" " +
+now.toLocaleTimeString('sv-SE');
+
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+
+// WEATHER (NACKA)
+
+async function loadWeather(){
+
+try{
+
+const url =
+"https://api.open-meteo.com/v1/forecast?latitude=59.31&longitude=18.16&current=temperature_2m,wind_speed_10m";
+
+const response = await fetch(url);
+
+const data = await response.json();
+
+document.getElementById("temp").innerHTML =
+Math.round(data.current.temperature_2m) + "°C";
+
+document.getElementById("weatherDesc").innerHTML =
+"Wind " +
+Math.round(data.current.wind_speed_10m) +
+" km/h";
+
+}
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadWeather();
+
+
+// RESIDENT DIRECTORY
+
+const sampleResidents = [];
+
+for(let i=1;i<=132;i++){
+
+sampleResidents.push({
+name:"Resident " + i,
+room:"A" + (100+i)
+});
+
+}
+
+function renderResidents(data){
+
+const grid = document.getElementById("directoryGrid");
+
+grid.innerHTML="";
+
+data.forEach(person=>{
+
+const div = document.createElement("div");
+
+div.className="person";
+
+div.innerHTML=
+`${person.name}<br><span class="room">${person.room}</span>`;
+
+grid.appendChild(div);
+
+});
+
+}
+
+renderResidents(sampleResidents);
+
+/*
+
+GOOGLE SHEET OPTION
+
+Replace sampleResidents with:
+
+fetch("YOUR_GOOGLE_SHEET_JSON_URL")
+.then(r=>r.json())
+.then(data=>renderResidents(data));
+
+*/
+
+</script>
+
+</body>
+</html>
