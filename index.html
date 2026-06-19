@@ -136,6 +136,37 @@ body{
     margin-bottom:10px;
 }
 
+.traffic {
+    background:#1C1F1A;
+    border:1px solid #444444;
+    color:#F2F2F2;
+}
+
+.departure-row{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    border-bottom:1px solid #333;
+}
+
+.route{
+    color:#8AA64A;
+    font-weight:600;
+}
+
+.ontime{
+    color:#8AA64A;
+}
+
+.delayed{
+    color:#ff6b6b;
+    font-weight:bold;
+}
+
+.minutes{
+    color:#C8C8C8;
+}
+
 </style>
 </head>
 <body>
@@ -191,6 +222,16 @@ Loading weather...
 
 </div>
 
+<div class="card traffic">
+<div class="card traffic">
+    <h2>🚍 Ektorp → Slussen</h2>
+    <div id="departures">
+        Loading departures...
+    </div>
+</div>
+
+</div>
+
 <div class="card area">
 
 <h2>Area A</h2>
@@ -232,6 +273,203 @@ Building Updates
 </div>
 
 <script>
+
+/*****************************************************************
+ EKTORP → SLUSSEN LIVE DEPARTURES
+******************************************************************/
+
+// Replace with actual Ektorps Centrum site id once verified
+//const SITE_ID = 9001;
+
+// SL Transport endpoint
+//const API_URL =
+//`https://transport.integration.sl.se/v1/sites/${SITE_ID}/departures`;
+
+async function findEktorpSiteId() {
+
+    const response =
+        await fetch(
+          "https://transport.integration.sl.se/v1/sites"
+        );
+
+    const sites =
+        await response.json();
+
+    const ektorp =
+        sites.find(site =>
+            site.name &&
+            site.name.toLowerCase()
+                .includes("ektorps centrum")
+        );
+
+    return ektorp?.id;
+
+}
+
+async function loadDepartures() {
+
+
+}
+
+async function loadDepartures() {
+
+    const container = document.getElementById("departures");
+
+    try {
+
+        //const response = await fetch(API_URL);
+        //const data = await response.json();
+
+        let siteId =
+            localStorage.getItem(
+                "ektorpsSiteId"
+            );
+
+        if(!siteId){
+
+            siteId =
+                await findEktorpSiteId();
+
+            if(!siteId){
+                throw new Error(
+                    "Ektorps centrum not found"
+                );
+            }
+
+            localStorage.setItem(
+                "ektorpsSiteId",
+                siteId
+            );
+        }
+
+ 
+ 
+
+        const response =
+            await fetch(
+            `https://transport.integration.sl.se/v1/sites/${siteId}/departures`
+            );
+
+        const data =
+            await response.json();
+
+        console.log(data);
+
+
+        let departures = data.departures || [];
+
+        // Only buses toward Slussen
+        departures = departures.filter(dep => {
+
+            const destination =
+                (dep.destination || "").toLowerCase();
+
+            const direction =
+                (dep.direction || "").toLowerCase();
+
+            return (
+                destination.includes("slussen") ||
+                direction.includes("slussen")
+            );
+
+        });
+
+        departures = departures
+            .sort((a,b)=>
+                new Date(a.expected) -
+                new Date(b.expected)
+            )
+            .slice(0,5);
+
+        container.innerHTML = "";
+
+        departures.forEach(dep => {
+
+            const expected =
+                new Date(dep.expected);
+
+            const scheduled =
+                new Date(dep.scheduled);
+
+            const delayMinutes =
+                Math.round(
+                    (expected - scheduled)
+                    / 60000
+                );
+
+            const timeString =
+                expected.toLocaleTimeString(
+                    'sv-SE',
+                    {
+                        hour:'2-digit',
+                        minute:'2-digit'
+                    }
+                );
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "departure-row";
+
+            let statusHTML;
+
+            if(delayMinutes > 0){
+
+                statusHTML =
+                    `<span class="delayed">
+                        +${delayMinutes} min
+                     </span>`;
+
+            } else {
+
+                statusHTML =
+                    `<span class="ontime">
+                        On time
+                     </span>`;
+            }
+
+            row.innerHTML = `
+                <div>
+                    <span class="route">
+                        ${dep.line.designation}
+                    </span>
+                    ${timeString}
+                </div>
+
+                <div>
+                    ${statusHTML}
+                </div>
+            `;
+
+            container.appendChild(row);
+
+        });
+
+        if(departures.length === 0){
+
+            container.innerHTML =
+            "<div>No departures found</div>";
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        container.innerHTML =
+            "Unable to load departures";
+
+    }
+
+}
+
+loadDepartures();
+
+// refresh every minute
+setInterval(loadDepartures,60000);
+
 
 // CLOCK
 
