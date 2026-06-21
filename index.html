@@ -253,8 +253,23 @@
             overflow: hidden;
             box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.05), 0 8px 32px rgba(0,0,0,0.3);
         }
+        .bus-area {
+            flex: 1.2 1 0;
+        }
+        .news-area {
+            flex: 0 0 auto;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+        }
+        .notice-area {
+            flex: 1 1 42%;
+            min-height: 0;
+        }
 
         .area-title {
+            display: flex;
+            align-items: center;
+            gap: 0.3vw;
             font-size: clamp(0.6rem, 1.2vh, 1.2rem);
             font-weight: 600;
             text-transform: uppercase;
@@ -264,6 +279,13 @@
             border-bottom: 1px solid var(--border-subtle);
             padding-bottom: 0.6vh;
             flex-shrink: 0;
+        }
+        .bus-title-time {
+            color: var(--gold);
+            font-size: clamp(1rem, 2vh, 2.1rem);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.04em;
+            margin-right: 0.5vw;
         }
 
         .area-content {
@@ -279,7 +301,7 @@
         .bus-board {
             display: flex;
             flex-direction: column;
-            gap: 0.6vh;
+            gap: 0.25vh;
             width: 100%;
         }
 
@@ -287,8 +309,8 @@
             display: grid;
             grid-template-columns: minmax(6.5ch, 7.5ch) minmax(3.4ch, auto) minmax(0, 1fr) auto;
             align-items: center;
-            column-gap: 0.55vw;
-            padding: 0.2vh 0.4vw;
+            column-gap: 0.45vw;
+            padding: 0.08vh 0.35vw;
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.02);
             transition: background 0.15s;
@@ -298,7 +320,7 @@
         }
 
         .bus-time {
-            font-size: clamp(1.2rem, 2.6vh, 3rem);
+            font-size: clamp(0.82rem, 1.55vh, 1.75rem);
             font-weight: 700;
             font-variant-numeric: tabular-nums;
             color: var(--text-main);
@@ -306,7 +328,7 @@
             white-space: nowrap;
         }
         .bus-line {
-            font-size: clamp(0.7rem, 1.4vh, 1.5rem);
+            font-size: clamp(0.55rem, 0.9vh, 1rem);
             font-weight: 700;
             color: var(--bg-primary);
             background: var(--gold);
@@ -316,14 +338,14 @@
             text-align: center;
         }
         .bus-dest {
-            font-size: clamp(0.7rem, 1.3vh, 1.4rem);
+            font-size: clamp(0.55rem, 0.9vh, 1rem);
             color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .bus-delay {
-            font-size: clamp(0.6rem, 1.1vh, 1.2rem);
+            font-size: clamp(0.5rem, 0.8vh, 0.9rem);
             color: #F97316;
             font-weight: 500;
             background: rgba(249, 115, 22, 0.15);
@@ -392,24 +414,81 @@
             opacity: 0.6;
             font-size: clamp(0.8rem, 1.4vh, 1.5rem);
         }
-
-        /* --- CLOCK + COUNT --- */
-        .clock-count {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.6vh;
-            flex-shrink: 0;
+        .news-ticker {
+            min-height: clamp(1.2rem, 2.2vh, 2.2rem);
+            justify-content: center;
         }
-        .live-clock {
-            font-size: clamp(1.1rem, 2.2vh, 2.4rem);
+        .news-ticker-track {
+            display: flex;
+            align-items: center;
+            gap: 2.2vw;
+            width: max-content;
+            max-width: none;
+            padding-left: 100%;
+            white-space: nowrap;
+            animation: news-scroll 42s linear infinite;
+        }
+        .news-ticker:hover .news-ticker-track {
+            animation-play-state: paused;
+        }
+        .news-ticker-item {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.45vw;
+            color: var(--text-main);
+            font-size: clamp(0.55rem, 0.95vh, 1rem);
+            line-height: 1;
+        }
+        .news-ticker-item .date {
+            color: var(--gold);
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        @keyframes news-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+        .notice-board {
+            gap: 0.8vh;
+        }
+        .notice-item {
+            border-left-color: var(--gold-light);
+        }
+        .riksbyggen-logo {
+            display: inline-block;
+            height: clamp(0.7rem, 1.25vh, 1.3rem);
+            width: auto;
+            margin-left: 0.45vw;
+            vertical-align: -0.18em;
+        }
+
+        /* --- HEADER META --- */
+        .header-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 0.15vh;
+            flex-shrink: 0;
+            margin-left: auto;
+            text-align: right;
+        }
+        .header-clock {
+            font-size: clamp(0.85rem, 1.5vh, 1.6rem);
             font-weight: 700;
-            letter-spacing: 0.04em;
             color: var(--gold);
             font-variant-numeric: tabular-nums;
+            letter-spacing: 0.04em;
+        }
+        .live-date {
+            font-size: clamp(0.6rem, 1.1vh, 1.1rem);
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
         .resident-count {
-            font-size: clamp(0.8rem, 1.6vh, 1.8rem);
+            font-size: clamp(0.7rem, 1.25vh, 1.3rem);
             color: var(--gold);
             font-weight: 500;
         }
@@ -417,32 +496,6 @@
             color: var(--text-muted);
             font-weight: 400;
             font-size: 0.7em;
-        }
-
-        /* --- FULLSCREEN BUTTON --- */
-        .fullscreen-btn {
-            position: fixed;
-            bottom: 2vh;
-            right: 2vw;
-            background: rgba(212, 175, 55, 0.08);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-subtle);
-            color: var(--gold-light);
-            padding: 0.8vh 1.6vw;
-            border-radius: 40px;
-            font-size: clamp(0.7rem, 1.2vh, 1.2rem);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 999;
-            letter-spacing: 0.03em;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-        .fullscreen-btn:hover {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: var(--bg-primary);
-            transform: scale(1.04);
         }
 
         body.idle {
@@ -454,9 +507,11 @@
             .sidebar { width: 30vw; }
             .person-name { font-size: clamp(0.5rem, 1.2vh, 1.2rem); }
             .person-room { font-size: clamp(0.4rem, 0.9vh, 0.9rem); }
-            .bus-time { font-size: clamp(1rem, 2.2vh, 2.2rem); }
+            .bus-time { font-size: clamp(0.78rem, 1.45vh, 1.6rem); }
             .weather-current .desc { display: none; }
             .weather-header { min-width: 140px; padding: 0.4vh 1vw; }
+            .header-meta { margin-left: 0; }
+            .news-ticker-item { font-size: clamp(0.5rem, 0.85vh, 0.9rem); }
             .announcement-item .title { font-size: clamp(0.55rem, 1vh, 1rem); }
         }
 
@@ -474,9 +529,14 @@
                 grid-template-columns: repeat(6, 1fr);
                 grid-template-rows: repeat(22, 1fr);
             }
-            .bus-time { font-size: clamp(1.2rem, 2.8vh, 2.8rem); }
+            .bus-time { font-size: clamp(0.8rem, 1.55vh, 1.7rem); }
             .weather-current .desc { display: inline; }
             .weather-header { min-width: 160px; }
+            .header-meta {
+                align-items: flex-start;
+                text-align: left;
+            }
+            .news-ticker-item { font-size: clamp(0.5rem, 0.9vh, 0.95rem); }
             .announcement-item .title { font-size: clamp(0.6rem, 1.1vh, 1.1rem); }
         }
 
@@ -503,8 +563,14 @@
                     <strong>EKTORPS<span>VÄGEN</span></strong>
                 </div>
 
+                <div class="header-meta">
+                    <span class="header-clock" id="headerClockDisplay">--:--:--</span>
+                    <span class="live-date" id="dateDisplay">--</span>
+                    <span class="resident-count"><span id="residentCount">131</span> <small>boende</small></span>
+                </div>
+
                 <!-- WEATHER HEADER -->
-                <div class="weather-header" id="weatherHeader">
+                <div class="weather-header" id="weatherHeader"> 
                     <div class="weather-current">
                         <span class="icon" id="weatherIcon">⛅</span>
                         <span class="temp" id="weatherTemp">--°<sup>C</sup></span>
@@ -522,13 +588,12 @@
         <!-- RIGHT SIDEBAR -->
         <div class="sidebar">
             <!-- AREA A: BUS -->
-            <div class="area">
-                <div class="area-title">🚌 EKTORPS CENTRUM → SLUSSEN</div>
+            <div class="area bus-area">
+                <div class="area-title">
+                    <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
+                    🚌 EKTORPS CENTRUM → SLUSSEN
+                </div>
                 <div class="area-content">
-                    <div class="clock-count">
-                        <span class="live-clock" id="clockDisplay">--:--:--</span>
-                        <span class="resident-count"><span id="residentCount">132</span> <small>boende</small></span>
-                    </div>
                     <div class="bus-board" id="busBoard">
                         <div class="bus-error">⏳ Laddar avgångar...</div>
                     </div>
@@ -537,17 +602,32 @@
             </div>
 
             <!-- AREA B: DN NEWS -->
-            <div class="area">
+            <div class="area news-area">
                 <div class="area-title">📰 SENASTE NYTT · DN.SE</div>
-                <div class="area-content" id="newsBoard">
+                <div class="area-content news-ticker" id="newsBoard">
                     <div class="announcement-empty">⏳ Laddar nyheter...</div>
+                </div>
+            </div>
+
+            <!-- AREA C: ANNOUNCEMENTS -->
+            <div class="area notice-area">
+                <div class="area-title">📌 ANSLAG</div>
+                <div class="area-content notice-board">
+                    <div class="announcement-item notice-item">
+                        <span class="date">INFO</span>
+                        <span class="title">Kom ihåg att hålla entréer och trapphus fria.</span>
+                    </div>
+                    <div class="announcement-item notice-item">
+                        <span class="date">BRF</span>
+                        <span class="title">
+                            Felanmälan görs via Riksbyggen.
+                            <img class="riksbyggen-logo" src="https://www.riksbyggen.se/images/svg/riksbyggen_logo_white.svg" alt="Riksbyggen">
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- FULLSCREEN BUTTON -->
-    <button class="fullscreen-btn" id="fullscreenBtn">⛶ Fullscreen</button>
 
     <script>
         (function() {
@@ -568,7 +648,7 @@
             // ============================================================
 
             const grid = document.getElementById('directoryGrid');
-            const total = 132;
+            const total = 131;
             const firstNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'James', 'Sophia', 'Lucas', 'Mia', 'Ethan',
                 'Charlotte', 'Mason', 'Amelia', 'Logan', 'Harper', 'Oliver', 'Evelyn', 'Elijah', 'Abigail', 'Alexander',
                 'Ella', 'Aiden', 'Scarlett', 'Carter', 'Grace', 'Matthew', 'Chloe', 'Daniel', 'Lily', 'Henry',
@@ -614,12 +694,24 @@
             //  2. CLOCK
             // ============================================================
 
-            const clockEl = document.getElementById('clockDisplay');
+            const headerClockEl = document.getElementById('headerClockDisplay');
+            const busClockEl = document.getElementById('busClockDisplay');
+            const dateEl = document.getElementById('dateDisplay');
 
             function updateClock() {
                 const now = new Date();
-                clockEl.textContent = now.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit',
-                    second: '2-digit' });
+                const timeText = now.toLocaleTimeString('sv-SE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                headerClockEl.textContent = timeText;
+                busClockEl.textContent = timeText;
+                dateEl.textContent = now.toLocaleDateString('sv-SE', {
+                    weekday: 'short',
+                    day: 'numeric',
+                    month: 'short'
+                });
             }
             updateClock();
             setInterval(updateClock, 1000);
@@ -657,10 +749,10 @@
                         return;
                     }
 
-                    const top6 = slussenDepartures.slice(0, 6);
+                    const topDepartures = slussenDepartures.slice(0, 6);
 
                     let rows = '';
-                    top6.forEach(d => {
+                    topDepartures.forEach(d => {
                         const displayTime = d.display || '--:--';
                         const line = d.line?.designation || '?';
                         const destination = d.destination || 'Slussen';
@@ -820,7 +912,7 @@
                     if (data.status === 'ok' && data.items && data.items.length > 0) {
                         // Take the latest 4 headlines
                         const items = data.items.slice(0, 4);
-                        let html = '';
+                        let html = '<div class="news-ticker-track">';
                         items.forEach(item => {
                             const pubDate = new Date(item.pubDate);
                             const timeStr = pubDate.toLocaleTimeString('sv-SE', {
@@ -834,12 +926,13 @@
                                 .replace(/&lt;/g, '<')
                                 .replace(/&gt;/g, '>');
                             html += `
-                                <div class="announcement-item">
+                                <span class="news-ticker-item">
                                     <span class="date">${timeStr}</span>
                                     <span class="title">${title}</span>
-                                </div>
+                                </span>
                             `;
                         });
+                        html += '</div>';
                         newsBoard.innerHTML = html;
                     } else {
                         throw new Error('No items in feed');
@@ -848,17 +941,19 @@
                     console.warn('News fetch failed:', error);
                     // Fallback – friendly message
                     newsBoard.innerHTML = `
-                        <div class="announcement-item">
+                        <div class="news-ticker-track">
+                        <span class="news-ticker-item">
                             <span class="date">--:--</span>
                             <span class="title">📰 Kunde inte ladda DN-nyheter just nu</span>
-                        </div>
-                        <div class="announcement-item">
+                        </span>
+                        <span class="news-ticker-item">
                             <span class="date">--:--</span>
                             <span class="title">🔄 Försöker igen om 60 sekunder</span>
-                        </div>
-                        <div class="announcement-item">
+                        </span>
+                        <span class="news-ticker-item">
                             <span class="date">--:--</span>
                             <span class="title">Välkommen till BRF Ektorsvägen!</span>
+                        </span>
                         </div>
                     `;
                 }
@@ -869,28 +964,8 @@
             setInterval(fetchNews, 60000);
 
             // ============================================================
-            //  6. FULLSCREEN & CURSOR
+            //  6. CURSOR
             // ============================================================
-
-            const board = document.getElementById('board');
-            const fsBtn = document.getElementById('fullscreenBtn');
-
-            function toggleFullscreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen?.() || document.documentElement
-                        .webkitRequestFullscreen?.();
-                } else {
-                    document.exitFullscreen?.() || document.webkitExitFullscreen?.();
-                }
-            }
-            fsBtn.addEventListener('click', toggleFullscreen);
-            board.addEventListener('dblclick', toggleFullscreen);
-            document.addEventListener('fullscreenchange', updateButton);
-            document.addEventListener('webkitfullscreenchange', updateButton);
-
-            function updateButton() {
-                fsBtn.textContent = document.fullscreenElement ? '⛶ Exit Fullscreen' : '⛶ Fullscreen';
-            }
 
             let idleTimer;
             const body = document.body;
