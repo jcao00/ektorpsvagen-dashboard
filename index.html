@@ -18,6 +18,7 @@
             --gold-dark: #A8872C;
             --gold-glow: rgba(212, 175, 55, 0.2);
             --border-subtle: rgba(212, 175, 55, 0.15);
+            --bg-card: #13243A;
         }
 
         /* --- RESET & GLOBAL --- */
@@ -205,13 +206,16 @@
             padding: 0.2vh 0.6vw;
             background: var(--bg-card);
             border-radius: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
             overflow: hidden;
         }
         .grid-item:hover {
             background: var(--gold-glow);
-            border-bottom-color: var(--gold);
+            border-color: rgba(212, 175, 55, 0.45);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            transform: translateY(-1px);
         }
 
         .person-name {
@@ -551,10 +555,10 @@
                 <div class="logo">
                     <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
                 </div>
-                <div class="title">
+                <!--<div class="title">
                     BOSTADSRÄTTSFÖRENING
                     <strong>EKTORPS<span>VÄGEN</span></strong>
-                </div>
+                </div>-->
 
                 <div class="header-meta">
                     <span class="header-clock" id="headerClockDisplay">--:--:--</span>
@@ -608,12 +612,12 @@
                 <div class="area-content notice-board">
                     <div class="announcement-item notice-item">
                         <span class="date">BRF</span>
-                        <span class="title">Mitt Riksbyggen<br>Logga in på mitt.riksbyggen.se för att göra felanmälan, se dina avier och ta del av viktig information.<br>
-                        Kundservice finns dygnet runt på 0771–860 860.<br>Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
+                        <span class="title">Mitt Riksbyggen<br>🟢 Logga in på mitt.riksbyggen.se för att göra felanmälan, se dina avier och ta del av viktig information.<br>
+                        🟠Kundservice finns dygnet runt på 0771–860 860.<br>🔵Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
                     </div>
                     <div class="announcement-item notice-item">
                         <span class="date">BRF</span>
-                        <span class="title">Via appen Boappa (App Store & Google Play) får du löpande information från styrelsen och kan kommunicera med grannar.</span>
+                        <span class="title">Via appen Boappa (App Store & Google Play)<br>🟢 Får du löpande information från styrelsen och kan kommunicera med grannar.</span>
                     </div>
                     <div class="announcement-item notice-item">
                         <span class="date">BRF</span>
@@ -712,7 +716,8 @@
                 dateEl.textContent = now.toLocaleDateString('sv-SE', {
                     weekday: 'short',
                     day: 'numeric',
-                    month: 'short'
+                    month: 'short',
+                    year:"numeric"    
                 });
             }
             updateClock();
