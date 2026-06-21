@@ -284,9 +284,10 @@
         }
 
         .bus-row {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: minmax(6.5ch, 7.5ch) minmax(3.4ch, auto) minmax(0, 1fr) auto;
             align-items: center;
+            column-gap: 0.55vw;
             padding: 0.2vh 0.4vw;
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.02);
@@ -301,7 +302,8 @@
             font-weight: 700;
             font-variant-numeric: tabular-nums;
             color: var(--text-main);
-            min-width: 3.2vw;
+            text-align: left;
+            white-space: nowrap;
         }
         .bus-line {
             font-size: clamp(0.7rem, 1.4vh, 1.5rem);
@@ -316,8 +318,6 @@
         .bus-dest {
             font-size: clamp(0.7rem, 1.3vh, 1.4rem);
             color: var(--text-main);
-            flex: 1;
-            padding-left: 0.6vw;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
