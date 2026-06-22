@@ -716,7 +716,7 @@
                         <span class="date">BRF</span>
                         <span class="title">Mitt Riksbyggen
                             <span class="notice-subline">🟢 Logga in på <span class="contact-highlight">mitt.riksbyggen.se</span> för att göra felanmälan, se dina avier och ta del av viktig information.</span>
-                            <span class="notice-subline">🟠 Kundservice finns dygnet runt på <span class="contact-highlight">0771–860 860</span>.</span>
+                            <span class="notice-subline">🟠 Kundservice finns dygnet runt på 0771–860 860.</span>
                             <span class="notice-subline">🔵 Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
                         </span>
                     </div>
@@ -815,7 +815,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
 
             function highlightContacts(value) {
                 const escaped = escapeHtml(value);
-                const contactPattern = /([\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?:https?:\/\/)?(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}(?:\/[^\s<]*)?|\+?\d[\d\s()–-]{5,}\d)/g;
+                const contactPattern = /(Datum:\s*(?:(?:måndag|tisdag|onsdag|torsdag|fredag|lördag|söndag)\s+)?\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?(?:\s*kl\.?\s*\d{1,2}[:.]\d{2})?|\bkl\.?\s*\d{1,2}[:.]\d{2}\b|\b\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?\b|\bBoappa\b|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?:https?:\/\/)?(?:[a-z0-9-]+\.)+[a-z0-9-]+\.se(?:\/[^\s<]*)?)/gi;
                 return escaped.replace(contactPattern, '<span class="contact-highlight">$1</span>');
             }
 
