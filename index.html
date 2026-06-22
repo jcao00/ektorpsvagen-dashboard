@@ -9,16 +9,21 @@
            🎨 CHANGE THESE 5 COLORS TO MATCH YOUR LOGO!
            ============================================================ */
         :root {
-            --bg-primary: #0A1628;
-            --bg-secondary: #111F33;
-            --text-main: #F0F4F8;
-            --text-muted: #9AAFC5;
-            --gold: #D4AF37;
-            --gold-light: #F4E2A3;
-            --gold-dark: #A8872C;
-            --gold-glow: rgba(212, 175, 55, 0.2);
-            --border-subtle: rgba(212, 175, 55, 0.15);
-            --bg-card: #13243A;
+            --bg-primary: #101820;
+            --bg-secondary: #17232B;
+            --bg-card: #1D2C34;
+            --surface-soft: rgba(232, 199, 102, 0.10);
+            --line-soft: rgba(247, 250, 248, 0.08);
+            --text-main: #F7FAF8;
+            --text-muted: #B8C7C2;
+            --gold: #E8C766;
+            --gold-light: #FFF0B8;
+            --gold-dark: #B89436;
+            --gold-glow: rgba(232, 199, 102, 0.16);
+            --border-subtle: rgba(232, 199, 102, 0.22);
+            --alert: #FF8A7A;
+            --alert-light: #FFD1CA;
+            --alert-soft: rgba(255, 138, 122, 0.14);
         }
 
         /* --- RESET & GLOBAL --- */
@@ -89,11 +94,11 @@
             min-width: 240px;
             min-height: clamp(5.4rem, 9vh, 8rem);
             padding: 1.15vh 1.15vw;
-            background: rgba(212, 175, 55, 0.12);
-            border: 1px solid rgba(212, 175, 55, 0.35);
+            background: linear-gradient(135deg, var(--surface-soft), rgba(255, 255, 255, 0.025));
+            border: 1px solid rgba(232, 199, 102, 0.32);
             border-left: 4px solid var(--gold);
             border-radius: 8px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 14px rgba(0, 0, 0, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 14px rgba(0, 0, 0, 0.18);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -109,7 +114,7 @@
         }
         .latest-card-title {
             display: block;
-            color: #FFFFFF;
+            color: var(--text-main);
             font-size: clamp(1.05rem, 1.8vh, 1.95rem);
             font-weight: 700;
             line-height: 1.25;
@@ -124,7 +129,7 @@
         }
         .latest-card.is-alert .latest-card-title,
         .latest-card.is-alert .latest-card-text {
-            color: #F87171;
+            color: var(--alert);
         }
         .contact-highlight {
             color: var(--gold-light);
@@ -135,7 +140,7 @@
             overflow-wrap: anywhere;
         }
         .latest-card.is-alert .contact-highlight {
-            color: #FCA5A5;
+            color: var(--alert-light);
         }
 
         .title {
@@ -262,15 +267,15 @@
             padding: 0.15vh 0.35vw;
             background: var(--bg-card);
             border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--line-soft);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.035);
             transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
             overflow: visible;
         }
         .grid-item:hover {
             background: var(--gold-glow);
-            border-color: rgba(212, 175, 55, 0.45);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            border-color: rgba(232, 199, 102, 0.46);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(232, 199, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             transform: translateY(-1px);
         }
 
@@ -315,7 +320,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.05), 0 6px 20px rgba(0,0,0,0.26);
+            box-shadow: inset 0 1px 0 rgba(232, 199, 102, 0.05), 0 6px 20px rgba(0,0,0,0.22);
         }
         .bus-area {
             flex: 1.2 1 0;
@@ -376,7 +381,7 @@
             column-gap: 0.45vw;
             padding: 0.08vh 0.35vw;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.025);
             transition: background 0.15s;
         }
         .bus-row:hover {
@@ -410,9 +415,9 @@
         }
         .bus-delay {
             font-size: clamp(0.5rem, 0.8vh, 0.9rem);
-            color: #F97316;
+            color: #F6B15D;
             font-weight: 500;
-            background: rgba(249, 115, 22, 0.15);
+            background: rgba(246, 177, 93, 0.14);
             padding: 0.1vh 0.5vw;
             border-radius: 12px;
             min-width: 2vw;
@@ -423,7 +428,7 @@
             background: var(--gold-glow);
         }
         .bus-error {
-            color: #F87171;
+            color: var(--alert);
             text-align: center;
             padding: 1vh 0;
             font-size: clamp(0.8rem, 1.4vh, 1.5rem);
@@ -447,7 +452,7 @@
             padding: 0.35vh 0.35vw;
             border-left: 2px solid var(--gold);
             padding-left: 0.5vw;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.025);
             border-radius: 0 4px 4px 0;
             transition: background 0.12s;
         }
@@ -526,7 +531,7 @@
             font-size: clamp(0.82rem, 1.45vh, 1.55rem);
             font-weight: 600;
             line-height: 1.35;
-            color: #FFFFFF;
+            color: var(--text-main);
         }
         .notice-board .notice-subline {
             display: block;
@@ -538,7 +543,7 @@
         }
         .notice-board .contact-highlight {
             color: var(--gold-light);
-            background: rgba(244, 226, 163, 0.12);
+            background: rgba(255, 240, 184, 0.13);
             padding: 0 0.16em;
             border-radius: 3px;
         }
@@ -954,7 +959,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
                     if (slussenDepartures.length === 0) {
                         busBoard.innerHTML = `
                             <div class="bus-error">
-                                🕒 Inga avgångar till Slussen just nu<br>
+                                🕒 Kunde inte hämta avgångar just nu<br>
                                 <small>Nästa uppdatering om 30 sekunder</small>
                             </div>
                         `;
