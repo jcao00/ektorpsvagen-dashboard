@@ -20,6 +20,7 @@
             --gold-light: #FFF0B8;
             --gold-dark: #B89436;
             --gold-glow: rgba(232, 199, 102, 0.16);
+            --announcement-green: #7ED957;
             --border-subtle: rgba(232, 199, 102, 0.22);
             --alert: #FF8A7A;
             --alert-light: #FFD1CA;
@@ -100,28 +101,33 @@
             max-width: none;
             min-width: 240px;
             min-height: clamp(5.4rem, 9vh, 8rem);
-            padding: 1.15vh 1.15vw;
-            background: linear-gradient(135deg, var(--surface-soft), rgba(255, 255, 255, 0.025));
-            border: 1px solid rgba(232, 199, 102, 0.32);
-            border-left: 4px solid var(--gold);
-            border-radius: 8px;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 14px rgba(0, 0, 0, 0.18);
+            padding: 1vh 0.9vw;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            box-shadow: inset 0 1px 0 rgba(232, 199, 102, 0.05), 0 6px 20px rgba(0,0,0,0.22);
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            overflow: hidden;
         }
         .latest-card-label {
-            display: block;
-            margin-bottom: 0.2vh;
-            color: var(--gold-light);
-            font-size: clamp(0.7rem, 1.15vh, 1.2rem);
-            font-weight: 700;
-            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 0.25vw;
+            font-size: clamp(0.55rem, 1.0vh, 1.0rem);
+            font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--gold);
+            margin-bottom: 0.4vh;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 0.35vh;
+            flex-shrink: 0;
         }
         .latest-card-title {
             display: block;
-            color: var(--text-main);
+            color: var(--announcement-green);
             font-size: clamp(1.05rem, 1.8vh, 1.95rem);
             font-weight: 700;
             line-height: 1.25;
@@ -469,7 +475,7 @@
         .announcement-item .title {
             font-size: clamp(0.58rem, 1.0vh, 1.0rem);
             font-weight: 500;
-            color: var(--text-main);
+            color: var(--announcement-green);
             display: block;
             line-height: 1.2;
             white-space: normal;
@@ -538,7 +544,7 @@
             font-size: clamp(0.82rem, 1.45vh, 1.55rem);
             font-weight: 600;
             line-height: 1.35;
-            color: var(--text-main);
+            color: var(--announcement-green);
         }
         .notice-board .notice-subline {
             display: block;
@@ -717,7 +723,7 @@
 
             <!-- AREA B: DN NEWS -->
             <div class="area news-area">
-                <div class="area-title">📰 SENASTE NYTT · DN.SE</div>
+                <div class="area-title">📰 SENASTE NYHETER · DN.SE</div>
                 <div class="area-content news-ticker" id="newsBoard">
                     <div class="announcement-empty">⏳ Laddar nyheter...</div>
                 </div>
