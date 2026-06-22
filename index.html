@@ -83,6 +83,60 @@
             height: auto;
             display: block;
         }
+        .latest-card {
+            flex: 1 1 0;
+            max-width: none;
+            min-width: 240px;
+            min-height: clamp(5.4rem, 9vh, 8rem);
+            padding: 1.15vh 1.15vw;
+            background: rgba(212, 175, 55, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-left: 4px solid var(--gold);
+            border-radius: 8px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 4px 14px rgba(0, 0, 0, 0.22);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .latest-card-label {
+            display: block;
+            margin-bottom: 0.2vh;
+            color: var(--gold-light);
+            font-size: clamp(0.7rem, 1.15vh, 1.2rem);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        .latest-card-title {
+            display: block;
+            color: #FFFFFF;
+            font-size: clamp(1.05rem, 1.8vh, 1.95rem);
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        .latest-card-text {
+            display: block;
+            margin-top: 0.35vh;
+            color: var(--text-main);
+            font-size: clamp(0.88rem, 1.45vh, 1.55rem);
+            font-weight: 600;
+            line-height: 1.35;
+        }
+        .latest-card.is-alert .latest-card-title,
+        .latest-card.is-alert .latest-card-text {
+            color: #F87171;
+        }
+        .contact-highlight {
+            color: var(--gold-light);
+            font-weight: 800;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 0.16em;
+            overflow-wrap: anywhere;
+        }
+        .latest-card.is-alert .contact-highlight {
+            color: #FCA5A5;
+        }
 
         .title {
             font-size: clamp(1.2rem, 2.4vh, 3rem);
@@ -160,12 +214,14 @@
             flex-direction: column;
             align-items: center;
             flex: 1;
+            min-width: 4.8rem;
         }
         .forecast-day-header .day-label {
             font-size: clamp(0.45rem, 0.8vh, 0.9rem);
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
         }
         .forecast-day-header .day-icon {
             font-size: clamp(0.9rem, 1.6vh, 1.8rem);
@@ -233,20 +289,20 @@
             margin-top: 0.35vh;
             font-size: clamp(0.45rem, 0.9vh, 0.95rem);
             color: var(--text-muted);
-            font-weight: 400;
+            font-weight: 700;
             letter-spacing: 0.02em;
             text-align: center;
         }
 
         /* --- RIGHT SIDEBAR --- */
         .sidebar {
-            width: 26vw;
+            width: 28vw;
             min-width: 220px;
-            max-width: 380px;
+            max-width: 430px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 2vh;
+            gap: 0.8vh;
             height: 100%;
         }
 
@@ -254,12 +310,12 @@
             flex: 1;
             background: var(--bg-secondary);
             border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 2.2vh 1.4vw;
+            border-radius: 18px;
+            padding: 1.0vh 0.9vw;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.05), 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.05), 0 6px 20px rgba(0,0,0,0.26);
         }
         .bus-area {
             flex: 1.2 1 0;
@@ -270,22 +326,22 @@
             padding-bottom: 1vh;
         }
         .notice-area {
-            flex: 1 1 42%;
+            flex: 1.25 1 46%;
             min-height: 0;
         }
 
         .area-title {
             display: flex;
             align-items: center;
-            gap: 0.3vw;
-            font-size: clamp(0.6rem, 1.2vh, 1.2rem);
+            gap: 0.25vw;
+            font-size: clamp(0.55rem, 1.0vh, 1.0rem);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             color: var(--gold);
-            margin-bottom: 0.8vh;
+            margin-bottom: 0.4vh;
             border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 0.6vh;
+            padding-bottom: 0.35vh;
             flex-shrink: 0;
         }
         .bus-title-time {
@@ -301,7 +357,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            gap: 0.6vh;
+            gap: 0.3vh;
             overflow: hidden;
         }
 
@@ -388,25 +444,25 @@
 
         /* --- ANNOUNCEMENTS (NEWS) --- */
         .announcement-item {
-            padding: 0.6vh 0.4vw;
-            border-left: 3px solid var(--gold);
-            padding-left: 0.8vw;
+            padding: 0.35vh 0.35vw;
+            border-left: 2px solid var(--gold);
+            padding-left: 0.5vw;
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 0 6px 6px 0;
-            transition: background 0.15s;
+            border-radius: 0 4px 4px 0;
+            transition: background 0.12s;
         }
         .announcement-item:hover {
             background: var(--gold-glow);
         }
         .announcement-item .title {
-            font-size: clamp(0.65rem, 1.2vh, 1.3rem);
+            font-size: clamp(0.58rem, 1.0vh, 1.0rem);
             font-weight: 500;
             color: var(--text-main);
             display: block;
-            line-height: 1.3;
-            /* Allow wrapping */
+            line-height: 1.2;
             white-space: normal;
             word-break: break-word;
+            margin: 0;
         }
         .announcement-item .date {
             font-size: clamp(0.5rem, 0.9vh, 0.9rem);
@@ -457,10 +513,38 @@
             to { transform: translateX(-100%); }
         }
         .notice-board {
-            gap: 0.8vh;
+            gap: 0.5vh;
         }
         .notice-item {
             border-left-color: var(--gold-light);
+        }
+        .notice-board .announcement-item {
+            padding: 0.55vh 0.55vw;
+            padding-left: 0.7vw;
+        }
+        .notice-board .announcement-item .title {
+            font-size: clamp(0.82rem, 1.45vh, 1.55rem);
+            font-weight: 600;
+            line-height: 1.35;
+            color: #FFFFFF;
+        }
+        .notice-board .notice-subline {
+            display: block;
+            margin-top: 0.15vh;
+            font-size: 0.82em;
+            font-weight: 500;
+            line-height: 1.28;
+            color: var(--text-main);
+        }
+        .notice-board .contact-highlight {
+            color: var(--gold-light);
+            background: rgba(244, 226, 163, 0.12);
+            padding: 0 0.16em;
+            border-radius: 3px;
+        }
+        .notice-board .announcement-item .date {
+            font-size: clamp(0.68rem, 1.15vh, 1.15rem);
+            margin-bottom: 0.18vh;
         }
 
         /* --- HEADER META --- */
@@ -471,7 +555,7 @@
             justify-content: center;
             gap: 0.15vh;
             flex-shrink: 0;
-            margin-left: auto;
+            margin-left: 0;
             text-align: right;
         }
         .header-clock {
@@ -512,8 +596,11 @@
             .weather-current .desc { display: none; }
             .weather-header { min-width: 140px; padding: 0.4vh 1vw; }
             .header-meta { margin-left: 0; }
+            .latest-card { max-width: none; }
             .news-ticker-item { font-size: clamp(0.5rem, 0.85vh, 0.9rem); }
             .announcement-item .title { font-size: clamp(0.55rem, 1vh, 1rem); }
+            .notice-board .announcement-item .title { font-size: clamp(0.76rem, 1.35vh, 1.35rem); }
+            .notice-board .notice-subline { font-size: 0.8em; }
         }
 
         @media (max-width: 800px), (max-height: 600px) {
@@ -537,8 +624,14 @@
                 align-items: flex-start;
                 text-align: left;
             }
+            .latest-card {
+                order: 3;
+                flex-basis: 100%;
+            }
             .news-ticker-item { font-size: clamp(0.5rem, 0.9vh, 0.95rem); }
             .announcement-item .title { font-size: clamp(0.6rem, 1.1vh, 1.1rem); }
+            .notice-board .announcement-item .title { font-size: clamp(0.72rem, 1.25vh, 1.25rem); }
+            .notice-board .notice-subline { font-size: 0.78em; }
         }
 
         @media (max-width: 500px) {
@@ -558,6 +651,11 @@
             <div class="panel-header">
                 <div class="logo">
                     <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
+                </div>
+                <div class="latest-card">
+                    <span class="latest-card-label" id="latestAnnouncementLabel">Aktuellt anslag</span>
+                    <span class="latest-card-title" id="latestAnnouncementTitle">Mitt Riksbyggen</span>
+                    <span class="latest-card-text" id="latestAnnouncementText">Logga in minst en gång i månaden för felanmälan, avier och viktig information.</span>
                 </div>
                 <!--<div class="title">
                     BOSTADSRÄTTSFÖRENING
@@ -616,23 +714,38 @@
                 <div class="area-content notice-board">
                     <div class="announcement-item notice-item">
                         <span class="date">BRF</span>
-                        <span class="title">Mitt Riksbyggen<br>🟢 Logga in på mitt.riksbyggen.se för att göra felanmälan, se dina avier och ta del av viktig information.<br>
-                        🟠Kundservice finns dygnet runt på 0771–860 860.<br>🔵Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
+                        <span class="title">Mitt Riksbyggen
+                            <span class="notice-subline">🟢 Logga in på <span class="contact-highlight">mitt.riksbyggen.se</span> för att göra felanmälan, se dina avier och ta del av viktig information.</span>
+                            <span class="notice-subline">🟠 Kundservice finns dygnet runt på <span class="contact-highlight">0771–860 860</span>.</span>
+                            <span class="notice-subline">🔵 Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
+                        </span>
                     </div>
                     <div class="announcement-item notice-item">
                         <span class="date">BRF</span>
-                        <span class="title">Via appen Boappa (App Store & Google Play)<br>🟢 Får du löpande information från styrelsen och kan kommunicera med grannar.</span>
+                        <span class="title">Via appen <span class="contact-highlight">Boappa</span> (App Store & Google Play)
+                            <span class="notice-subline">🟢 Får du löpande information från styrelsen och kan kommunicera med grannar.</span>
+                        </span>
                     </div>
-                    <div class="announcement-item notice-item">
-                        <span class="date">BRF</span>
-                        <span class="title">Mailadresser till styrelsen:<br>
-👜 Ekonomifrågor: ekonomi@brfektorpsvagen.se<br>📝 Administration & övrigt: admin@brfektorpsvagen.se<br>🏰 Hela styrelsen: styrelsen@brfektorpsvagen.se<br>
-🛠️ Fastighetsfrågor: fastighet@brfektorpsvagen.se</span>
-                    </div>
+                    
                     <div class="announcement-item notice-item">
                         <span class="date">INFO</span>
-                        <span class="title">🟢 Soprum för källsortering finns i anslutning till garaget.<br>
-                            🟠 Tvättstugor finns i nr 9 och nr 11.<br>🔵 Skyddsrum för 120 personer finns på källarplan i nr 11.</span>
+                        <span class="title">Praktisk information
+                            <span class="notice-subline">🟢 Soprum för källsortering finns i anslutning till garaget.</span>
+                            <span class="notice-subline">🟠 Tvättstugor finns i nr 9 och nr 11.</span>
+                            <span class="notice-subline">🟢 Boka tvättstugan via webb<br>
+Vill du boka tvättstugan digitalt? Gå in på: <span class="contact-highlight">ektorp.rco.hosting.greatsecurity.se</span><br> 
+Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Riksbyggen och <span class="contact-highlight">Boappa</span>. </span>
+                            <span class="notice-subline">🔵 Skyddsrum för 120 personer finns på källarplan i nr 11.</span>
+                        </span>
+                    </div>
+                    <div class="announcement-item notice-item">
+                        <span class="date">BRF</span>
+                        <span class="title">Mailadresser till styrelsen:
+                            <span class="notice-subline">👜 Ekonomifrågor: <span class="contact-highlight">ekonomi@brfektorpsvagen.se</span></span>
+                            <span class="notice-subline">📝 Administration & övrigt: <span class="contact-highlight">admin@brfektorpsvagen.se</span></span>
+                            <span class="notice-subline">🏰 Hela styrelsen: <span class="contact-highlight">styrelsen@brfektorpsvagen.se</span></span>
+                            <span class="notice-subline">🛠️ Fastighetsfrågor: <span class="contact-highlight">fastighet@brfektorpsvagen.se</span></span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -658,7 +771,81 @@
             // ============================================================
 
             const grid = document.getElementById('directoryGrid');
+            const latestAnnouncementCard = document.querySelector('.latest-card');
+            const latestAnnouncementLabel = document.getElementById('latestAnnouncementLabel');
+            const latestAnnouncementTitle = document.getElementById('latestAnnouncementTitle');
+            const latestAnnouncementText = document.getElementById('latestAnnouncementText');
             let residents = [];
+
+            function parseCsvLine(line) {
+                const values = [];
+                let current = '';
+                let inQuotes = false;
+
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    const next = line[i + 1];
+
+                    if (char === '"' && next === '"') {
+                        current += '"';
+                        i++;
+                    } else if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ';' && !inQuotes) {
+                        values.push(current.trim());
+                        current = '';
+                    } else {
+                        current += char;
+                    }
+                }
+
+                values.push(current.trim());
+                return values;
+            }
+
+            function escapeHtml(value) {
+                return value.replace(/[&<>"']/g, char => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[char]));
+            }
+
+            function highlightContacts(value) {
+                const escaped = escapeHtml(value);
+                const contactPattern = /([\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?:https?:\/\/)?(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}(?:\/[^\s<]*)?|\+?\d[\d\s()–-]{5,}\d)/g;
+                return escaped.replace(contactPattern, '<span class="contact-highlight">$1</span>');
+            }
+
+            async function loadLatestAnnouncement() {
+                try {
+                    const response = await fetch('announcements.csv');
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const text = await response.text();
+                    const lines = text
+                        .split(/\r?\n/)
+                        .map(line => line.trim())
+                        .filter(line => !line.startsWith('#'))
+                        .filter(Boolean);
+
+                    const firstDataLine = lines.find((line, index) =>
+                        index > 0 || !line.toLowerCase().startsWith('label;title;text')
+                    );
+                    if (!firstDataLine) throw new Error('No announcement rows');
+
+                    const isAlert = firstDataLine.startsWith('!');
+                    const cleanLine = isAlert ? firstDataLine.slice(1).trimStart() : firstDataLine;
+                    const [label, title, body] = parseCsvLine(cleanLine);
+                    latestAnnouncementCard.classList.toggle('is-alert', isAlert);
+                    latestAnnouncementLabel.textContent = label || 'Aktuellt anslag';
+                    latestAnnouncementTitle.textContent = title || 'Aktuellt';
+                    latestAnnouncementText.innerHTML = highlightContacts(body || '');
+                } catch (error) {
+                    console.warn('Failed to load announcements.csv:', error);
+                }
+            }
 
             // Fetch and parse the local CSV file
             async function loadResidents() {
@@ -713,6 +900,7 @@
             }
 
             loadResidents();
+            loadLatestAnnouncement();
 
             // ============================================================
             //  2. CLOCK
