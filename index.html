@@ -192,9 +192,9 @@
 
         .directory-grid {
             display: grid;
-            grid-template-columns: repeat(11, 1fr);
-            grid-template-rows: repeat(12, 1fr);
-            gap: 0.4vh 0.8vw;
+            grid-template-columns: repeat(11, minmax(0, 1fr));
+            grid-template-rows: repeat(12, minmax(0, 1fr));
+            gap: 0.25vh 0.4vw;
             width: 100%;
             height: 100%;
         }
@@ -203,35 +203,39 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0.2vh 0.6vw;
+            padding: 0.15vh 0.35vw;
             background: var(--bg-card);
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-            overflow: hidden;
+            overflow: visible;
         }
         .grid-item:hover {
             background: var(--gold-glow);
             border-color: rgba(212, 175, 55, 0.45);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             transform: translateY(-1px);
         }
 
         .person-name {
-            font-size: clamp(0.7rem, 1.5vh, 1.8rem);
+            font-size: clamp(0.55rem, 1.1vh, 1.2rem);
             font-weight: 500;
             color: var(--text-main);
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.3;
+            overflow: visible;
+            text-overflow: clip;
+            line-height: 1.2;
+            display: block;
+            text-align: center;
         }
         .person-room {
-            font-size: clamp(0.55rem, 1.1vh, 1.3rem);
+            margin-top: 0.35vh;
+            font-size: clamp(0.45rem, 0.9vh, 0.95rem);
             color: var(--text-muted);
             font-weight: 400;
             letter-spacing: 0.02em;
+            text-align: center;
         }
 
         /* --- RIGHT SIDEBAR --- */
@@ -654,47 +658,61 @@
             // ============================================================
 
             const grid = document.getElementById('directoryGrid');
-            const total = 131;
-            const firstNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'James', 'Sophia', 'Lucas', 'Mia', 'Ethan',
-                'Charlotte', 'Mason', 'Amelia', 'Logan', 'Harper', 'Oliver', 'Evelyn', 'Elijah', 'Abigail', 'Alexander',
-                'Ella', 'Aiden', 'Scarlett', 'Carter', 'Grace', 'Matthew', 'Chloe', 'Daniel', 'Lily', 'Henry',
-                'Zoey', 'Jackson', 'Nora', 'Sebastian', 'Hazel', 'Samuel', 'Ellie', 'David', 'Luna', 'Wyatt',
-                'Aria', 'Owen', 'Mila', 'Gabriel', 'Aurora', 'Julian', 'Eleanor', 'Levi', 'Penelope', 'Isaac',
-                'Hannah', 'Caleb', 'Layla', 'Hunter', 'Violet', 'Christian', 'Stella', 'Jonathan', 'Aubrey', 'Connor'
-            ];
-            const lastNames = ['Chen', 'Rodriguez', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore',
-                'Taylor',
-                'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez',
-                'Robinson',
-                'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen', 'Young', 'King', 'Wright',
-                'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts'
-            ];
-            const rooms = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
+            let residents = [];
 
-            function getRandomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-            const usedNames = new Set();
-
-            function generatePerson(index) {
-                let firstName, lastName, fullName, attempts = 0;
-                do {
-                    firstName = getRandomItem(firstNames);
-                    lastName = getRandomItem(lastNames);
-                    fullName = `${firstName} ${lastName}`;
-                    attempts++;
-                } while (usedNames.has(fullName) && attempts < 50);
-                usedNames.add(fullName);
-                const roomNum = String(Math.floor(Math.random() * 900) + 100);
-                const room = getRandomItem(rooms) + roomNum;
-                return { name: fullName, room: room };
+            // Fetch and parse the local CSV file
+            async function loadResidents() {
+                try {
+                    const response = await fetch('residents.csv');
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const text = await response.text();
+                    
+                            const lines = text.trim().split('\n');
+                    residents = lines.map(line => {
+                        const [room, name1, name2] = line.split(';').map(s => s.trim());
+                        return { room, name1, name2 };
+                    }).filter(r => (r.name1 || r.name2) && r.room);
+                    
+                    renderDirectory();
+                    document.getElementById('residentCount').textContent = residents.length;
+                } catch (error) {
+                    console.warn('Failed to load residents.csv:', error);
+                    // Fallback to generated residents
+                    generateFallbackResidents();
+                }
             }
 
-            let html = '';
-            for (let i = 0; i < total; i++) {
-                const p = generatePerson(i);
-                html += `<div class="grid-item"><span class="person-name">${p.name}</span><span class="person-room">${p.room}</span></div>`;
+            function generateFallbackResidents() {
+                const firstNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'James', 'Sophia', 'Lucas', 'Mia', 'Ethan'];
+                const lastNames = ['Chen', 'Rodriguez', 'Williams', 'Jones', 'Brown'];
+                const rooms = ['A', 'B', 'C', 'D', 'E'];
+                const total = 131;
+                
+                residents = Array.from({ length: total }, () => ({
+                    name1: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
+                    name2: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
+                    room: rooms[Math.floor(Math.random() * rooms.length)] + String(Math.floor(Math.random() * 900) + 100)
+                }));
+                
+                renderDirectory();
+                document.getElementById('residentCount').textContent = total;
             }
-            grid.innerHTML = html;
-            document.getElementById('residentCount').textContent = total;
+
+            function renderDirectory() {
+                let html = '';
+                residents.forEach(r => {
+                    html += `
+                        <div class="grid-item">
+                            <span class="person-name">${r.name1 || ''}</span>
+                            ${r.name2 ? `<span class="person-name">${r.name2}</span>` : ''}
+                            <span class="person-room">${r.room}</span>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            }
+
+            loadResidents();
 
             // ============================================================
             //  2. CLOCK
