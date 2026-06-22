@@ -84,9 +84,16 @@
             align-items: center;
         }
         .logo img {
-            width: clamp(180px, 22vw, 270px);
+            width: clamp(90px, 11vw, 135px);
             height: auto;
             display: block;
+        }
+        .weather-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6vh;
+            flex: 0 0 auto;
         }
         .latest-card {
             flex: 1 1 0;
@@ -654,9 +661,6 @@
         <!-- LEFT PANEL -->
         <div class="main-panel">
             <div class="panel-header">
-                <div class="logo">
-                    <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
-                </div>
                 <div class="latest-card">
                     <span class="latest-card-label" id="latestAnnouncementLabel">Aktuellt anslag</span>
                     <span class="latest-card-title" id="latestAnnouncementTitle">Mitt Riksbyggen</span>
@@ -673,14 +677,20 @@
                     <span class="resident-count"><span id="residentCount">131</span> <small>boende</small></span>
                 </div>
 
-                <!-- WEATHER HEADER -->
-                <div class="weather-header" id="weatherHeader"> 
-                    <div class="weather-current">
-                        <span class="icon" id="weatherIcon">⛅</span>
-                        <span class="temp" id="weatherTemp">--°<sup>C</sup></span>
-                        <span class="desc" id="weatherDesc">Laddar...</span>
+                <div class="weather-stack">
+                    <div class="logo">
+                        <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
                     </div>
-                    <div class="weather-forecast-header" id="weatherForecast"></div>
+
+                    <!-- WEATHER HEADER -->
+                    <div class="weather-header" id="weatherHeader"> 
+                        <div class="weather-current">
+                            <span class="icon" id="weatherIcon">⛅</span>
+                            <span class="temp" id="weatherTemp">--°<sup>C</sup></span>
+                            <span class="desc" id="weatherDesc">Laddar...</span>
+                        </div>
+                        <div class="weather-forecast-header" id="weatherForecast"></div>
+                    </div>
                 </div>
             </div>
 
