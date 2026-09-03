@@ -69,7 +69,7 @@
 
         .panel-header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1vw;
             flex-shrink: 0;
             padding-bottom: 1.2vh;
@@ -80,12 +80,13 @@
 
         .logo {
             flex: 0 0 auto;
+            width: 100%;
             min-width: 0;
             display: flex;
             align-items: center;
         }
         .logo img {
-            width: clamp(90px, 11vw, 135px);
+            width: 100%;
             height: auto;
             display: block;
         }
@@ -667,6 +668,60 @@
             .notice-board .notice-subline { font-size: 0.78em; }
         }
 
+        /* On phones, place the three desktop sidebar cards directly below
+           the header announcement and let the page scroll. */
+        @media (max-width: 800px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+                align-items: flex-start;
+            }
+            .board {
+                height: auto;
+                min-height: 100vh;
+            }
+            .main-panel {
+                display: contents;
+            }
+            .panel-header {
+                order: 1;
+                width: 100%;
+            }
+            .sidebar {
+                order: 2;
+                flex: none;
+                flex-direction: column;
+                height: auto;
+                gap: 1.5vh;
+                padding-bottom: 1.5vh;
+            }
+            .grid-wrapper {
+                order: 3;
+                flex: 0 0 100vh;
+                width: 100%;
+                min-height: 100vh;
+            }
+            .sidebar .area {
+                flex: none;
+                width: 100%;
+                overflow: visible;
+            }
+            .bus-area {
+                min-height: 17rem;
+            }
+            .news-area {
+                min-height: 5rem;
+            }
+            .notice-area {
+                min-height: 0;
+            }
+            .sidebar .area-content {
+                overflow: visible;
+            }
+        }
+
         @media (max-width: 500px) {
             .directory-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -683,14 +738,14 @@
         <div class="main-panel">
             <div class="panel-header">
                 <div class="weather-stack">
+                    <div class="logo">
+                        <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
+                    </div>
+
                     <div class="header-meta">
                         <span class="header-clock" id="headerClockDisplay">--:--:--</span>
                         <span class="live-date" id="dateDisplay">--</span>
                         <span class="resident-count"><span id="residentCount">131</span> <small>boende</small></span>
-                    </div>
-
-                    <div class="logo">
-                        <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
                     </div>
 
                     <!-- WEATHER HEADER -->
@@ -726,7 +781,7 @@
             <div class="area bus-area">
                 <div class="area-title">
                     <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
-                    🚌 EKTORPS CENTRUM → SLUSSEN
+                    🚌 ALLA BUSSAR FRÅN EKTORPS CENTRUM
                 </div>
                 <div class="area-content">
                     <div class="bus-board" id="busBoard">
@@ -982,15 +1037,10 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
 
                     const allDepartures = data.departures || [];
 
-                    // Filter to ONLY departures with destination "Slussen"
-                    const slussenDepartures = allDepartures.filter(d =>
-                        d.destination && d.destination.toLowerCase() === 'slussen'
-                    );
-
-                    if (slussenDepartures.length === 0) {
+                    if (allDepartures.length === 0) {
                         busBoard.innerHTML = `
                             <div class="bus-error">
-                                🕒 Kunde inte hämta avgångar just nu<br>
+                                🕒 Inga bussavgångar just nu<br>
                                 <small>Nästa uppdatering om 30 sekunder</small>
                             </div>
                         `;
@@ -998,13 +1048,13 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
                         return;
                     }
 
-                    const topDepartures = slussenDepartures.slice(0, 6);
+                    const topDepartures = allDepartures.slice(0, 6);
 
                     let rows = '';
                     topDepartures.forEach(d => {
                         const displayTime = d.display || '--:--';
                         const line = d.line?.designation || '?';
-                        const destination = d.destination || 'Slussen';
+                        const destination = d.destination || 'Okänd destination';
 
                         let delayText = '';
                         let delayClass = 'on-time';
@@ -1229,7 +1279,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
             document.addEventListener('keydown', resetIdleTimer);
             resetIdleTimer();
 
-            console.log('✅ BRF Ektorsvägen TV board ready (DN news + site 4000 → Slussen)');
+            console.log('✅ BRF Ektorsvägen TV board ready (DN news + all departures from site 4000)');
         })();
     </script>
 </body>
