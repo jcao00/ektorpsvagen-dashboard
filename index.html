@@ -1387,6 +1387,8 @@
 
             // SL Transport API – site 4000 = Ektorps centrum
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
+            const ANNOUNCEMENT_REFRESH_INTERVAL_MS = 60 * 1000;
+            const EVENT_LOOKAHEAD_DAYS = 30;
             const PAGE_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
 
             window.setTimeout(() => {
@@ -1467,6 +1469,61 @@
                 return String(item.priority || '').trim().toLowerCase() === 'high' ? 'high' : 'normal';
             }
 
+            function parseAnnouncementDate(value, endOfDay = false) {
+                const match = String(value || '').trim().match(
+                    /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?$/
+                );
+                if (!match) return null;
+
+                const [, year, month, day, hour, minute] = match;
+                const hasTime = hour !== undefined && minute !== undefined;
+                const parsed = new Date(
+                    Number(year),
+                    Number(month) - 1,
+                    Number(day),
+                    hasTime ? Number(hour) : endOfDay ? 23 : 0,
+                    hasTime ? Number(minute) : endOfDay ? 59 : 0,
+                    !hasTime && endOfDay ? 59 : 0,
+                    !hasTime && endOfDay ? 999 : 0
+                );
+
+                if (
+                    parsed.getFullYear() !== Number(year) ||
+                    parsed.getMonth() !== Number(month) - 1 ||
+                    parsed.getDate() !== Number(day) ||
+                    (hasTime && (
+                        parsed.getHours() !== Number(hour) ||
+                        parsed.getMinutes() !== Number(minute)
+                    ))
+                ) return null;
+
+                return parsed;
+            }
+
+            function isAnnouncementActive(item, now = new Date()) {
+                const start = parseAnnouncementDate(item.start, false);
+                const stop = parseAnnouncementDate(item.stop || item.end, true);
+
+                if (start && now < start) return false;
+                if (stop && now > stop) return false;
+                return true;
+            }
+
+            function isEventVisible(item, now = new Date()) {
+                const start = parseAnnouncementDate(item.start, false);
+                const stop = parseAnnouncementDate(item.stop || item.end, true);
+                const lookaheadEnd = new Date(now);
+                lookaheadEnd.setDate(lookaheadEnd.getDate() + EVENT_LOOKAHEAD_DAYS);
+
+                if (stop && now > stop) return false;
+                if (start && start > lookaheadEnd) return false;
+                return true;
+            }
+
+            function announcementStartTime(item) {
+                return parseAnnouncementDate(item.start, false)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+            }
+
             function formatAnnouncementDate(value) {
                 const match = String(value || '').trim().match(
                     /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/
@@ -1517,8 +1574,25 @@
             }
 
             function renderAnnouncements(items) {
-                const alerts = items.filter(item => item.type.toLowerCase() === 'alert' && announcementText(item));
-                const events = items.filter(item => item.type.toLowerCase() === 'event' && announcementText(item));
+                const now = new Date();
+                const alerts = items.filter(item =>
+                    item.type.toLowerCase() === 'alert' &&
+                    announcementText(item) &&
+                    isAnnouncementActive(item, now)
+                );
+                const upcomingAlerts = items.filter(item =>
+                    item.type.toLowerCase() === 'alert' &&
+                    announcementText(item) &&
+                    !isAnnouncementActive(item, now) &&
+                    isEventVisible(item, now)
+                );
+                const events = items.filter(item =>
+                    item.type.toLowerCase() === 'event' &&
+                    announcementText(item) &&
+                    isEventVisible(item, now)
+                );
+                const ongoingItems = [...upcomingAlerts, ...events]
+                    .sort((a, b) => announcementStartTime(a) - announcementStartTime(b));
 
                 importantMessage.replaceChildren();
                 if (alerts.length) {
@@ -1541,8 +1615,8 @@
                 }
 
                 ongoingList.replaceChildren();
-                if (events.length) {
-                    events.forEach(item => ongoingList.append(announcementElement(item, 'li')));
+                if (ongoingItems.length) {
+                    ongoingItems.forEach(item => ongoingList.append(announcementElement(item, 'li')));
                 } else {
                     const emptyItem = document.createElement('li');
                     emptyItem.textContent = 'Inga planerade aktiviteter';
@@ -1572,6 +1646,7 @@
             }
 
             loadAnnouncements();
+            setInterval(loadAnnouncements, ANNOUNCEMENT_REFRESH_INTERVAL_MS);
 
             // ============================================================
             //  2. CLOCK
