@@ -25,6 +25,9 @@
             --alert: #FF8A7A;
             --alert-light: #FFD1CA;
             --alert-soft: rgba(255, 138, 122, 0.14);
+            --font-body: 16px;
+            --font-subheading: 20px;
+            --font-important: 28px;
         }
 
         /* --- RESET & GLOBAL --- */
@@ -82,7 +85,7 @@
             display: grid;
             flex: 0 0 calc(50% - 0.5vw);
             gap: 1vw;
-            grid-template-columns: clamp(200px, 16vw, 260px) minmax(0, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             min-width: 0;
         }
 
@@ -120,6 +123,13 @@
             color: var(--gold);
             content: "—";
             margin-right: 0.5rem;
+        }
+
+        .header-ongoing-list a,
+        .info-important-message a {
+            color: inherit;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 0.14em;
         }
 
         .logo {
@@ -316,7 +326,7 @@
             margin: 0 0.1vw;
         }
 
-        /* --- DIRECTORY GRID --- */
+        /* --- INFORMATION AREA --- */
         .grid-wrapper {
             flex: 1;
             min-height: 0;
@@ -324,59 +334,7 @@
             align-items: stretch;
         }
 
-        .directory-grid {
-            display: grid;
-            grid-template-columns: repeat(11, minmax(0, 1fr));
-            grid-template-rows: repeat(12, minmax(0, 1fr));
-            gap: 0.25vh 0.4vw;
-            width: 100%;
-            height: 100%;
-        }
-
-        .grid-item {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0.15vh 0.35vw;
-            background: var(--bg-card);
-            border-radius: 6px;
-            border: 1px solid var(--line-soft);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.035);
-            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-            overflow: hidden;
-            min-width: 0;
-            min-height: 0;
-        }
-        .grid-item:hover {
-            background: var(--gold-glow);
-            border-color: rgba(232, 199, 102, 0.46);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(232, 199, 102, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            transform: translateY(-1px);
-        }
-
-        .person-name {
-            font-size: clamp(0.55rem, 1.1vh, 1.2rem);
-            font-weight: 500;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: visible;
-            text-overflow: clip;
-            line-height: 1.2;
-            display: block;
-            text-align: center;
-            width: 100%;
-            min-width: 0;
-        }
-        .person-room {
-            margin-top: 0.35vh;
-            font-size: clamp(0.45rem, 0.9vh, 0.95rem);
-            color: var(--text-muted);
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            text-align: center;
-        }
-
-        /* --- RESIDENT INFORMATION BOARD --- */
+        /* --- INFORMATION BOARD --- */
         .info-board {
             display: grid;
             grid-template-rows: 0.65fr 1.35fr auto;
@@ -401,6 +359,28 @@
             display: grid;
             gap: 1rem;
             grid-template-columns: minmax(0, 1fr) auto;
+        }
+
+        .info-important.is-clear {
+            background: linear-gradient(90deg, rgba(126, 217, 87, 0.13), transparent 72%), var(--bg-secondary);
+            border-color: rgba(126, 217, 87, 0.42);
+        }
+
+        .info-important.is-clear .info-alert-dot {
+            background: var(--announcement-green);
+            box-shadow: 0 0 0 4px rgba(126, 217, 87, 0.12);
+        }
+
+        .info-important.is-clear .info-important-message {
+            color: var(--announcement-green);
+        }
+
+        .announcement-line {
+            display: block;
+        }
+
+        .announcement-line + .announcement-line {
+            margin-top: 0.35em;
         }
 
         .important-content {
@@ -559,14 +539,20 @@
             text-decoration: underline;
         }
 
-        .info-qr-link {
-            align-items: center;
+        .important-text-link {
             align-self: end;
-            display: grid;
+            color: var(--gold-light);
             font-size: clamp(0.75rem, 1.25vh, 1.1rem);
             font-weight: 750;
-            gap: 0.65rem;
-            justify-items: end;
+            padding-bottom: 0.2rem;
+            text-decoration: underline;
+            text-underline-offset: 0.16em;
+            white-space: nowrap;
+        }
+
+        .important-text-link:hover,
+        .important-text-link:focus-visible {
+            color: var(--gold);
         }
 
         .qr-code-list {
@@ -659,6 +645,8 @@
             color: var(--text-muted);
             display: flex;
             font-size: clamp(0.7rem, 1.15vh, 1rem);
+            justify-content: space-between;
+            gap: 0.75rem;
             min-height: 2.4rem;
             padding: 0.5rem clamp(0.8rem, 1.2vw, 1.2rem);
         }
@@ -666,6 +654,11 @@
         .official-info strong {
             color: var(--gold-light);
             font-weight: 700;
+        }
+
+        .pilot-label {
+            color: var(--text-main);
+            font-weight: 650;
         }
 
         /* --- RIGHT SIDEBAR --- */
@@ -954,17 +947,6 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
-        .resident-count {
-            font-size: clamp(0.7rem, 1.25vh, 1.3rem);
-            color: var(--gold);
-            font-weight: 500;
-        }
-        .resident-count small {
-            color: var(--text-muted);
-            font-weight: 400;
-            font-size: 0.7em;
-        }
-
         body.idle {
             cursor: none !important;
         }
@@ -972,8 +954,6 @@
         /* --- RESPONSIVE --- */
         @media (max-aspect-ratio: 4/3) {
             .sidebar { width: 30vw; }
-            .person-name { font-size: clamp(0.5rem, 1.2vh, 1.2rem); }
-            .person-room { font-size: clamp(0.4rem, 0.9vh, 0.9rem); }
             .bus-time { font-size: clamp(0.78rem, 1.45vh, 1.6rem); }
             .weather-current .desc { display: none; }
             .weather-header { padding: 0.4vh 1vw; }
@@ -995,10 +975,6 @@
                 min-width: unset;
                 height: 30vh;
                 gap: 1.5vw;
-            }
-            .directory-grid {
-                grid-template-columns: repeat(6, 1fr);
-                grid-template-rows: repeat(22, 1fr);
             }
             .bus-time { font-size: clamp(0.8rem, 1.55vh, 1.7rem); }
             .weather-current .desc { display: inline; }
@@ -1075,9 +1051,6 @@
             .info-important {
                 grid-template-columns: 1fr;
             }
-            .info-qr-link {
-                justify-self: start;
-            }
             .info-field {
                 min-height: 9rem;
             }
@@ -1115,10 +1088,79 @@
             .header-ongoing {
                 min-height: 9rem;
             }
-            .directory-grid {
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: repeat(33, 1fr);
-            }
+        }
+
+        /* Large-format information-board typography. */
+        .weather-current .desc,
+        .weather-current .temp,
+        .forecast-day-header .day-label,
+        .forecast-day-header .day-temp {
+            font-size: clamp(12px, 1vw, 14px);
+        }
+
+        .header-ongoing-list li,
+        .brf-updated,
+        .practical-body,
+        .practical-qr,
+        .important-text-link,
+        .qr-code-link,
+        .member-info-card,
+        .member-info-copy small,
+        .official-info,
+        .bus-time,
+        .bus-line,
+        .bus-dest,
+        .bus-delay,
+        .bus-error,
+        .bus-error small,
+        .bus-updated,
+        .live-date {
+            font-size: var(--font-body);
+        }
+
+        .header-clock,
+        .area-title,
+        .bus-title-time,
+        .info-heading,
+        .practical-title,
+        .member-info-copy strong {
+            font-size: var(--font-subheading);
+        }
+
+        .weather-current .icon,
+        .info-important-message {
+            font-size: var(--font-important);
+        }
+
+        .board {
+            height: auto;
+            min-height: 100vh;
+        }
+
+        .main-panel,
+        .info-board {
+            height: auto;
+            min-height: 100%;
+        }
+
+        .grid-wrapper {
+            flex: 1 0 auto;
+        }
+
+        .info-board {
+            grid-template-rows: auto auto auto;
+        }
+
+        .info-field,
+        .practical-field {
+            overflow: visible;
+        }
+
+        body {
+            height: auto;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -1167,9 +1209,8 @@
 
                 <section class="area header-ongoing" aria-labelledby="ongoingInfoHeading">
                     <h2 class="area-title" id="ongoingInfoHeading">På gång</h2>
-                    <ul class="header-ongoing-list">
-                        <li>Garagekontroll måndag</li>
-                        <li>Gårdsarbete torsdag</li>
+                    <ul class="header-ongoing-list" id="ongoingList" aria-live="polite">
+                        <li>Laddar planerade aktiviteter…</li>
                     </ul>
                     <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                 </section>
@@ -1182,28 +1223,16 @@
 
             <div class="grid-wrapper">
                 <div class="info-board">
-                    <section class="info-field info-important" aria-labelledby="importantInfoHeading">
+                    <section class="info-field info-important" id="importantInfo" aria-labelledby="importantInfoHeading">
                         <div class="important-content">
                             <h2 class="info-heading" id="importantInfoHeading">
                                 <span class="info-alert-dot" aria-hidden="true"></span>
                                 Viktigt just nu
                             </h2>
-                            <p class="info-important-message">Vattenavstängning hus 9, onsdag 09–12</p>
+                            <p class="info-important-message" id="importantMessage" aria-live="polite">Laddar aktuell information…</p>
                             <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                         </div>
-                        <div class="info-qr-link">
-                            <span>Ladda ner Boappa</span>
-                            <div class="qr-code-list">
-                                <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" target="_blank" rel="noopener noreferrer">
-                                    <img class="qr-image" src="qr/boappa-ios.svg" alt="QR-kod till Boappa i Apple App Store">
-                                    <span>iPhone</span>
-                                </a>
-                                <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" target="_blank" rel="noopener noreferrer">
-                                    <img class="qr-image" src="qr/boappa-android.svg" alt="QR-kod till Boappa i Google Play">
-                                    <span>Android</span>
-                                </a>
-                            </div>
-                        </div>
+                        <a class="important-text-link" href="https://boappa.se/" target="_blank" rel="noopener noreferrer">Läs mer i Boappa</a>
                     </section>
 
                     <div class="info-lower">
@@ -1309,7 +1338,8 @@
                     </div>
 
                     <footer class="official-info">
-                        Officiell information:&nbsp;<strong>Boappa + Mitt Riksbyggen</strong>
+                        <span class="pilot-label">Pilot – digital informationstavla</span>
+                        <span>Officiell information: <strong>Boappa + Mitt Riksbyggen</strong></span>
                     </footer>
                 </div>
             </div>
@@ -1329,15 +1359,12 @@
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
 
             // ============================================================
-            //  1. GENERATE 132 RESIDENTS
+            //  1. ANNOUNCEMENTS – local CSV
             // ============================================================
 
-            const grid = document.getElementById('directoryGrid');
-            const latestAnnouncementCard = document.querySelector('.latest-card');
-            const latestAnnouncementLabel = document.getElementById('latestAnnouncementLabel');
-            const latestAnnouncementTitle = document.getElementById('latestAnnouncementTitle');
-            const latestAnnouncementText = document.getElementById('latestAnnouncementText');
-            let residents = [];
+            const importantInfo = document.getElementById('importantInfo');
+            const importantMessage = document.getElementById('importantMessage');
+            const ongoingList = document.getElementById('ongoingList');
 
             function parseCsvLine(line) {
                 const values = [];
@@ -1365,158 +1392,103 @@
                 return values;
             }
 
-            function escapeHtml(value) {
-                return value.replace(/[&<>"']/g, char => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;'
-                }[char]));
+            function parseAnnouncements(csvText) {
+                const lines = csvText
+                    .split(/\r?\n/)
+                    .map(line => line.trim())
+                    .filter(line => line && !line.startsWith('#'));
+
+                if (!lines.length) return [];
+
+                const headers = parseCsvLine(lines.shift()).map(header => header.toLowerCase());
+                const requiredHeaders = ['type', 'title', 'text', 'start', 'end', 'priority', 'link'];
+                if (!requiredHeaders.every(header => headers.includes(header))) {
+                    throw new Error('Unsupported announcements.csv format');
+                }
+
+                return lines.map(line => {
+                    const values = parseCsvLine(line);
+                    return Object.fromEntries(headers.map((header, index) => [header, values[index] || '']));
+                });
             }
 
-            function highlightContacts(value) {
-                const escaped = escapeHtml(value);
-                const contactPattern = /(Datum:\s*(?:(?:måndag|tisdag|onsdag|torsdag|fredag|lördag|söndag)\s+)?\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?(?:\s*kl\.?\s*\d{1,2}[:.]\d{2})?|\bkl\.?\s*\d{1,2}[:.]\d{2}\b|\b\d{1,2}[\/-]\d{1,2}(?:[\/-]\d{2,4})?\b|\bBoappa\b|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?:https?:\/\/)?(?:[a-z0-9-]+\.)+[a-z0-9-]+\.se(?:\/[^\s<]*)?)/gi;
-                return escaped.replace(contactPattern, '<span class="contact-highlight">$1</span>');
+            function usableLink(value) {
+                if (!value || value === '...') return null;
+                try {
+                    const url = new URL(value, window.location.href);
+                    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+                } catch {
+                    return null;
+                }
             }
 
-            async function loadLatestAnnouncement() {
+            function announcementText(item) {
+                return [item.title, item.text].filter(Boolean).join(' – ');
+            }
+
+            function announcementElement(item, tagName = 'span') {
+                const wrapper = document.createElement(tagName);
+                const link = usableLink(item.link);
+                const content = link ? document.createElement('a') : document.createElement('span');
+                if (link) {
+                    content.href = link;
+                    content.target = '_blank';
+                    content.rel = 'noopener noreferrer';
+                }
+                content.textContent = announcementText(item);
+                wrapper.append(content);
+                return wrapper;
+            }
+
+            function renderAnnouncements(items) {
+                const alerts = items.filter(item => item.type.toLowerCase() === 'alert' && announcementText(item));
+                const events = items.filter(item => item.type.toLowerCase() === 'event' && announcementText(item));
+
+                importantMessage.replaceChildren();
+                if (alerts.length) {
+                    importantInfo.classList.remove('is-clear');
+                    importantInfo.dataset.priority = alerts.some(item => item.priority.toLowerCase() === 'high') ? 'high' : 'normal';
+                    alerts.forEach(item => {
+                        const line = announcementElement(item);
+                        line.className = 'announcement-line';
+                        importantMessage.append(line);
+                    });
+                } else {
+                    importantInfo.classList.add('is-clear');
+                    importantInfo.dataset.priority = 'none';
+                    importantMessage.textContent = 'Inga aktuella driftstörningar';
+                }
+
+                ongoingList.replaceChildren();
+                if (events.length) {
+                    events.forEach(item => ongoingList.append(announcementElement(item, 'li')));
+                } else {
+                    const emptyItem = document.createElement('li');
+                    emptyItem.textContent = 'Inga planerade aktiviteter';
+                    ongoingList.append(emptyItem);
+                }
+            }
+
+            async function loadAnnouncements() {
                 try {
                     const response = await fetch('announcements.csv', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const text = await response.text();
-                    const lines = text
-                        .split(/\r?\n/)
-                        .map(line => line.trim())
-                        .filter(line => !line.startsWith('#'))
-                        .filter(Boolean);
+                    renderAnnouncements(parseAnnouncements(await response.text()));
 
-                    const firstDataLine = lines.find((line, index) =>
-                        index > 0 || !line.toLowerCase().startsWith('label;title;text')
-                    );
-                    if (!firstDataLine) throw new Error('No announcement rows');
-
-                    const isAlert = firstDataLine.startsWith('!');
-                    const cleanLine = isAlert ? firstDataLine.slice(1).trimStart() : firstDataLine;
-                    const [label, title, body] = parseCsvLine(cleanLine);
-                    latestAnnouncementCard.classList.toggle('is-alert', isAlert);
-                    latestAnnouncementLabel.textContent = label || 'Aktuellt anslag';
-                    latestAnnouncementTitle.textContent = title || 'Aktuellt';
-                    latestAnnouncementText.innerHTML = highlightContacts(body || '');
+                    const csvLastModified = response.headers.get('last-modified');
+                    if (csvLastModified) renderBrfUpdatedAt(new Date(csvLastModified));
                 } catch (error) {
                     console.warn('Failed to load announcements.csv:', error);
+                    importantInfo.classList.remove('is-clear');
+                    importantMessage.textContent = 'Aktuell information kunde inte hämtas';
+                    ongoingList.replaceChildren();
+                    const errorItem = document.createElement('li');
+                    errorItem.textContent = 'Planerade aktiviteter kunde inte hämtas';
+                    ongoingList.append(errorItem);
                 }
             }
 
-            // Fetch and parse the local CSV file
-            async function loadResidents() {
-                try {
-                    const response = await fetch('residents.csv');
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const text = await response.text();
-                    
-                            const lines = text.trim().split('\n');
-                    residents = lines.map(line => {
-                        const [room, name1, name2] = line.split(';').map(s => s.trim());
-                        return { room, name1, name2 };
-                    }).filter(r => (r.name1 || r.name2) && r.room);
-                    
-                    renderDirectory();
-                    document.getElementById('residentCount').textContent = residents.length;
-                } catch (error) {
-                    console.warn('Failed to load residents.csv:', error);
-                    // Fallback to generated residents
-                    generateFallbackResidents();
-                }
-            }
-
-            function generateFallbackResidents() {
-                const firstNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'James', 'Sophia', 'Lucas', 'Mia', 'Ethan'];
-                const lastNames = ['Chen', 'Rodriguez', 'Williams', 'Jones', 'Brown'];
-                const rooms = ['A', 'B', 'C', 'D', 'E'];
-                const total = 131;
-                
-                residents = Array.from({ length: total }, () => ({
-                    name1: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
-                    name2: `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
-                    room: rooms[Math.floor(Math.random() * rooms.length)] + String(Math.floor(Math.random() * 900) + 100)
-                }));
-                
-                renderDirectory();
-                document.getElementById('residentCount').textContent = total;
-            }
-
-            function renderDirectory() {
-                let html = '';
-                residents.forEach(r => {
-                    html += `
-                        <div class="grid-item">
-                            <span class="person-name">${r.name1 || ''}</span>
-                            ${r.name2 ? `<span class="person-name">${r.name2}</span>` : ''}
-                            <span class="person-room">${r.room}</span>
-                        </div>
-                    `;
-                });
-                grid.innerHTML = html;
-                scheduleResidentNameFit();
-            }
-
-            // Fit each room's names to the actual card dimensions. The CSS
-            // clamp supplies the preferred size; this reduces it only when a
-            // resized card is too narrow or too short for its contents.
-            let residentNameFitFrame = 0;
-
-            function fitResidentNames() {
-                grid.querySelectorAll('.grid-item').forEach(card => {
-                    const names = [...card.querySelectorAll('.person-name')];
-                    const room = card.querySelector('.person-room');
-                    if (!names.length || !room || card.clientWidth === 0 || card.clientHeight === 0) return;
-
-                    names.forEach(name => { name.style.fontSize = ''; });
-
-                    const cardStyle = getComputedStyle(card);
-                    const roomStyle = getComputedStyle(room);
-                    const nameStyle = getComputedStyle(names[0]);
-                    const horizontalPadding = parseFloat(cardStyle.paddingLeft) + parseFloat(cardStyle.paddingRight);
-                    const verticalPadding = parseFloat(cardStyle.paddingTop) + parseFloat(cardStyle.paddingBottom);
-                    const roomSpace = room.getBoundingClientRect().height
-                        + parseFloat(roomStyle.marginTop)
-                        + parseFloat(roomStyle.marginBottom);
-                    const availableWidth = Math.max(1, card.clientWidth - horizontalPadding);
-                    const availableHeight = Math.max(1, card.clientHeight - verticalPadding - roomSpace);
-                    const preferredSize = parseFloat(nameStyle.fontSize);
-                    const lineHeight = parseFloat(nameStyle.lineHeight);
-                    const lineHeightRatio = Number.isFinite(lineHeight) ? lineHeight / preferredSize : 1.2;
-
-                    let fittedSize = Math.min(
-                        preferredSize,
-                        availableHeight / (names.length * lineHeightRatio)
-                    );
-
-                    names.forEach(name => { name.style.fontSize = `${fittedSize}px`; });
-                    const widthRatio = Math.min(
-                        1,
-                        ...names.map(name => availableWidth / Math.max(1, name.scrollWidth))
-                    );
-                    fittedSize = Math.max(1, fittedSize * widthRatio * (widthRatio < 1 ? 0.98 : 1));
-                    names.forEach(name => { name.style.fontSize = `${fittedSize}px`; });
-                });
-            }
-
-            function scheduleResidentNameFit() {
-                cancelAnimationFrame(residentNameFitFrame);
-                residentNameFitFrame = requestAnimationFrame(fitResidentNames);
-            }
-
-            if (grid) {
-                if ('ResizeObserver' in window) {
-                    new ResizeObserver(scheduleResidentNameFit).observe(grid);
-                } else {
-                    window.addEventListener('resize', scheduleResidentNameFit);
-                }
-                loadResidents();
-            }
+            loadAnnouncements();
 
             // ============================================================
             //  2. CLOCK
@@ -1543,8 +1515,8 @@
                 });
             }
 
-            function renderBrfUpdatedAt() {
-                const publishedAt = new Date(document.lastModified);
+            function renderBrfUpdatedAt(sourceDate = new Date(document.lastModified)) {
+                const publishedAt = sourceDate;
                 if (Number.isNaN(publishedAt.getTime())) return;
 
                 const formatted = new Intl.DateTimeFormat('sv-SE', {
