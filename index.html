@@ -1232,7 +1232,7 @@
                             <p class="info-important-message" id="importantMessage" aria-live="polite">Laddar aktuell information…</p>
                             <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                         </div>
-                        <a class="important-text-link" href="https://boappa.se/" target="_blank" rel="noopener noreferrer">Läs mer i Boappa</a>
+                        <a class="important-text-link" id="importantMoreLink" href="https://boappa.se/" target="_blank" rel="noopener noreferrer" hidden>Läs mer i Boappa</a>
                     </section>
 
                     <div class="info-lower">
@@ -1369,6 +1369,7 @@
 
             const importantInfo = document.getElementById('importantInfo');
             const importantMessage = document.getElementById('importantMessage');
+            const importantMoreLink = document.getElementById('importantMoreLink');
             const ongoingList = document.getElementById('ongoingList');
 
             function parseCsvLine(line) {
@@ -1451,6 +1452,7 @@
 
                 importantMessage.replaceChildren();
                 if (alerts.length) {
+                    importantMoreLink.hidden = false;
                     importantInfo.classList.remove('is-clear');
                     importantInfo.dataset.priority = alerts.some(item => item.priority.toLowerCase() === 'high') ? 'high' : 'normal';
                     alerts.forEach(item => {
@@ -1459,6 +1461,7 @@
                         importantMessage.append(line);
                     });
                 } else {
+                    importantMoreLink.hidden = true;
                     importantInfo.classList.add('is-clear');
                     importantInfo.dataset.priority = 'none';
                     importantMessage.textContent = 'Inga aktuella driftstörningar';
@@ -1484,6 +1487,7 @@
                     if (csvLastModified) renderBrfUpdatedAt(new Date(csvLastModified));
                 } catch (error) {
                     console.warn('Failed to load announcements.csv:', error);
+                    importantMoreLink.hidden = true;
                     importantInfo.classList.remove('is-clear');
                     importantMessage.textContent = 'Aktuell information kunde inte hämtas';
                     ongoingList.replaceChildren();
