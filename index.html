@@ -403,6 +403,22 @@
             grid-template-columns: minmax(0, 1fr) auto;
         }
 
+        .important-content {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .brf-updated {
+            color: var(--text-muted);
+            display: block;
+            font-size: clamp(0.58rem, 0.9vh, 0.8rem);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.015em;
+            margin-top: auto;
+            padding-top: 0.6rem;
+        }
+
         .info-heading {
             align-items: center;
             color: var(--text-muted);
@@ -1155,6 +1171,7 @@
                         <li>Garagekontroll måndag</li>
                         <li>Gårdsarbete torsdag</li>
                     </ul>
+                    <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                 </section>
 
                 <!--<div class="title">
@@ -1166,12 +1183,13 @@
             <div class="grid-wrapper">
                 <div class="info-board">
                     <section class="info-field info-important" aria-labelledby="importantInfoHeading">
-                        <div>
+                        <div class="important-content">
                             <h2 class="info-heading" id="importantInfoHeading">
                                 <span class="info-alert-dot" aria-hidden="true"></span>
                                 Viktigt just nu
                             </h2>
                             <p class="info-important-message">Vattenavstängning hus 9, onsdag 09–12</p>
+                            <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                         </div>
                         <div class="info-qr-link">
                             <span>Ladda ner Boappa</span>
@@ -1524,7 +1542,29 @@
                     year:"numeric"    
                 });
             }
+
+            function renderBrfUpdatedAt() {
+                const publishedAt = new Date(document.lastModified);
+                if (Number.isNaN(publishedAt.getTime())) return;
+
+                const formatted = new Intl.DateTimeFormat('sv-SE', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                    timeZone: 'Europe/Stockholm'
+                }).format(publishedAt).replaceAll('.', '');
+
+                document.querySelectorAll('[data-brf-updated]').forEach(element => {
+                    element.dateTime = publishedAt.toISOString();
+                    element.textContent = `Senast uppdaterad av BRF: ${formatted}`;
+                });
+            }
+
             updateClock();
+            renderBrfUpdatedAt();
             setInterval(updateClock, 1000);
 
             // ============================================================
