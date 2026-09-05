@@ -69,13 +69,57 @@
 
         .panel-header {
             display: flex;
-            align-items: flex-start;
+            align-items: stretch;
             gap: 1vw;
             flex-shrink: 0;
             padding-bottom: 1.2vh;
             margin-bottom: 1.5vh;
             border-bottom: 2px solid var(--border-subtle);
             flex-wrap: wrap;
+        }
+
+        .header-primary {
+            display: grid;
+            flex: 0 0 calc(50% - 0.5vw);
+            gap: 1vw;
+            grid-template-columns: clamp(200px, 16vw, 260px) minmax(0, 1fr);
+            min-width: 0;
+        }
+
+        .header-primary .weather-stack {
+            width: 100%;
+        }
+
+        .header-bus {
+            align-self: stretch;
+            flex: none;
+            min-height: 0;
+            min-width: 0;
+        }
+
+        .header-ongoing {
+            align-self: stretch;
+            flex: 1 1 calc(50% - 0.5vw);
+            min-width: 240px;
+        }
+
+        .header-ongoing-list {
+            display: grid;
+            gap: clamp(0.35rem, 0.8vh, 0.7rem);
+            list-style: none;
+            margin-top: clamp(0.55rem, 1vh, 0.9rem);
+        }
+
+        .header-ongoing-list li {
+            color: var(--text-main);
+            font-size: clamp(0.8rem, 1.35vh, 1.2rem);
+            line-height: 1.25;
+        }
+
+        .header-ongoing-list li::before {
+            color: var(--gold);
+            content: "—";
+            margin-right: 0.5rem;
         }
 
         .logo {
@@ -332,6 +376,282 @@
             text-align: center;
         }
 
+        /* --- RESIDENT INFORMATION BOARD --- */
+        .info-board {
+            display: grid;
+            grid-template-rows: 0.65fr 1.35fr auto;
+            gap: 0.8vh;
+            height: 100%;
+            width: 100%;
+        }
+
+        .info-field {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            box-shadow: inset 0 1px 0 rgba(232, 199, 102, 0.05), 0 6px 20px rgba(0, 0, 0, 0.22);
+            min-height: 0;
+            overflow: hidden;
+            padding: clamp(0.8rem, 1.7vh, 1.6rem) clamp(0.9rem, 1.3vw, 1.5rem);
+        }
+
+        .info-important {
+            background: linear-gradient(90deg, var(--alert-soft), transparent 72%), var(--bg-secondary);
+            border-color: rgba(255, 138, 122, 0.35);
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
+
+        .info-heading {
+            align-items: center;
+            color: var(--text-muted);
+            display: flex;
+            font-size: clamp(0.72rem, 1.25vh, 1.2rem);
+            font-weight: 800;
+            gap: 0.55rem;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .info-heading-icon {
+            align-items: center;
+            background: var(--gold-glow);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            color: var(--gold);
+            display: inline-flex;
+            font-size: 0.75em;
+            height: 1.65em;
+            justify-content: center;
+            letter-spacing: 0;
+            width: 1.65em;
+        }
+
+        .info-alert-dot {
+            background: var(--alert);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255, 138, 122, 0.12);
+            display: inline-block;
+            height: 0.72em;
+            width: 0.72em;
+        }
+
+        .info-important-message {
+            color: var(--text-main);
+            font-size: clamp(1.15rem, 2.6vh, 2.55rem);
+            font-weight: 750;
+            line-height: 1.16;
+            margin-top: clamp(0.6rem, 1.2vh, 1rem);
+        }
+
+        .info-list {
+            display: grid;
+            gap: clamp(0.35rem, 0.8vh, 0.8rem);
+            list-style: none;
+            margin-top: clamp(0.55rem, 1.1vh, 1rem);
+        }
+
+        .info-list li {
+            color: var(--text-main);
+            font-size: clamp(0.95rem, 1.8vh, 1.65rem);
+            line-height: 1.28;
+        }
+
+        .info-list li::before {
+            color: var(--gold);
+            content: "—";
+            margin-right: 0.6rem;
+        }
+
+        .info-lower {
+            display: grid;
+            gap: 0.8vh;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            min-height: 0;
+        }
+
+        .practical-field {
+            overflow-y: auto;
+            scrollbar-color: var(--gold-dark) transparent;
+            scrollbar-width: thin;
+        }
+
+        .practical-items {
+            display: grid;
+            gap: clamp(0.18rem, 0.4vh, 0.4rem);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: clamp(0.45rem, 0.8vh, 0.8rem);
+        }
+
+        .practical-item {
+            background: rgba(247, 250, 248, 0.035);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            color: var(--text-main);
+        }
+
+        .practical-title {
+            border-bottom: 1px solid var(--line-soft);
+            color: var(--text-main);
+            font-size: clamp(0.82rem, 1.45vh, 1.3rem);
+            font-weight: 650;
+            padding: clamp(0.28rem, 0.55vh, 0.5rem) 0.6rem;
+        }
+
+        .practical-body {
+            color: var(--text-muted);
+            display: grid;
+            font-size: clamp(0.72rem, 1.15vh, 1rem);
+            gap: 0.35rem;
+            line-height: 1.35;
+            padding: 0.55rem 0.65rem 0.7rem;
+        }
+
+        .practical-body a {
+            color: var(--gold-light);
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .laundry-body {
+            align-items: start;
+            grid-template-columns: minmax(0, 1fr) auto;
+        }
+
+        .laundry-copy {
+            display: grid;
+            gap: 0.35rem;
+            min-width: 0;
+        }
+
+        .practical-qr {
+            color: var(--gold-light);
+            display: grid;
+            font-size: clamp(0.58rem, 0.9vh, 0.78rem);
+            font-weight: 700;
+            gap: 0.2rem;
+            justify-items: center;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .practical-qr:hover,
+        .practical-qr:focus-visible {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .info-qr-link {
+            align-items: center;
+            align-self: end;
+            display: grid;
+            font-size: clamp(0.75rem, 1.25vh, 1.1rem);
+            font-weight: 750;
+            gap: 0.65rem;
+            justify-items: end;
+        }
+
+        .qr-code-list {
+            align-items: start;
+            display: flex;
+            gap: clamp(0.45rem, 0.7vw, 0.8rem);
+        }
+
+        .qr-code-link {
+            color: var(--gold-light);
+            display: grid;
+            font-size: clamp(0.58rem, 0.9vh, 0.78rem);
+            font-weight: 700;
+            gap: 0.2rem;
+            justify-items: center;
+            line-height: 1.1;
+            text-decoration: none;
+        }
+
+        .qr-code-link:hover,
+        .qr-code-link:focus-visible {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        .qr-image {
+            background: white;
+            border: 3px solid white;
+            border-radius: 5px;
+            display: block;
+            height: 82px;
+            image-rendering: pixelated;
+            width: 82px;
+        }
+
+        .member-info-list {
+            display: grid;
+            gap: clamp(0.18rem, 0.35vh, 0.35rem);
+            list-style: none;
+            margin-top: clamp(0.45rem, 0.8vh, 0.8rem);
+        }
+
+        .member-info-card {
+            align-items: center;
+            background: rgba(247, 250, 248, 0.035);
+            border-radius: 8px;
+            display: grid;
+            font-size: clamp(0.82rem, 1.45vh, 1.3rem);
+            gap: 0.7rem;
+            grid-template-columns: minmax(0, 1fr) auto;
+            padding: 0.2rem 0.45rem;
+        }
+
+        .member-info-copy {
+            display: grid;
+            gap: 0.1rem;
+            min-width: 0;
+        }
+
+        .member-info-copy strong {
+            font-weight: 650;
+        }
+
+        .member-info-copy small {
+            color: var(--text-muted);
+            font-size: clamp(0.64rem, 1vh, 0.88rem);
+            line-height: 1.25;
+        }
+
+        .member-info-card .qr-image {
+            height: 82px;
+            width: 82px;
+        }
+
+        .qr-image.qr-riksbyggen {
+            height: 90px;
+            width: 90px;
+        }
+
+        .qr-image.qr-brf {
+            height: 74px;
+            width: 74px;
+        }
+
+        .official-info {
+            align-items: center;
+            background: rgba(232, 199, 102, 0.08);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-muted);
+            display: flex;
+            font-size: clamp(0.7rem, 1.15vh, 1rem);
+            min-height: 2.4rem;
+            padding: 0.5rem clamp(0.8rem, 1.2vw, 1.2rem);
+        }
+
+        .official-info strong {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
         /* --- RIGHT SIDEBAR --- */
         .sidebar {
             width: 28vw;
@@ -359,11 +679,13 @@
             flex: 1.2 1 0;
         }
         .news-area {
+            display: none;
             flex: 0 0 auto;
             padding-top: 1vh;
             padding-bottom: 1vh;
         }
         .notice-area {
+            display: none;
             flex: 1.25 1 46%;
             min-height: 0;
         }
@@ -665,6 +987,22 @@
             .bus-time { font-size: clamp(0.8rem, 1.55vh, 1.7rem); }
             .weather-current .desc { display: inline; }
             .weather-stack { width: clamp(180px, 36vw, 240px); }
+            .header-primary {
+                flex-basis: 100%;
+                grid-template-columns: 1fr;
+                width: 100%;
+            }
+            .header-primary .weather-stack {
+                width: clamp(180px, 36vw, 240px);
+            }
+            .header-bus {
+                min-height: 17rem;
+                width: 100%;
+            }
+            .header-ongoing {
+                flex-basis: 100%;
+                min-width: 0;
+            }
             .header-meta {
                 align-items: center;
                 text-align: center;
@@ -679,8 +1017,8 @@
             .notice-board .notice-subline { font-size: 0.78em; }
         }
 
-        /* On phones, place the three desktop sidebar cards directly below
-           the header announcement and let the page scroll. */
+        /* On phones, place the bus directly below the logo and let the
+           information fields continue in a single scrolling page. */
         @media (max-width: 800px) {
             body {
                 height: auto;
@@ -701,7 +1039,7 @@
                 width: 100%;
             }
             .sidebar {
-                order: 2;
+                order: 3;
                 flex: none;
                 flex-direction: column;
                 height: auto;
@@ -709,10 +1047,23 @@
                 padding-bottom: 1.5vh;
             }
             .grid-wrapper {
-                order: 3;
-                flex: 0 0 100vh;
+                order: 2;
+                flex: none;
                 width: 100%;
-                min-height: 100vh;
+                min-height: 0;
+            }
+            .info-board {
+                grid-template-rows: auto;
+                height: auto;
+            }
+            .info-important {
+                grid-template-columns: 1fr;
+            }
+            .info-qr-link {
+                justify-self: start;
+            }
+            .info-field {
+                min-height: 9rem;
             }
             .sidebar .area {
                 flex: none;
@@ -734,6 +1085,20 @@
         }
 
         @media (max-width: 500px) {
+            .info-lower {
+                grid-template-columns: 1fr;
+            }
+            .practical-items {
+                grid-template-columns: 1fr;
+            }
+            .header-bus,
+            .header-ongoing {
+                flex-basis: 100%;
+                width: 100%;
+            }
+            .header-ongoing {
+                min-height: 9rem;
+            }
             .directory-grid {
                 grid-template-columns: repeat(4, 1fr);
                 grid-template-rows: repeat(33, 1fr);
@@ -748,7 +1113,8 @@
         <!-- LEFT PANEL -->
         <div class="main-panel">
             <div class="panel-header">
-                <div class="weather-stack">
+                <div class="header-primary">
+                    <div class="weather-stack">
                     <div class="logo">
                         <img src="brfektorpsvagen_270w.png" alt="Bostadsrättsförening Ektorpsvägen">
                     </div>
@@ -756,7 +1122,6 @@
                     <div class="header-meta">
                         <span class="header-clock" id="headerClockDisplay">--:--:--</span>
                         <span class="live-date" id="dateDisplay">--</span>
-                        <span class="resident-count"><span id="residentCount">131</span> <small>boende</small></span>
                     </div>
 
                     <!-- WEATHER HEADER -->
@@ -768,13 +1133,30 @@
                         </div>
                         <div class="weather-forecast-header" id="weatherForecast"></div>
                     </div>
+                    </div>
+
+                    <section class="area bus-area header-bus" aria-labelledby="busHeading">
+                        <h2 class="area-title" id="busHeading">
+                            <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
+                            🚌 ALLA BUSSAR FRÅN EKTORPS CENTRUM
+                        </h2>
+                        <div class="area-content">
+                            <div class="bus-board" id="busBoard">
+                                <div class="bus-error">⏳ Laddar avgångar...</div>
+                            </div>
+                            <div class="bus-updated" id="busUpdateTime">Uppdateras...</div>
+                        </div>
+                    </section>
                 </div>
 
-                <div class="latest-card">
-                    <span class="latest-card-label" id="latestAnnouncementLabel">Aktuellt anslag</span>
-                    <span class="latest-card-title" id="latestAnnouncementTitle">Mitt Riksbyggen</span>
-                    <span class="latest-card-text" id="latestAnnouncementText">Logga in minst en gång i månaden för felanmälan, avier och viktig information.</span>
-                </div>
+                <section class="area header-ongoing" aria-labelledby="ongoingInfoHeading">
+                    <h2 class="area-title" id="ongoingInfoHeading">På gång</h2>
+                    <ul class="header-ongoing-list">
+                        <li>Garagekontroll måndag</li>
+                        <li>Gårdsarbete torsdag</li>
+                    </ul>
+                </section>
+
                 <!--<div class="title">
                     BOSTADSRÄTTSFÖRENING
                     <strong>EKTORPS<span>VÄGEN</span></strong>
@@ -782,76 +1164,139 @@
             </div>
 
             <div class="grid-wrapper">
-                <div class="directory-grid" id="directoryGrid"></div>
+                <div class="info-board">
+                    <section class="info-field info-important" aria-labelledby="importantInfoHeading">
+                        <div>
+                            <h2 class="info-heading" id="importantInfoHeading">
+                                <span class="info-alert-dot" aria-hidden="true"></span>
+                                Viktigt just nu
+                            </h2>
+                            <p class="info-important-message">Vattenavstängning hus 9, onsdag 09–12</p>
+                        </div>
+                        <div class="info-qr-link">
+                            <span>Ladda ner Boappa</span>
+                            <div class="qr-code-list">
+                                <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" target="_blank" rel="noopener noreferrer">
+                                    <img class="qr-image" src="qr/boappa-ios.svg" alt="QR-kod till Boappa i Apple App Store">
+                                    <span>iPhone</span>
+                                </a>
+                                <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" target="_blank" rel="noopener noreferrer">
+                                    <img class="qr-image" src="qr/boappa-android.svg" alt="QR-kod till Boappa i Google Play">
+                                    <span>Android</span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="info-lower">
+                        <section class="info-field practical-field" aria-labelledby="practicalInfoHeading">
+                            <h2 class="info-heading" id="practicalInfoHeading">
+                                <span class="info-heading-icon" aria-hidden="true">i</span>
+                                Praktiskt
+                            </h2>
+                            <div class="practical-items">
+                                <section class="practical-item">
+                                    <h3 class="practical-title">Tvättstuga</h3>
+                                    <div class="practical-body laundry-body">
+                                        <div class="laundry-copy">
+                                            <p>Tvättstugor finns i nr 9 och nr 11.</p>
+                                            <p>Boka digitalt på <a href="https://ektorp.rco.hosting.greatsecurity.se/" target="_blank" rel="noopener noreferrer">ektorp.rco.hosting.greatsecurity.se</a>.</p>
+                                            <p>Inloggningsuppgifter och instruktioner finns i Mitt Riksbyggen och Boappa.</p>
+                                        </div>
+                                        <a class="practical-qr" href="https://ektorp.rco.hosting.greatsecurity.se/" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image" src="qr/tvattbokning.svg" alt="QR-kod till digital bokning av tvättstuga">
+                                            <span>Boka tvätt</span>
+                                        </a>
+                                    </div>
+                                </section>
+                                <section class="practical-item">
+                                    <h3 class="practical-title">Sophantering</h3>
+                                    <div class="practical-body">
+                                        <p>Soprum för källsortering finns i anslutning till garaget.</p>
+                                    </div>
+                                </section>
+                                <section class="practical-item">
+                                    <h3 class="practical-title">Kontakt</h3>
+                                    <div class="practical-body">
+                                        <p>Ekonomi: <a href="mailto:ekonomi@brfektorpsvagen.se">ekonomi@brfektorpsvagen.se</a></p>
+                                        <p>Administration: <a href="mailto:admin@brfektorpsvagen.se">admin@brfektorpsvagen.se</a></p>
+                                        <p>Styrelsen: <a href="mailto:styrelsen@brfektorpsvagen.se">styrelsen@brfektorpsvagen.se</a></p>
+                                        <p>Fastighetsfrågor: <a href="mailto:fastighet@brfektorpsvagen.se">fastighet@brfektorpsvagen.se</a></p>
+                                    </div>
+                                </section>
+                                <section class="practical-item safety-item">
+                                    <h3 class="practical-title">Säkerhet</h3>
+                                    <div class="practical-body">
+                                        <p><strong>Akut fara:</strong> Ring <a href="tel:112">112</a>.</p>
+                                        <p><strong>Fel på port/lås:</strong> Gör en felanmälan i Mitt Riksbyggen eller ring <a href="tel:+46771860860">0771–860 860</a>.</p>
+                                        <p><strong>Skyddsrum:</strong> Hus 11, källarplan. Plats för 120 personer.</p>
+                                        <p><strong>Brandskydd:</strong> Blockera aldrig branddörrar.</p>
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+
+                        <section class="info-field" aria-labelledby="memberInfoHeading">
+                            <h2 class="info-heading" id="memberInfoHeading">
+                                <span class="info-heading-icon" aria-hidden="true">M</span>
+                                Medlemsinfo
+                            </h2>
+                            <ul class="member-info-list">
+                                <li class="member-info-card">
+                                    <span class="member-info-copy">
+                                        <strong>Boappa</strong>
+                                        <small>Löpande information från styrelsen och kontakt med grannar.</small>
+                                    </span>
+                                    <div class="qr-code-list">
+                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image" src="qr/boappa-ios.svg" alt="QR-kod till Boappa i Apple App Store">
+                                            <span>iPhone</span>
+                                        </a>
+                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image" src="qr/boappa-android.svg" alt="QR-kod till Boappa i Google Play">
+                                            <span>Android</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="member-info-card">
+                                    <span class="member-info-copy">
+                                        <strong>Riksbyggen Mitt Boende</strong>
+                                        <small>Felanmälan, avier och viktig information. Kundservice: 0771–860 860.</small>
+                                    </span>
+                                    <div class="qr-code-list">
+                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/riksbyggen-mitt-boende/id1558656853" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image qr-riksbyggen" src="qr/riksbyggen-ios.svg" alt="QR-kod till Riksbyggen Mitt Boende i Apple App Store">
+                                            <span>iPhone</span>
+                                        </a>
+                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=se.riksbyggen.hemshare" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image qr-riksbyggen" src="qr/riksbyggen-android.svg" alt="QR-kod till Riksbyggen Mitt Boende i Google Play">
+                                            <span>Android</span>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="member-info-card">
+                                    <span class="member-info-copy">
+                                        <strong>BRF Ektorpsvägen</strong>
+                                        <small>Föreningens webbplats.</small>
+                                    </span>
+                                    <div class="qr-code-list">
+                                        <a class="qr-code-link" href="https://brfektorpsvagen.se/" target="_blank" rel="noopener noreferrer">
+                                            <img class="qr-image qr-brf" src="qr/brf-website.svg" alt="QR-kod till BRF Ektorpsvägens webbplats">
+                                            <span>Webb</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+
+                    <footer class="official-info">
+                        Officiell information:&nbsp;<strong>Boappa + Mitt Riksbyggen</strong>
+                    </footer>
+                </div>
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR -->
-        <div class="sidebar">
-            <!-- AREA A: BUS -->
-            <div class="area bus-area">
-                <div class="area-title">
-                    <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
-                    🚌 ALLA BUSSAR FRÅN EKTORPS CENTRUM
-                </div>
-                <div class="area-content">
-                    <div class="bus-board" id="busBoard">
-                        <div class="bus-error">⏳ Laddar avgångar...</div>
-                    </div>
-                    <div class="bus-updated" id="busUpdateTime">Uppdateras...</div>
-                </div>
-            </div>
-
-            <!-- AREA B: DN NEWS -->
-            <div class="area news-area">
-                <div class="area-title">📰 SENASTE NYHETER · DN.SE</div>
-                <div class="area-content news-ticker" id="newsBoard">
-                    <div class="announcement-empty">⏳ Laddar nyheter...</div>
-                </div>
-            </div>
-
-            <!-- AREA C: ANNOUNCEMENTS -->
-            <div class="area notice-area">
-                <div class="area-title">📌 ANSLAG</div>
-                <div class="area-content notice-board">
-                    <div class="announcement-item notice-item">
-                        <span class="date">BRF</span>
-                        <span class="title">Mitt Riksbyggen
-                            <span class="notice-subline">🟢 Logga in på <span class="contact-highlight">mitt.riksbyggen.se</span> för att göra felanmälan, se dina avier och ta del av viktig information.</span>
-                            <span class="notice-subline">🟠 Kundservice finns dygnet runt på 0771–860 860.</span>
-                            <span class="notice-subline">🔵 Styrelsen informerar via portalen – därför förväntas du logga in minst en gång i månaden.</span>
-                        </span>
-                    </div>
-                    <div class="announcement-item notice-item">
-                        <span class="date">BRF</span>
-                        <span class="title">Via appen <span class="contact-highlight">Boappa</span> (App Store & Google Play)
-                            <span class="notice-subline">🟢 Får du löpande information från styrelsen och kan kommunicera med grannar.</span>
-                        </span>
-                    </div>
-                    
-                    <div class="announcement-item notice-item">
-                        <span class="date">INFO</span>
-                        <span class="title">Praktisk information
-                            <span class="notice-subline">🟢 Soprum för källsortering finns i anslutning till garaget.</span>
-                            <span class="notice-subline">🟠 Tvättstugor finns i nr 9 och nr 11.</span>
-                            <span class="notice-subline">🟢 Boka tvättstugan via webb<br>
-Vill du boka tvättstugan digitalt? Gå in på: <span class="contact-highlight"><a href="https://ektorp.rco.hosting.greatsecurity.se/" target="_blank" rel="noopener noreferrer">ektorp.rco.hosting.greatsecurity.se</a></span><br> 
-Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Riksbyggen och <span class="contact-highlight">Boappa</span>. </span>
-                            <span class="notice-subline">🔵 Skyddsrum för 120 personer finns på källarplan i nr 11.</span>
-                        </span>
-                    </div>
-                    <div class="announcement-item notice-item">
-                        <span class="date">BRF</span>
-                        <span class="title">Mailadresser till styrelsen:
-                            <span class="notice-subline">👜 Ekonomifrågor: <span class="contact-highlight">ekonomi@brfektorpsvagen.se</span></span>
-                            <span class="notice-subline">📝 Administration & övrigt: <span class="contact-highlight">admin@brfektorpsvagen.se</span></span>
-                            <span class="notice-subline">🏰 Hela styrelsen: <span class="contact-highlight">styrelsen@brfektorpsvagen.se</span></span>
-                            <span class="notice-subline">🛠️ Fastighetsfrågor: <span class="contact-highlight">fastighet@brfektorpsvagen.se</span></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -864,9 +1309,6 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
 
             // SL Transport API – site 4000 = Ektorps centrum
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
-
-            // DN.se RSS feed (via rss2json.com to avoid CORS)
-            const NEWS_API_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.dn.se/rss/';
 
             // ============================================================
             //  1. GENERATE 132 RESIDENTS
@@ -1049,14 +1491,14 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
                 residentNameFitFrame = requestAnimationFrame(fitResidentNames);
             }
 
-            if ('ResizeObserver' in window) {
-                new ResizeObserver(scheduleResidentNameFit).observe(grid);
-            } else {
-                window.addEventListener('resize', scheduleResidentNameFit);
+            if (grid) {
+                if ('ResizeObserver' in window) {
+                    new ResizeObserver(scheduleResidentNameFit).observe(grid);
+                } else {
+                    window.addEventListener('resize', scheduleResidentNameFit);
+                }
+                loadResidents();
             }
-
-            loadResidents();
-            loadLatestAnnouncement();
 
             // ============================================================
             //  2. CLOCK
@@ -1262,73 +1704,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
             setInterval(fetchWeather, 900000);
 
             // ============================================================
-            //  5. NEWS – DN.se RSS feed (via rss2json)
-            // ============================================================
-
-            const newsBoard = document.getElementById('newsBoard');
-
-            async function fetchNews() {
-                try {
-                    const response = await fetch(NEWS_API_URL);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const data = await response.json();
-
-                    if (data.status === 'ok' && data.items && data.items.length > 0) {
-                        // Take the latest 4 headlines
-                        const items = data.items.slice(0, 4);
-                        let html = '<div class="news-ticker-track">';
-                        items.forEach(item => {
-                            const pubDate = new Date(item.pubDate);
-                            const timeStr = pubDate.toLocaleTimeString('sv-SE', {
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-                            // Sanitize title (remove HTML entities just in case)
-                            const title = item.title
-                                .replace(/&amp;/g, '&')
-                                .replace(/&quot;/g, '"')
-                                .replace(/&lt;/g, '<')
-                                .replace(/&gt;/g, '>');
-                            html += `
-                                <span class="news-ticker-item">
-                                    <span class="date">${timeStr}</span>
-                                    <span class="title">${title}</span>
-                                </span>
-                            `;
-                        });
-                        html += '</div>';
-                        newsBoard.innerHTML = html;
-                    } else {
-                        throw new Error('No items in feed');
-                    }
-                } catch (error) {
-                    console.warn('News fetch failed:', error);
-                    // Fallback – friendly message
-                    newsBoard.innerHTML = `
-                        <div class="news-ticker-track">
-                        <span class="news-ticker-item">
-                            <span class="date">--:--</span>
-                            <span class="title">📰 Kunde inte ladda DN-nyheter just nu</span>
-                        </span>
-                        <span class="news-ticker-item">
-                            <span class="date">--:--</span>
-                            <span class="title">🔄 Försöker igen om 60 sekunder</span>
-                        </span>
-                        <span class="news-ticker-item">
-                            <span class="date">--:--</span>
-                            <span class="title">Välkommen till BRF Ektorsvägen!</span>
-                        </span>
-                        </div>
-                    `;
-                }
-            }
-
-            // Initial fetch + every 60 seconds
-            fetchNews();
-            setInterval(fetchNews, 60000);
-
-            // ============================================================
-            //  6. CURSOR
+            //  5. CURSOR
             // ============================================================
 
             let idleTimer;
@@ -1344,7 +1720,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
             document.addEventListener('keydown', resetIdleTimer);
             resetIdleTimer();
 
-            console.log('✅ BRF Ektorsvägen TV board ready (DN news + all departures from site 4000)');
+            console.log('✅ BRF Ektorsvägen TV board ready (all departures from site 4000)');
         })();
     </script>
 </body>
