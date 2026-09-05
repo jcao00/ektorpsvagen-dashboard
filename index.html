@@ -154,6 +154,13 @@
             text-underline-offset: 0.16em;
             overflow-wrap: anywhere;
         }
+        .contact-highlight a,
+        .contact-highlight a:visited,
+        .contact-highlight a:hover,
+        .contact-highlight a:focus {
+            color: inherit;
+            text-decoration: inherit;
+        }
         .latest-card.is-alert .contact-highlight {
             color: var(--alert-light);
         }
@@ -292,7 +299,9 @@
             border: 1px solid var(--line-soft);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.035);
             transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-            overflow: visible;
+            overflow: hidden;
+            min-width: 0;
+            min-height: 0;
         }
         .grid-item:hover {
             background: var(--gold-glow);
@@ -311,6 +320,8 @@
             line-height: 1.2;
             display: block;
             text-align: center;
+            width: 100%;
+            min-width: 0;
         }
         .person-room {
             margin-top: 0.35vh;
@@ -824,7 +835,7 @@
                             <span class="notice-subline">🟢 Soprum för källsortering finns i anslutning till garaget.</span>
                             <span class="notice-subline">🟠 Tvättstugor finns i nr 9 och nr 11.</span>
                             <span class="notice-subline">🟢 Boka tvättstugan via webb<br>
-Vill du boka tvättstugan digitalt? Gå in på: <span class="contact-highlight">ektorp.rco.hosting.greatsecurity.se</span><br> 
+Vill du boka tvättstugan digitalt? Gå in på: <span class="contact-highlight"><a href="https://ektorp.rco.hosting.greatsecurity.se/" target="_blank" rel="noopener noreferrer">ektorp.rco.hosting.greatsecurity.se</a></span><br> 
 Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Riksbyggen och <span class="contact-highlight">Boappa</span>. </span>
                             <span class="notice-subline">🔵 Skyddsrum för 120 personer finns på källarplan i nr 11.</span>
                         </span>
@@ -912,7 +923,7 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
 
             async function loadLatestAnnouncement() {
                 try {
-                    const response = await fetch('announcements.csv');
+                    const response = await fetch('announcements.csv', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const text = await response.text();
                     const lines = text
@@ -988,6 +999,60 @@ Dina inloggningsuppgifter och instruktioner hittar du som medlem i både Mitt Ri
                     `;
                 });
                 grid.innerHTML = html;
+                scheduleResidentNameFit();
+            }
+
+            // Fit each room's names to the actual card dimensions. The CSS
+            // clamp supplies the preferred size; this reduces it only when a
+            // resized card is too narrow or too short for its contents.
+            let residentNameFitFrame = 0;
+
+            function fitResidentNames() {
+                grid.querySelectorAll('.grid-item').forEach(card => {
+                    const names = [...card.querySelectorAll('.person-name')];
+                    const room = card.querySelector('.person-room');
+                    if (!names.length || !room || card.clientWidth === 0 || card.clientHeight === 0) return;
+
+                    names.forEach(name => { name.style.fontSize = ''; });
+
+                    const cardStyle = getComputedStyle(card);
+                    const roomStyle = getComputedStyle(room);
+                    const nameStyle = getComputedStyle(names[0]);
+                    const horizontalPadding = parseFloat(cardStyle.paddingLeft) + parseFloat(cardStyle.paddingRight);
+                    const verticalPadding = parseFloat(cardStyle.paddingTop) + parseFloat(cardStyle.paddingBottom);
+                    const roomSpace = room.getBoundingClientRect().height
+                        + parseFloat(roomStyle.marginTop)
+                        + parseFloat(roomStyle.marginBottom);
+                    const availableWidth = Math.max(1, card.clientWidth - horizontalPadding);
+                    const availableHeight = Math.max(1, card.clientHeight - verticalPadding - roomSpace);
+                    const preferredSize = parseFloat(nameStyle.fontSize);
+                    const lineHeight = parseFloat(nameStyle.lineHeight);
+                    const lineHeightRatio = Number.isFinite(lineHeight) ? lineHeight / preferredSize : 1.2;
+
+                    let fittedSize = Math.min(
+                        preferredSize,
+                        availableHeight / (names.length * lineHeightRatio)
+                    );
+
+                    names.forEach(name => { name.style.fontSize = `${fittedSize}px`; });
+                    const widthRatio = Math.min(
+                        1,
+                        ...names.map(name => availableWidth / Math.max(1, name.scrollWidth))
+                    );
+                    fittedSize = Math.max(1, fittedSize * widthRatio * (widthRatio < 1 ? 0.98 : 1));
+                    names.forEach(name => { name.style.fontSize = `${fittedSize}px`; });
+                });
+            }
+
+            function scheduleResidentNameFit() {
+                cancelAnimationFrame(residentNameFitFrame);
+                residentNameFitFrame = requestAnimationFrame(fitResidentNames);
+            }
+
+            if ('ResizeObserver' in window) {
+                new ResizeObserver(scheduleResidentNameFit).observe(grid);
+            } else {
+                window.addEventListener('resize', scheduleResidentNameFit);
             }
 
             loadResidents();
