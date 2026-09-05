@@ -1357,6 +1357,11 @@
 
             // SL Transport API – site 4000 = Ektorps centrum
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
+            const PAGE_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
+
+            window.setTimeout(() => {
+                window.location.reload();
+            }, PAGE_REFRESH_INTERVAL_MS);
 
             // ============================================================
             //  1. ANNOUNCEMENTS – local CSV
