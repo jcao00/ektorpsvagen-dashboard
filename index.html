@@ -28,6 +28,7 @@
             --font-body: 16px;
             --font-subheading: 20px;
             --font-important: 28px;
+            --qr-size: 82px;
         }
 
         /* --- RESET & GLOBAL --- */
@@ -613,9 +614,9 @@
             border: 3px solid white;
             border-radius: 5px;
             display: block;
-            height: 82px;
+            height: var(--qr-size);
             image-rendering: pixelated;
-            width: 82px;
+            width: var(--qr-size);
         }
 
         .member-info-list {
@@ -650,21 +651,6 @@
             color: var(--text-muted);
             font-size: clamp(0.64rem, 1vh, 0.88rem);
             line-height: 1.25;
-        }
-
-        .member-info-card .qr-image {
-            height: 82px;
-            width: 82px;
-        }
-
-        .qr-image.qr-riksbyggen {
-            height: 90px;
-            width: 90px;
-        }
-
-        .qr-image.qr-brf {
-            height: 74px;
-            width: 74px;
         }
 
         .official-info {
@@ -1342,11 +1328,11 @@
                                     </span>
                                     <div class="qr-code-list">
                                         <a class="qr-code-link" href="https://apps.apple.com/se/app/riksbyggen-mitt-boende/id1558656853" target="_blank" rel="noopener noreferrer">
-                                            <img class="qr-image qr-riksbyggen" src="qr/riksbyggen-ios.svg" alt="QR-kod till Riksbyggen Mitt Boende i Apple App Store">
+                                            <img class="qr-image" src="qr/riksbyggen-ios.svg" alt="QR-kod till Riksbyggen Mitt Boende i Apple App Store">
                                             <span>iPhone</span>
                                         </a>
                                         <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=se.riksbyggen.hemshare" target="_blank" rel="noopener noreferrer">
-                                            <img class="qr-image qr-riksbyggen" src="qr/riksbyggen-android.svg" alt="QR-kod till Riksbyggen Mitt Boende i Google Play">
+                                            <img class="qr-image" src="qr/riksbyggen-android.svg" alt="QR-kod till Riksbyggen Mitt Boende i Google Play">
                                             <span>Android</span>
                                         </a>
                                     </div>
@@ -1358,7 +1344,7 @@
                                     </span>
                                     <div class="qr-code-list">
                                         <a class="qr-code-link" href="https://brfektorpsvagen.se/" target="_blank" rel="noopener noreferrer">
-                                            <img class="qr-image qr-brf" src="qr/brf-website.svg" alt="QR-kod till BRF Ektorpsvägens webbplats">
+                                            <img class="qr-image" src="qr/brf-website.svg" alt="QR-kod till BRF Ektorpsvägens webbplats">
                                             <span>Webb</span>
                                         </a>
                                     </div>
