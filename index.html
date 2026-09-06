@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#101820">
     <title>BRF Ektorsvägen · Lobby</title>
     <style>
         /* ============================================================
@@ -39,6 +41,11 @@
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
 
+        html {
+            background: var(--bg-primary);
+            color-scheme: dark;
+        }
+
         body {
             background: var(--bg-primary);
             color: var(--text-main);
@@ -50,6 +57,18 @@
             justify-content: center;
             user-select: none;
             cursor: default;
+            opacity: 1;
+            transition: opacity 140ms ease-out;
+        }
+
+        html.page-updating body {
+            opacity: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body {
+                transition: none;
+            }
         }
 
         /* --- MAIN BOARD --- */
@@ -1423,12 +1442,56 @@
             const BUS_RETRY_DELAYS_MS = [1000, 3000, 8000, 13000, 30000];
             const BUS_STALE_DATA_LIMIT_MS = 5 * 60 * 1000;
             const ANNOUNCEMENT_REFRESH_INTERVAL_MS = 60 * 1000;
+            const WEATHER_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
             const EVENT_LOOKAHEAD_DAYS = 30;
-            const PAGE_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
+            const PAGE_UPDATE_CHECK_INTERVAL_MS = 10 * 60 * 1000;
 
-            window.setTimeout(() => {
-                window.location.reload();
-            }, PAGE_REFRESH_INTERVAL_MS);
+            let pageUpdateCheckInProgress = false;
+            const documentModifiedTime = new Date(document.lastModified).getTime();
+            let loadedPageModifiedTime = Number.isNaN(documentModifiedTime)
+                ? null
+                : documentModifiedTime;
+
+            async function checkForPageUpdate() {
+                if (
+                    pageUpdateCheckInProgress ||
+                    document.hidden ||
+                    window.location.protocol === 'file:'
+                ) return;
+
+                pageUpdateCheckInProgress = true;
+                try {
+                    const response = await fetch(window.location.href, {
+                        method: 'HEAD',
+                        cache: 'no-store'
+                    });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                    const serverModifiedTime = Date.parse(
+                        response.headers.get('last-modified') || ''
+                    );
+                    if (Number.isNaN(serverModifiedTime)) return;
+
+                    if (loadedPageModifiedTime === null) {
+                        loadedPageModifiedTime = serverModifiedTime;
+                        return;
+                    }
+
+                    if (serverModifiedTime > loadedPageModifiedTime) {
+                        document.documentElement.classList.add('page-updating');
+                        window.setTimeout(() => window.location.reload(), 140);
+                    }
+                } catch (error) {
+                    console.warn('Failed to check for a dashboard update:', error);
+                } finally {
+                    pageUpdateCheckInProgress = false;
+                }
+            }
+
+            window.setInterval(checkForPageUpdate, PAGE_UPDATE_CHECK_INTERVAL_MS);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) checkForPageUpdate();
+            });
 
             // ============================================================
             //  1. ANNOUNCEMENTS – local CSV
@@ -1439,6 +1502,7 @@
             const importantMoreLink = document.getElementById('importantMoreLink');
             const ongoingList = document.getElementById('ongoingList');
             const ongoingMoreLink = document.getElementById('ongoingMoreLink');
+            let hasLoadedAnnouncements = false;
 
             function parseCsvLine(line) {
                 const values = [];
@@ -1651,11 +1715,14 @@
                     const response = await fetch('announcements.csv', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     renderAnnouncements(parseAnnouncements(await response.text()));
+                    hasLoadedAnnouncements = true;
 
                     const csvLastModified = response.headers.get('last-modified');
                     if (csvLastModified) renderBrfUpdatedAt(new Date(csvLastModified));
                 } catch (error) {
                     console.warn('Failed to load announcements.csv:', error);
+                    if (hasLoadedAnnouncements) return;
+
                     importantMoreLink.hidden = true;
                     importantInfo.classList.remove('is-normal');
                     importantInfo.classList.remove('is-clear');
@@ -1835,6 +1902,7 @@
             const weatherTemp = document.getElementById('weatherTemp');
             const weatherDesc = document.getElementById('weatherDesc');
             const weatherForecast = document.getElementById('weatherForecast');
+            let hasLoadedWeather = false;
 
             const weatherCodeMap = {
                 0: { emoji: '☀️', desc: 'Klart' },
@@ -1906,15 +1974,18 @@
                         `;
                     }
                     weatherForecast.innerHTML = forecastHtml;
+                    hasLoadedWeather = true;
 
                 } catch (error) {
                     console.warn('Weather API error:', error);
-                    weatherDesc.textContent = '⚠️ Väder ej tillgängligt';
+                    if (!hasLoadedWeather) {
+                        weatherDesc.textContent = '⚠️ Väder ej tillgängligt';
+                    }
                 }
             }
 
             fetchWeather();
-            setInterval(fetchWeather, 900000);
+            setInterval(fetchWeather, WEATHER_REFRESH_INTERVAL_MS);
 
             // ============================================================
             //  5. CURSOR
