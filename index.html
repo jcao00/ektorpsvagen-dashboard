@@ -1372,6 +1372,8 @@
 
             // SL Transport API – site 4000 = Ektorps centrum
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
+            const BUS_REFRESH_INTERVAL_MS = 30 * 1000;
+            const BUS_RETRY_DELAYS_MS = [1000, 3000, 8000, 13000, 30000];
             const ANNOUNCEMENT_REFRESH_INTERVAL_MS = 60 * 1000;
             const EVENT_LOOKAHEAD_DAYS = 30;
             const PAGE_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
@@ -1688,24 +1690,28 @@
 
             const busBoard = document.getElementById('busBoard');
             const busUpdateTime = document.getElementById('busUpdateTime');
+            let busRefreshTimer;
+            let busRetryIndex = 0;
+            let hasValidBusData = false;
+
+            function scheduleBusRefresh(delayMs) {
+                clearTimeout(busRefreshTimer);
+                busRefreshTimer = setTimeout(fetchBusDepartures, delayMs);
+            }
 
             async function fetchBusDepartures() {
                 try {
-                    const response = await fetch(BUS_API_URL);
+                    const response = await fetch(BUS_API_URL, { cache: 'no-store' });
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}`);
                     }
                     const data = await response.json();
 
-                    const allDepartures = data.departures || [];
-
-                    if (allDepartures.length === 0) {
-                        busBoard.replaceChildren();
-                        busUpdateTime.textContent = `🔄 Uppdaterad: ${new Date().toLocaleTimeString('sv-SE')}`;
-                        return;
+                    if (!Array.isArray(data.departures) || data.departures.length === 0) {
+                        throw new Error('No departures in response');
                     }
 
-                    const topDepartures = allDepartures.slice(0, 6);
+                    const topDepartures = data.departures.slice(0, 6);
 
                     let rows = '';
                     topDepartures.forEach(d => {
@@ -1744,25 +1750,36 @@
                     });
 
                     busBoard.innerHTML = rows;
+                    hasValidBusData = true;
+                    busRetryIndex = 0;
 
                     const now = new Date();
                     busUpdateTime.textContent =
                         `🔄 Uppdaterad: ${now.toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
+                    scheduleBusRefresh(BUS_REFRESH_INTERVAL_MS);
 
                 } catch (error) {
                     console.warn('Bus API error:', error);
-                    busBoard.innerHTML = `
-                        <div class="bus-error">
-                            ⚠️ Kunde inte hämta avgångar<br>
-                            <small>Försöker igen om 30 sekunder</small>
-                        </div>
-                    `;
-                    busUpdateTime.textContent = `❌ Senaste försök: ${new Date().toLocaleTimeString('sv-SE')}`;
+                    const retryDelay = BUS_RETRY_DELAYS_MS[
+                        Math.min(busRetryIndex, BUS_RETRY_DELAYS_MS.length - 1)
+                    ];
+                    busRetryIndex += 1;
+
+                    if (!hasValidBusData) {
+                        busBoard.innerHTML = `
+                            <div class="bus-error">
+                                ⚠️ Kunde inte hämta avgångar<br>
+                                <small>Försöker igen om ${retryDelay / 1000} sekunder</small>
+                            </div>
+                        `;
+                    }
+                    busUpdateTime.textContent =
+                        `❌ Senaste försök: ${new Date().toLocaleTimeString('sv-SE')} · Nytt försök om ${retryDelay / 1000} s`;
+                    scheduleBusRefresh(retryDelay);
                 }
             }
 
             fetchBusDepartures();
-            setInterval(fetchBusDepartures, 30000);
 
             // ============================================================
             //  4. WEATHER – Open-Meteo API
