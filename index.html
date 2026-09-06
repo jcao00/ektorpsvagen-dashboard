@@ -437,7 +437,7 @@
             font-size: clamp(0.72rem, 1.25vh, 1.2rem);
             font-weight: 800;
             gap: 0.55rem;
-            letter-spacing: 0.08em;
+            letter-spacing: 0;
             line-height: 1.2;
             text-transform: uppercase;
         }
@@ -667,11 +667,13 @@
         }
 
         .entrance-notice {
-            color: var(--gold-light);
+            color: var(--gold);
             font-size: var(--font-subheading);
-            font-weight: 700;
-            line-height: 1.25;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 1.2;
             text-align: center;
+            text-transform: uppercase;
         }
 
         .official-info-meta {
@@ -1372,7 +1374,7 @@
                     </div>
 
                     <footer class="official-info" id="officialInfo">
-                        <p class="entrance-notice">Tack för att du hjälper till att hålla vår entré ren och trivsam! Tidningar och reklam hänvisas till återvinningsrummet.</p>
+                        <p class="entrance-notice">Håll entrén ren och trivsam! Lämna inte tidningar eller reklam här.</p>
                         <div class="official-info-meta">
                             <span class="pilot-label">Pilot – digital informationstavla</span>
                             <span>Officiell information: <strong>Boappa + Mitt Riksbyggen</strong></span>
@@ -1396,6 +1398,7 @@
             const BUS_API_URL = 'https://transport.integration.sl.se/v1/sites/4000/departures';
             const BUS_REFRESH_INTERVAL_MS = 30 * 1000;
             const BUS_RETRY_DELAYS_MS = [1000, 3000, 8000, 13000, 30000];
+            const BUS_STALE_DATA_LIMIT_MS = 5 * 60 * 1000;
             const ANNOUNCEMENT_REFRESH_INTERVAL_MS = 60 * 1000;
             const EVENT_LOOKAHEAD_DAYS = 30;
             const PAGE_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
@@ -1714,7 +1717,7 @@
             const busUpdateTime = document.getElementById('busUpdateTime');
             let busRefreshTimer;
             let busRetryIndex = 0;
-            let hasValidBusData = false;
+            let lastSuccessfulBusUpdate = null;
 
             function scheduleBusRefresh(delayMs) {
                 clearTimeout(busRefreshTimer);
@@ -1772,10 +1775,10 @@
                     });
 
                     busBoard.innerHTML = rows;
-                    hasValidBusData = true;
                     busRetryIndex = 0;
 
                     const now = new Date();
+                    lastSuccessfulBusUpdate = now;
                     busUpdateTime.textContent =
                         `🔄 Uppdaterad: ${now.toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit', second:'2-digit' })}`;
                     scheduleBusRefresh(BUS_REFRESH_INTERVAL_MS);
@@ -1787,16 +1790,26 @@
                     ];
                     busRetryIndex += 1;
 
-                    if (!hasValidBusData) {
+                    const canShowLastKnownDepartures = lastSuccessfulBusUpdate &&
+                        Date.now() - lastSuccessfulBusUpdate.getTime() < BUS_STALE_DATA_LIMIT_MS;
+
+                    if (canShowLastKnownDepartures) {
+                        const lastUpdated = lastSuccessfulBusUpdate.toLocaleTimeString('sv-SE', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        busUpdateTime.textContent =
+                            `Visar senaste kända avgångar · uppdaterade ${lastUpdated}`;
+                    } else {
                         busBoard.innerHTML = `
                             <div class="bus-error">
-                                ⚠️ Kunde inte hämta avgångar<br>
+                                ⚠ Bussinformationen är tillfälligt otillgänglig<br>
                                 <small>Försöker igen om ${retryDelay / 1000} sekunder</small>
                             </div>
                         `;
+                        busUpdateTime.textContent =
+                            `Senaste försök: ${new Date().toLocaleTimeString('sv-SE')}`;
                     }
-                    busUpdateTime.textContent =
-                        `❌ Senaste försök: ${new Date().toLocaleTimeString('sv-SE')} · Nytt försök om ${retryDelay / 1000} s`;
                     scheduleBusRefresh(retryDelay);
                 }
             }
