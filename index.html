@@ -126,6 +126,24 @@
             margin-right: 0.5rem;
         }
 
+        .header-ongoing-footer {
+            align-items: end;
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 0.6rem;
+        }
+
+        .header-ongoing-footer .brf-updated {
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .header-ongoing-footer .important-text-link {
+            padding-bottom: 0;
+        }
+
         .header-ongoing-list a,
         .info-important-message a {
             color: inherit;
@@ -536,7 +554,7 @@
             padding: 0.55rem 0.65rem 0.7rem;
         }
 
-        .practical-body a {
+        .static-contact {
             color: var(--gold-light);
             font-weight: 700;
             overflow-wrap: anywhere;
@@ -1238,7 +1256,10 @@
                     <ul class="header-ongoing-list" id="ongoingList" aria-live="polite">
                         <li>Laddar planerade aktiviteter…</li>
                     </ul>
-                    <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
+                    <div class="header-ongoing-footer">
+                        <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
+                        <span class="important-text-link" id="ongoingMoreLink" hidden>Läs mer i Boappa</span>
+                    </div>
                 </section>
 
                 <section class="area bus-area header-bus" aria-labelledby="busHeading">
@@ -1271,7 +1292,7 @@
                             <p class="info-important-message" id="importantMessage" aria-live="polite">Laddar aktuell information…</p>
                             <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
                         </div>
-                        <a class="important-text-link" id="importantMoreLink" href="https://boappa.se/" target="_blank" rel="noopener noreferrer" hidden>Läs mer i Boappa</a>
+                        <span class="important-text-link" id="importantMoreLink" hidden>Läs mer i Boappa</span>
                     </section>
 
                     <div class="info-lower">
@@ -1288,10 +1309,10 @@
                                             <p>Tvättstugor finns i nr 9 och nr 11.</p>
                                             <p>Inloggningsuppgifter och instruktioner finns i Mitt Riksbyggen och Boappa.</p>
                                         </div>
-                                        <a class="practical-qr" href="https://ektorp.rco.hosting.greatsecurity.se/" target="_blank" rel="noopener noreferrer">
+                                        <span class="practical-qr">
                                             <img class="qr-image" src="qr/tvattbokning.svg" alt="QR-kod till digital bokning av tvättstuga">
                                             <span>Boka tvätt</span>
-                                        </a>
+                                        </span>
                                     </div>
                                 </section>
                                 <section class="practical-item">
@@ -1303,17 +1324,17 @@
                                 <section class="practical-item">
                                     <h3 class="practical-title">Kontakt</h3>
                                     <div class="practical-body">
-                                        <p>Ekonomi: <a href="mailto:ekonomi@brfektorpsvagen.se">ekonomi@brfektorpsvagen.se</a></p>
-                                        <p>Administration: <a href="mailto:admin@brfektorpsvagen.se">admin@brfektorpsvagen.se</a></p>
-                                        <p>Styrelsen: <a href="mailto:styrelsen@brfektorpsvagen.se">styrelsen@brfektorpsvagen.se</a></p>
-                                        <p>Fastighetsfrågor: <a href="mailto:fastighet@brfektorpsvagen.se">fastighet@brfektorpsvagen.se</a></p>
+                                        <p>Ekonomi: <span class="static-contact">ekonomi@brfektorpsvagen.se</span></p>
+                                        <p>Administration: <span class="static-contact">admin@brfektorpsvagen.se</span></p>
+                                        <p>Styrelsen: <span class="static-contact">styrelsen@brfektorpsvagen.se</span></p>
+                                        <p>Fastighetsfrågor: <span class="static-contact">fastighet@brfektorpsvagen.se</span></p>
                                     </div>
                                 </section>
                                 <section class="practical-item safety-item">
                                     <h3 class="practical-title">Säkerhet</h3>
                                     <div class="practical-body">
-                                        <p><strong>Akut fara:</strong> Ring <a href="tel:112">112</a>.</p>
-                                        <p><strong>Fel på port/lås:</strong> Gör en felanmälan i Mitt Riksbyggen eller ring <a href="tel:+46771860860">0771–860 860</a>.</p>
+                                        <p><strong>Akut fara:</strong> Ring <span class="static-contact">112</span>.</p>
+                                        <p><strong>Fel på port/lås:</strong> Gör en felanmälan i Mitt Riksbyggen eller ring <span class="static-contact">0771–860 860</span>.</p>
                                         <p><strong>Skyddsrum:</strong> Hus 11, källarplan. Plats för 120 personer.</p>
                                         <p><strong>Brandskydd:</strong> Blockera aldrig branddörrar.</p>
                                     </div>
@@ -1333,14 +1354,14 @@
                                         <small>Löpande information från styrelsen och kontakt med grannar.</small>
                                     </span>
                                     <div class="qr-code-list">
-                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" target="_blank" rel="noopener noreferrer">
+                                        <span class="qr-code-link">
                                             <img class="qr-image" src="qr/boappa-ios.svg" alt="QR-kod till Boappa i Apple App Store">
                                             <span>iPhone</span>
-                                        </a>
-                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" target="_blank" rel="noopener noreferrer">
+                                        </span>
+                                        <span class="qr-code-link">
                                             <img class="qr-image" src="qr/boappa-android.svg" alt="QR-kod till Boappa i Google Play">
                                             <span>Android</span>
-                                        </a>
+                                        </span>
                                     </div>
                                 </li>
                                 <li class="member-info-card">
@@ -1349,14 +1370,14 @@
                                         <small>Felanmälan, avier och viktig information. Kundservice: 0771–860 860.</small>
                                     </span>
                                     <div class="qr-code-list">
-                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/riksbyggen-mitt-boende/id1558656853" target="_blank" rel="noopener noreferrer">
+                                        <span class="qr-code-link">
                                             <img class="qr-image" src="qr/riksbyggen-ios.svg" alt="QR-kod till Riksbyggen Mitt Boende i Apple App Store">
                                             <span>iPhone</span>
-                                        </a>
-                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=se.riksbyggen.hemshare" target="_blank" rel="noopener noreferrer">
+                                        </span>
+                                        <span class="qr-code-link">
                                             <img class="qr-image" src="qr/riksbyggen-android.svg" alt="QR-kod till Riksbyggen Mitt Boende i Google Play">
                                             <span>Android</span>
-                                        </a>
+                                        </span>
                                     </div>
                                 </li>
                                 <li class="member-info-card">
@@ -1365,10 +1386,10 @@
                                         <small>Föreningens webbplats.</small>
                                     </span>
                                     <div class="qr-code-list">
-                                        <a class="qr-code-link" href="https://brfektorpsvagen.se/" target="_blank" rel="noopener noreferrer">
+                                        <span class="qr-code-link">
                                             <img class="qr-image" src="qr/brf-website.svg" alt="QR-kod till BRF Ektorpsvägens webbplats">
                                             <span>Webb</span>
-                                        </a>
+                                        </span>
                                     </div>
                                 </li>
                             </ul>
@@ -1417,6 +1438,7 @@
             const importantMessage = document.getElementById('importantMessage');
             const importantMoreLink = document.getElementById('importantMoreLink');
             const ongoingList = document.getElementById('ongoingList');
+            const ongoingMoreLink = document.getElementById('ongoingMoreLink');
 
             function parseCsvLine(line) {
                 const values = [];
@@ -1463,16 +1485,6 @@
                     const values = parseCsvLine(line);
                     return Object.fromEntries(headers.map((header, index) => [header, values[index] || '']));
                 });
-            }
-
-            function usableLink(value) {
-                if (!value || value === '...') return null;
-                try {
-                    const url = new URL(value, window.location.href);
-                    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
-                } catch {
-                    return null;
-                }
             }
 
             function announcementText(item) {
@@ -1565,13 +1577,7 @@
 
             function announcementElement(item, tagName = 'span') {
                 const wrapper = document.createElement(tagName);
-                const link = usableLink(item.link);
-                const content = link ? document.createElement('a') : document.createElement('span');
-                if (link) {
-                    content.href = link;
-                    content.target = '_blank';
-                    content.rel = 'noopener noreferrer';
-                }
+                const content = document.createElement('span');
                 const message = document.createElement('span');
                 message.textContent = announcementText(item);
                 content.append(message);
@@ -1630,8 +1636,10 @@
 
                 ongoingList.replaceChildren();
                 if (ongoingItems.length) {
+                    ongoingMoreLink.hidden = false;
                     ongoingItems.forEach(item => ongoingList.append(announcementElement(item, 'li')));
                 } else {
+                    ongoingMoreLink.hidden = true;
                     const emptyItem = document.createElement('li');
                     emptyItem.textContent = 'Inga planerade aktiviteter';
                     ongoingList.append(emptyItem);
@@ -1653,6 +1661,7 @@
                     importantInfo.classList.remove('is-clear');
                     importantMessage.textContent = 'Aktuell information kunde inte hämtas';
                     ongoingList.replaceChildren();
+                    ongoingMoreLink.hidden = true;
                     const errorItem = document.createElement('li');
                     errorItem.textContent = 'Planerade aktiviteter kunde inte hämtas';
                     ongoingList.append(errorItem);
