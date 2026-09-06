@@ -83,10 +83,9 @@
         }
 
         .header-primary {
-            display: grid;
-            flex: 0 0 calc(50% - 0.5vw);
-            gap: 1vw;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+            display: block;
+            flex: 0 0 25vw;
+            width: 25vw;
             min-width: 0;
         }
 
@@ -94,16 +93,17 @@
             width: 100%;
         }
 
-        .header-bus {
+        .panel-header > .header-bus {
             align-self: stretch;
-            flex: none;
+            flex: 0 0 25vw;
+            width: 25vw;
             min-height: 0;
             min-width: 0;
         }
 
         .header-ongoing {
             align-self: stretch;
-            flex: 1 1 calc(50% - 0.5vw);
+            flex: 1 1 calc(50% - 1vw);
             min-width: 240px;
         }
 
@@ -1019,7 +1019,8 @@
             .header-primary .weather-stack {
                 width: clamp(180px, 36vw, 240px);
             }
-            .header-bus {
+            .panel-header > .header-bus {
+                flex-basis: 100%;
                 min-height: 17rem;
                 width: 100%;
             }
@@ -1041,8 +1042,8 @@
             .notice-board .notice-subline { font-size: 0.78em; }
         }
 
-        /* On phones, place the bus directly below the logo and let the
-           information fields continue in a single scrolling page. */
+        /* On phones, stack the header fields and let the information fields
+           continue in a single scrolling page. */
         @media (max-width: 800px) {
             body {
                 height: auto;
@@ -1230,18 +1231,6 @@
                     </div>
                     </div>
 
-                    <section class="area bus-area header-bus" aria-labelledby="busHeading">
-                        <h2 class="area-title" id="busHeading">
-                            <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
-                            🚌 ALLA BUSSAR FRÅN EKTORPS CENTRUM
-                        </h2>
-                        <div class="area-content">
-                            <div class="bus-board" id="busBoard">
-                                <div class="bus-error">⏳ Laddar avgångar...</div>
-                            </div>
-                            <div class="bus-updated" id="busUpdateTime">Uppdateras...</div>
-                        </div>
-                    </section>
                 </div>
 
                 <section class="area header-ongoing" aria-labelledby="ongoingInfoHeading">
@@ -1250,6 +1239,19 @@
                         <li>Laddar planerade aktiviteter…</li>
                     </ul>
                     <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
+                </section>
+
+                <section class="area bus-area header-bus" aria-labelledby="busHeading">
+                    <h2 class="area-title" id="busHeading">
+                        <span class="bus-title-time" id="busClockDisplay">--:--:--</span>
+                        🚌 ALLA BUSSAR FRÅN EKTORPS CENTRUM
+                    </h2>
+                    <div class="area-content">
+                        <div class="bus-board" id="busBoard">
+                            <div class="bus-error">⏳ Laddar avgångar...</div>
+                        </div>
+                        <div class="bus-updated" id="busUpdateTime">Uppdateras...</div>
+                    </div>
                 </section>
 
                 <!--<div class="title">
