@@ -716,18 +716,13 @@
         .official-info-meta {
             display: flex;
             gap: 0.75rem;
-            justify-content: space-between;
+            justify-content: flex-end;
             width: 100%;
         }
 
         .official-info strong {
             color: var(--gold-light);
             font-weight: 700;
-        }
-
-        .pilot-label {
-            color: var(--text-main);
-            font-weight: 650;
         }
 
         /* --- RIGHT SIDEBAR --- */
@@ -1100,6 +1095,10 @@
                 order: 1;
                 width: 100%;
             }
+            .header-primary .weather-stack {
+                width: 100%;
+                max-width: none;
+            }
             .sidebar {
                 order: 3;
                 flex: none;
@@ -1418,7 +1417,6 @@
                     <footer class="official-info" id="officialInfo">
                         <p class="entrance-notice">Håll entrén ren och trivsam! Lämna inte tidningar eller reklam här.</p>
                         <div class="official-info-meta">
-                            <span class="pilot-label">Pilot – digital informationstavla</span>
                             <span>Officiell information: <strong>Boappa + Mitt Riksbyggen</strong></span>
                         </div>
                     </footer>
