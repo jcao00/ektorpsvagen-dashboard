@@ -646,6 +646,17 @@
             text-decoration: underline;
         }
 
+        .qr-code-link[aria-disabled="true"] {
+            color: var(--text-muted);
+            opacity: 0.4;
+            pointer-events: none;
+            text-decoration: none;
+        }
+
+        .qr-code-link[aria-disabled="true"] .qr-image {
+            filter: grayscale(1);
+        }
+
         .qr-image {
             background: white;
             border: 3px solid white;
@@ -1276,7 +1287,7 @@
                     </ul>
                     <div class="header-ongoing-footer">
                         <time class="brf-updated" data-brf-updated>Senast uppdaterad av BRF: --</time>
-                        <span class="important-text-link" id="ongoingMoreLink" hidden>Läs mer i Boappa</span>
+                        <a class="important-text-link" id="ongoingMoreLink" href="https://app.boappa.se/feed" hidden>Läs mer i Boappa</a>
                     </div>
                 </section>
 
@@ -1372,11 +1383,11 @@
                                         <small>Löpande information från styrelsen och kontakt med grannar.</small>
                                     </span>
                                     <div class="qr-code-list">
-                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" aria-label="Öppna Boappa i Apple App Store">
+                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/boappa/id1330810316" data-platform="ios" aria-label="Öppna Boappa i Apple App Store">
                                             <img class="qr-image" src="qr/boappa-ios.svg" alt="QR-kod till Boappa i Apple App Store">
                                             <span>iPhone</span>
                                         </a>
-                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" aria-label="Öppna Boappa i Google Play">
+                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=com.boappa.app" data-platform="android" aria-label="Öppna Boappa i Google Play">
                                             <img class="qr-image" src="qr/boappa-android.svg" alt="QR-kod till Boappa i Google Play">
                                             <span>Android</span>
                                         </a>
@@ -1388,11 +1399,11 @@
                                         <small>Felanmälan, avier och viktig information. Kundservice: 0771–860 860.</small>
                                     </span>
                                     <div class="qr-code-list">
-                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/riksbyggen-mitt-boende/id1558656853" aria-label="Öppna Riksbyggen Mitt Boende i Apple App Store">
+                                        <a class="qr-code-link" href="https://apps.apple.com/se/app/riksbyggen-mitt-boende/id1558656853" data-platform="ios" aria-label="Öppna Riksbyggen Mitt Boende i Apple App Store">
                                             <img class="qr-image" src="qr/riksbyggen-ios.svg" alt="QR-kod till Riksbyggen Mitt Boende i Apple App Store">
                                             <span>iPhone</span>
                                         </a>
-                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=se.riksbyggen.hemshare" aria-label="Öppna Riksbyggen Mitt Boende i Google Play">
+                                        <a class="qr-code-link" href="https://play.google.com/store/apps/details?id=se.riksbyggen.hemshare" data-platform="android" aria-label="Öppna Riksbyggen Mitt Boende i Google Play">
                                             <img class="qr-image" src="qr/riksbyggen-android.svg" alt="QR-kod till Riksbyggen Mitt Boende i Google Play">
                                             <span>Android</span>
                                         </a>
@@ -1443,6 +1454,39 @@
             const WEATHER_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
             const EVENT_LOOKAHEAD_DAYS = 30;
             const PAGE_UPDATE_CHECK_INTERVAL_MS = 10 * 60 * 1000;
+            const BOAPPA_DESTINATIONS = {
+                ios: 'https://apps.apple.com/se/app/boappa/id1330810316',
+                android: 'https://play.google.com/store/apps/details?id=com.boappa.app',
+                other: 'https://app.boappa.se/feed'
+            };
+
+            function configurePlatformLinks() {
+                const userAgent = navigator.userAgent;
+                const isAndroid = /Android/i.test(userAgent);
+                const isIos = /iPhone|iPad|iPod/i.test(userAgent) ||
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                const platform = isIos ? 'ios' : isAndroid ? 'android' : 'other';
+
+                document.getElementById('ongoingMoreLink').href =
+                    BOAPPA_DESTINATIONS[platform];
+
+                if (platform === 'other') return;
+
+                const incompatiblePlatform = platform === 'ios' ? 'android' : 'ios';
+                document.querySelectorAll(
+                    `.qr-code-link[data-platform="${incompatiblePlatform}"]`
+                ).forEach(link => {
+                    link.removeAttribute('href');
+                    link.setAttribute('aria-disabled', 'true');
+                    link.setAttribute('tabindex', '-1');
+                    link.setAttribute(
+                        'aria-label',
+                        `${link.getAttribute('aria-label')} (inte tillgänglig på denna enhet)`
+                    );
+                });
+            }
+
+            configurePlatformLinks();
 
             let pageUpdateCheckInProgress = false;
             const documentModifiedTime = new Date(document.lastModified).getTime();
