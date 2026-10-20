@@ -1765,30 +1765,22 @@
 
                 const time = document.createElement('time');
                 time.className = 'boappa-chat-time';
-                time.dateTime = '2026-10-11T13:35';
-                time.textContent = '11 oktober 2026 kl. 13:35';
+                time.dateTime = '2026-10-15T07:02';
+                time.textContent = '15 oktober 2026 kl. 07:02';
 
-                const opening = document.createElement('span');
-                opening.className = 'boappa-chat-message';
-                opening.textContent = 'Hej alla med elbilsplats!';
+                const messages = [
+                    'Hej på er!!',
+                    'Söndagen den 8/11 (självaste Fars dag) mellan kl 10-12, är det dags för höstens städdag. Vi behöver plocka ihop studsmattan, slänga lite blommor och lyfta in utemöblerna.',
+                    'Passa på och kom dit och hälsa på dina grannar och bär ner en stol eller två😊.',
+                    'Vi bjuder på fika☕️🍪.'
+                ].map(text => {
+                    const message = document.createElement('span');
+                    message.className = 'boappa-chat-message';
+                    message.textContent = text;
+                    return message;
+                });
 
-                const investigation = document.createElement('span');
-                investigation.className = 'boappa-chat-message';
-                investigation.textContent = 'Vi verkar ha problem med laddarna. Anledningen är än så länge oklar men under utredning.';
-
-                const update = document.createElement('span');
-                update.className = 'boappa-chat-message';
-                update.textContent = 'Vi vet i nuläget inte hur lång tid det tar men ska försöka både lösa det snabbt och hålla er uppdaterade.';
-
-                const request = document.createElement('span');
-                request.className = 'boappa-chat-message';
-                request.textContent = 'Om det är någon som har laddat bilen den senaste veckan utan problem så får ni gärna meddela det.';
-
-                const closing = document.createElement('span');
-                closing.className = 'boappa-chat-message';
-                closing.textContent = 'Med vänlig hälsning, Styrelsen.';
-
-                item.append(pinned, author, time, opening, investigation, update, request, closing);
+                item.append(pinned, author, time, ...messages);
                 return item;
             }
 
