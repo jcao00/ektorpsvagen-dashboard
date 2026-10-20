@@ -439,29 +439,105 @@
             grid-template-columns: minmax(0, 1fr) auto;
         }
 
+        /* --- AUTUMN DECORATION (Viktigt just nu) --- */
+        .info-important {
+            min-height: clamp(6rem, 13vh, 12rem);
+            position: relative;
+        }
+
+        .info-important > .important-content,
+        .info-important > .important-text-link {
+            position: relative;
+            z-index: 1;
+        }
+
+        .autumn-layer {
+            container-type: size;
+            inset: 0;
+            opacity: 0.35;
+            overflow: hidden;
+            pointer-events: none;
+            position: absolute;
+            transition: opacity 400ms ease;
+            z-index: 0;
+        }
+
+        .autumn-scene {
+            bottom: 0;
+            height: 100%;
+            left: 0;
+            position: absolute;
+            width: 100%;
+        }
+
+        .autumn-tree {
+            animation: autumn-sway 6s ease-in-out infinite;
+            transform-box: fill-box;
+            transform-origin: bottom center;
+        }
+
+        .autumn-tree.t2 { animation-delay: -2s; }
+        .autumn-tree.t3 { animation-delay: -4s; }
+
+        .autumn-leaf {
+            animation: autumn-fall linear infinite;
+            height: 1em;
+            position: absolute;
+            top: -2em;
+            width: 1em;
+        }
+
+        .autumn-leaf:nth-of-type(2) { left: 5%;  font-size: 1.1rem; animation-duration: 11s; animation-delay: 0s; }
+        .autumn-leaf:nth-of-type(3) { left: 17%; font-size: 1.5rem; animation-duration: 14s; animation-delay: -6s; }
+        .autumn-leaf:nth-of-type(4) { left: 29%; font-size: 1rem;   animation-duration: 10s; animation-delay: -3s; }
+        .autumn-leaf:nth-of-type(5) { left: 42%; font-size: 1.3rem; animation-duration: 13s; animation-delay: -9s; }
+        .autumn-leaf:nth-of-type(6) { left: 55%; font-size: 1.1rem; animation-duration: 12s; animation-delay: -1s; }
+        .autumn-leaf:nth-of-type(7) { left: 67%; font-size: 1.6rem; animation-duration: 15s; animation-delay: -7s; }
+        .autumn-leaf:nth-of-type(8) { left: 79%; font-size: 1rem;   animation-duration: 11s; animation-delay: -4s; }
+        .autumn-leaf:nth-of-type(9) { left: 91%; font-size: 1.3rem; animation-duration: 13s; animation-delay: -10s; }
+
+        @keyframes autumn-fall {
+            0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10%  { opacity: 1; }
+            30%  { transform: translate(1.4rem, 30cqh) rotate(120deg); }
+            55%  { transform: translate(-1rem, 58cqh) rotate(220deg); }
+            80%  { transform: translate(1.2rem, 82cqh) rotate(320deg); opacity: 1; }
+            100% { transform: translate(0, calc(100cqh + 2em)) rotate(400deg); opacity: 0; }
+        }
+
+        @keyframes autumn-sway {
+            0%, 100% { transform: rotate(-1.5deg); }
+            50%      { transform: rotate(1.5deg); }
+        }
+
+        /* No active alerts: hide heading and message, show only the picture */
         .info-important.is-clear {
-            background: linear-gradient(90deg, rgba(126, 217, 87, 0.13), transparent 72%), var(--bg-secondary);
-            border-color: rgba(126, 217, 87, 0.42);
+            background: var(--bg-secondary);
+            border-color: rgba(232, 199, 102, 0.35);
         }
 
-        .info-important.is-clear .info-alert-dot {
-            background: var(--announcement-green);
-            box-shadow: 0 0 0 4px rgba(126, 217, 87, 0.12);
+        .info-important.is-clear .autumn-layer {
+            opacity: 1;
         }
 
-        .info-important.is-clear .info-important-message {
-            color: var(--announcement-green);
+        .info-important.is-clear .important-content {
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap;
+            width: 1px;
         }
 
-        .info-important.is-clear .info-important-message::before {
-            background: currentColor;
-            border-radius: 50%;
-            content: "";
-            display: inline-block;
-            height: 0.72em;
-            margin-right: 0.32em;
-            vertical-align: 0.02em;
-            width: 0.72em;
+        @media (prefers-reduced-motion: reduce) {
+            .autumn-tree,
+            .autumn-leaf {
+                animation: none;
+            }
+            .autumn-leaf {
+                display: none;
+            }
         }
 
         .info-important.is-normal {
@@ -1352,6 +1428,128 @@
             <div class="grid-wrapper">
                 <div class="info-board">
                     <section class="info-field info-important" id="importantInfo" aria-labelledby="importantInfoHeading">
+                        <div class="autumn-layer" aria-hidden="true">
+                            <svg class="autumn-scene" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice">
+                                <defs>
+                                    <symbol id="autumnLeafShape" viewBox="0 0 24 24">
+                                        <path d="M12 1 L14 7 L20 4 L18 10 L23 12 L18 14 L20 20 L14 17 L12 23 L10 17 L4 20 L6 14 L1 12 L6 10 L4 4 L10 7Z" fill="currentColor"/>
+                                        <path d="M12 6 V23" stroke="#4A2C17" stroke-width="1" opacity="0.6"/>
+                                    </symbol>
+                                    <linearGradient id="autumnSky" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#E8A04A" stop-opacity="0"/>
+                                        <stop offset="1" stop-color="#E8A04A" stop-opacity="0.2"/>
+                                    </linearGradient>
+                                    <radialGradient id="autumnSun" cx="0.5" cy="0.5" r="0.5">
+                                        <stop offset="0" stop-color="#F6C56B" stop-opacity="0.5"/>
+                                        <stop offset="1" stop-color="#F6C56B" stop-opacity="0"/>
+                                    </radialGradient>
+                                </defs>
+                                <rect width="1200" height="120" fill="url(#autumnSky)"/>
+                                <circle cx="960" cy="38" r="55" fill="url(#autumnSun)"/>
+                                <circle cx="960" cy="38" r="15" fill="#F6C56B" opacity="0.5"/>
+                                <path d="M0 82 Q200 58 420 74 T840 68 T1200 72 V120 H0Z" fill="#6B3E1E" opacity="0.55"/>
+                                <g class="autumn-tree t1">
+                                    <rect x="67" y="72.0" width="6" height="24.0" rx="2" fill="#4A2C17"/>
+                                    <circle cx="70" cy="64.0" r="20" fill="#C8562A"/>
+                                    <circle cx="57" cy="75" r="14" fill="#D9822B"/>
+                                    <circle cx="83" cy="74" r="14" fill="#B8402A"/>
+                                    <circle cx="70" cy="51" r="12" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t2">
+                                    <rect x="162" y="75.19999999999999" width="6" height="16.800000000000004" rx="2" fill="#4A2C17"/>
+                                    <circle cx="165" cy="69.6" r="14" fill="#E3A23B"/>
+                                    <circle cx="156" cy="77" r="10" fill="#D9822B"/>
+                                    <circle cx="174" cy="77" r="10" fill="#C8562A"/>
+                                    <circle cx="165" cy="60" r="9" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t3">
+                                    <rect x="297" y="73.4" width="6" height="21.6" rx="2" fill="#4A2C17"/>
+                                    <circle cx="300" cy="66.2" r="18" fill="#B8402A"/>
+                                    <circle cx="288" cy="76" r="12" fill="#C8562A"/>
+                                    <circle cx="312" cy="75" r="13" fill="#D9822B"/>
+                                    <circle cx="300" cy="54" r="11" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t1">
+                                    <rect x="467" y="75.6" width="6" height="14.400000000000006" rx="2" fill="#4A2C17"/>
+                                    <circle cx="470" cy="70.8" r="12" fill="#D9822B"/>
+                                    <circle cx="462" cy="77" r="8" fill="#E3A23B"/>
+                                    <circle cx="478" cy="77" r="8" fill="#C8562A"/>
+                                    <circle cx="470" cy="63" r="7" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t2">
+                                    <rect x="717" y="72.6" width="6" height="20.400000000000006" rx="2" fill="#4A2C17"/>
+                                    <circle cx="720" cy="65.8" r="17" fill="#C8562A"/>
+                                    <circle cx="709" cy="75" r="12" fill="#B8402A"/>
+                                    <circle cx="731" cy="74" r="12" fill="#D9822B"/>
+                                    <circle cx="720" cy="55" r="11" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t3">
+                                    <rect x="842" y="74.4" width="6" height="15.600000000000001" rx="2" fill="#4A2C17"/>
+                                    <circle cx="845" cy="69.2" r="13" fill="#E3A23B"/>
+                                    <circle cx="837" cy="76" r="9" fill="#C8562A"/>
+                                    <circle cx="853" cy="76" r="9" fill="#D9822B"/>
+                                    <circle cx="845" cy="61" r="8" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t1">
+                                    <rect x="1057" y="72.19999999999999" width="6" height="22.800000000000004" rx="2" fill="#4A2C17"/>
+                                    <circle cx="1060" cy="64.6" r="19" fill="#B8402A"/>
+                                    <circle cx="1048" cy="75" r="13" fill="#D9822B"/>
+                                    <circle cx="1072" cy="74" r="13" fill="#C8562A"/>
+                                    <circle cx="1060" cy="52" r="12" fill="#E3A23B"/>
+                                </g>
+                                <g class="autumn-tree t2">
+                                    <rect x="1147" y="76.4" width="6" height="15.600000000000001" rx="2" fill="#4A2C17"/>
+                                    <circle cx="1150" cy="71.2" r="13" fill="#D9822B"/>
+                                    <circle cx="1142" cy="78" r="9" fill="#E3A23B"/>
+                                    <circle cx="1158" cy="78" r="9" fill="#B8402A"/>
+                                    <circle cx="1150" cy="63" r="8" fill="#E3A23B"/>
+                                </g>
+                                <path d="M0 100 Q300 86 600 97 T1200 93 V120 H0Z" fill="#3E2614"/>
+                                <ellipse cx="40" cy="110" rx="5" ry="2.2" fill="#D9822B" transform="rotate(15 40 110)"/>
+                                <ellipse cx="130" cy="106" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(-20 130 106)"/>
+                                <ellipse cx="240" cy="112" rx="5" ry="2.2" fill="#B8402A" transform="rotate(10 240 112)"/>
+                                <ellipse cx="380" cy="108" rx="5" ry="2.2" fill="#D9822B" transform="rotate(-10 380 108)"/>
+                                <ellipse cx="540" cy="113" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(25 540 113)"/>
+                                <ellipse cx="650" cy="107" rx="5" ry="2.2" fill="#B8402A" transform="rotate(-15 650 107)"/>
+                                <ellipse cx="790" cy="111" rx="5" ry="2.2" fill="#D9822B" transform="rotate(5 790 111)"/>
+                                <ellipse cx="930" cy="108" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(-25 930 108)"/>
+                                <ellipse cx="1000" cy="113" rx="5" ry="2.2" fill="#B8402A" transform="rotate(20 1000 113)"/>
+                                <ellipse cx="1110" cy="109" rx="5" ry="2.2" fill="#D9822B" transform="rotate(-5 1110 109)"/>
+                                <ellipse cx="1185" cy="112" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(10 1185 112)"/>
+                                <g transform="translate(600 103) scale(1)">
+                                    <ellipse cx="-6" cy="0" rx="10" ry="9" fill="#D9822B"/>
+                                    <ellipse cx="6" cy="0" rx="10" ry="9" fill="#E3A23B"/>
+                                    <ellipse cx="0" cy="0" rx="9" ry="10" fill="#E8913A"/>
+                                    <rect x="-1.5" y="-13" width="3" height="5" rx="1" fill="#4F6B2A"/>
+                                </g>
+                                <g transform="translate(985 104) scale(0.75)">
+                                    <ellipse cx="-6" cy="0" rx="10" ry="9" fill="#D9822B"/>
+                                    <ellipse cx="6" cy="0" rx="10" ry="9" fill="#E3A23B"/>
+                                    <ellipse cx="0" cy="0" rx="9" ry="10" fill="#E8913A"/>
+                                    <rect x="-1.5" y="-13" width="3" height="5" rx="1" fill="#4F6B2A"/>
+                                </g>
+                                <g transform="translate(410 104)">
+                                    <rect x="-2.5" y="-1" width="5" height="9" rx="1.5" fill="#F1E3C6"/>
+                                    <path d="M-9.5 0 Q0 -15 9.5 0Z" fill="#B8402A"/>
+                                    <circle cx="-3.5" cy="-5" r="1.4" fill="#F1E3C6"/>
+                                    <circle cx="3.5" cy="-4" r="1.2" fill="#F1E3C6"/>
+                                </g>
+                                <g transform="translate(1095 106)">
+                                    <rect x="-2.5" y="-1" width="5" height="9" rx="1.5" fill="#F1E3C6"/>
+                                    <path d="M-9.5 0 Q0 -15 9.5 0Z" fill="#B8402A"/>
+                                    <circle cx="-3.5" cy="-5" r="1.4" fill="#F1E3C6"/>
+                                    <circle cx="3.5" cy="-4" r="1.2" fill="#F1E3C6"/>
+                                </g>
+                            </svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #D9822B"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #B8402A"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #E3A23B"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #C8562A"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #D9822B"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #E3A23B"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #B8402A"><use href="#autumnLeafShape"/></svg>
+                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #C8562A"><use href="#autumnLeafShape"/></svg>
+                        </div>
                         <div class="important-content">
                             <h2 class="info-heading" id="importantInfoHeading">
                                 <span class="info-alert-dot" aria-hidden="true"></span>
