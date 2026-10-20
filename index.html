@@ -614,11 +614,15 @@
             grid-template-columns: minmax(0, 1fr) auto;
         }
 
-        .laundry-guide {
+        .practical-guide {
             align-items: center;
             border-top: 1px solid var(--line-soft);
             gap: 0.65rem;
             grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .practical-guide.qr-right {
+            grid-template-columns: minmax(0, 1fr) auto;
         }
 
         .laundry-copy {
@@ -1377,7 +1381,7 @@
                                             <span>Boka tvätt</span>
                                         </a>
                                     </div>
-                                    <div class="practical-body laundry-guide">
+                                    <div class="practical-body practical-guide">
                                         <a class="practical-qr" href="https://production-media.boappa.com/b0098032de65b5dd4f70f5cd94b416vttstuganonline.pdf" aria-label="Öppna guide för att logga in och boka tvättstugan online">
                                             <img class="qr-image" src="qr/tvattstuga-guide.svg" alt="QR-kod till guide för att boka tvättstugan online">
                                         </a>
@@ -1388,6 +1392,12 @@
                                     <h3 class="practical-title">Sophantering</h3>
                                     <div class="practical-body">
                                         <p>Soprum för källsortering finns i anslutning till garaget.</p>
+                                    </div>
+                                    <div class="practical-body practical-guide qr-right">
+                                        <p>Allt du behöver veta om källsortering! | Återvinn rätt och undvik böter!</p>
+                                        <a class="practical-qr" href="https://youtu.be/qJA5BOG85-Y?si=auPLoK5lYjY7R7b3" aria-label="Öppna video om källsortering på YouTube">
+                                            <img class="qr-image" src="qr/kallsortering-video.svg" alt="QR-kod till video om källsortering">
+                                        </a>
                                     </div>
                                 </section>
                                 <section class="practical-item">
