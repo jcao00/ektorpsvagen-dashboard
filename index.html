@@ -614,6 +614,13 @@
             grid-template-columns: minmax(0, 1fr) auto;
         }
 
+        .laundry-guide {
+            align-items: center;
+            border-top: 1px solid var(--line-soft);
+            gap: 0.65rem;
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
         .laundry-copy {
             display: grid;
             gap: 0.35rem;
@@ -1369,6 +1376,12 @@
                                             <img class="qr-image" src="qr/tvattbokning.svg" alt="QR-kod till digital bokning av tvättstuga">
                                             <span>Boka tvätt</span>
                                         </a>
+                                    </div>
+                                    <div class="practical-body laundry-guide">
+                                        <a class="practical-qr" href="https://production-media.boappa.com/b0098032de65b5dd4f70f5cd94b416vttstuganonline.pdf" aria-label="Öppna guide för att logga in och boka tvättstugan online">
+                                            <img class="qr-image" src="qr/tvattstuga-guide.svg" alt="QR-kod till guide för att boka tvättstugan online">
+                                        </a>
+                                        <p>Så här loggar du in och bokar tvättstugan online</p>
                                     </div>
                                 </section>
                                 <section class="practical-item">
