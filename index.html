@@ -163,6 +163,34 @@
             content: none;
         }
 
+        .header-ongoing.is-boappa-chat .header-ongoing-list li + li {
+            margin-top: clamp(0.35rem, 0.8vh, 0.7rem);
+        }
+
+        .header-ongoing.is-news .area-title {
+            text-transform: none;
+        }
+
+        .header-ongoing.is-news .header-ongoing-list {
+            gap: clamp(0.3rem, 0.65vh, 0.6rem);
+        }
+
+        .header-ongoing.is-news .header-ongoing-list li {
+            display: grid;
+            gap: 0.6rem;
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .header-ongoing.is-news .header-ongoing-list li::before {
+            content: none;
+        }
+
+        .news-time {
+            color: var(--gold);
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+
         .boappa-chat-pinned,
         .boappa-chat-author {
             display: block;
@@ -1726,6 +1754,22 @@
             const ANNOUNCEMENT_REFRESH_INTERVAL_MS = 60 * 1000;
             const WEATHER_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
             const EVENT_LOOKAHEAD_DAYS = 30;
+            // Tried in order; the first source that answers is shown.
+            const NEWS_SOURCES = [
+                {
+                    name: 'Ekot nyheter',
+                    url: 'https://api.sr.se/api/rss/program/83?format=145',
+                    format: 'atom'
+                },
+                {
+                    name: 'DN nyheter',
+                    url: 'https://api.rss2json.com/v1/api.json?rss_url=' +
+                        encodeURIComponent('https://www.dn.se/rss/'),
+                    format: 'rss2json'
+                }
+            ];
+            const NEWS_REFRESH_INTERVAL_MS = 10 * 60 * 1000;
+            const NEWS_MAX_ITEMS = 6;
             const PAGE_UPDATE_CHECK_INTERVAL_MS = 10 * 60 * 1000;
             const BOAPPA_DESTINATIONS = {
                 ios: 'https://apps.apple.com/se/app/boappa/id1330810316',
@@ -1821,6 +1865,9 @@
             const ongoingFooter = document.querySelector('.header-ongoing-footer');
             const ongoingMoreLink = document.getElementById('ongoingMoreLink');
             let hasLoadedAnnouncements = false;
+            let ongoingMode = 'loading';
+            let newsItems = null;
+            let newsSourceName = NEWS_SOURCES[0].name;
 
             function parseCsvLine(line) {
                 const values = [];
@@ -1975,35 +2022,108 @@
                 return wrapper;
             }
 
-            function boappaChatMockupElement() {
-                const item = document.createElement('li');
-                const pinned = document.createElement('strong');
-                pinned.className = 'boappa-chat-pinned';
-                pinned.textContent = 'Fäst inlägg';
+            function boappaPostElement(item) {
+                const post = document.createElement('li');
 
                 const author = document.createElement('strong');
                 author.className = 'boappa-chat-author';
-                author.textContent = 'Styrelsen';
+                author.textContent = item.title || 'Styrelsen';
+                post.append(author);
 
-                const time = document.createElement('time');
-                time.className = 'boappa-chat-time';
-                time.dateTime = '2026-10-15T07:02';
-                time.textContent = '15 oktober 2026 kl. 07:02';
+                const periodText = announcementPeriod(item);
+                if (periodText) {
+                    const time = document.createElement('time');
+                    time.className = 'boappa-chat-time';
+                    time.textContent = periodText;
+                    post.append(time);
+                }
 
-                const messages = [
-                    'Hej på er!!',
-                    'Söndagen den 8/11 (självaste Fars dag) mellan kl 10-12, är det dags för höstens städdag. Vi behöver plocka ihop studsmattan, slänga lite blommor och lyfta in utemöblerna.',
-                    'Passa på och kom dit och hälsa på dina grannar och bär ner en stol eller två😊.',
-                    'Vi bjuder på fika☕️🍪.'
-                ].map(text => {
-                    const message = document.createElement('span');
-                    message.className = 'boappa-chat-message';
-                    message.textContent = text;
-                    return message;
-                });
+                String(item.text || '')
+                    .split('\\n')
+                    .map(line => line.trim())
+                    .filter(Boolean)
+                    .forEach(line => {
+                        const message = document.createElement('span');
+                        message.className = 'boappa-chat-message';
+                        message.textContent = line;
+                        post.append(message);
+                    });
 
-                item.append(pinned, author, time, ...messages);
-                return item;
+                return post;
+            }
+
+            function newsElement(item) {
+                const entry = document.createElement('li');
+                if (item.published && !Number.isNaN(item.published.getTime())) {
+                    const time = document.createElement('time');
+                    time.className = 'news-time';
+                    time.dateTime = item.published.toISOString();
+                    time.textContent = item.published.toLocaleTimeString('sv-SE', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    entry.append(time);
+                }
+                const headline = document.createElement('span');
+                headline.textContent = item.title;
+                entry.append(headline);
+                return entry;
+            }
+
+            function renderNews() {
+                ongoingInfoHeading.textContent = newsSourceName;
+                ongoingList.replaceChildren();
+                if (newsItems && newsItems.length) {
+                    newsItems.forEach(item => ongoingList.append(newsElement(item)));
+                } else {
+                    const placeholder = document.createElement('li');
+                    placeholder.textContent = newsItems ? 'Nyheter kunde inte hämtas' : 'Laddar nyheter…';
+                    ongoingList.append(placeholder);
+                }
+            }
+
+            async function fetchNewsSource(source) {
+                const response = await fetch(source.url, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                if (source.format === 'atom') {
+                    const xml = new DOMParser().parseFromString(await response.text(), 'application/xml');
+                    if (xml.querySelector('parsererror')) throw new Error('Invalid feed XML');
+                    return [...xml.querySelectorAll('entry')].map(entry => ({
+                        title: entry.querySelector('title')?.textContent.trim() || '',
+                        published: new Date(entry.querySelector('published, updated')?.textContent || '')
+                    }));
+                }
+
+                const data = await response.json();
+                if (data.status !== 'ok' || !Array.isArray(data.items)) {
+                    throw new Error(data.message || 'Unexpected feed response');
+                }
+                // rss2json returns pubDate as UTC without a zone marker
+                return data.items.map(item => ({
+                    title: String(item.title || '').trim(),
+                    published: new Date(String(item.pubDate || '').replace(' ', 'T') + 'Z')
+                }));
+            }
+
+            async function loadNews() {
+                for (const source of NEWS_SOURCES) {
+                    try {
+                        const items = (await fetchNewsSource(source))
+                            .filter(item => item.title)
+                            .sort((a, b) => (b.published.getTime() || 0) - (a.published.getTime() || 0))
+                            .slice(0, NEWS_MAX_ITEMS);
+                        if (!items.length) throw new Error('No news items');
+                        newsItems = items;
+                        newsSourceName = source.name;
+                        if (ongoingMode === 'news') renderNews();
+                        return;
+                    } catch (error) {
+                        console.warn(`Failed to load ${source.name}:`, error);
+                    }
+                }
+                if (newsItems === null) newsItems = [];
+                if (ongoingMode === 'news') renderNews();
             }
 
             function renderAnnouncements(items) {
@@ -2025,6 +2145,13 @@
                     isEventVisible(item, now)
                 );
                 const ongoingItems = [...upcomingAlerts, ...events]
+                    .sort((a, b) => announcementStartTime(a) - announcementStartTime(b));
+                const boappPosts = items
+                    .filter(item =>
+                        item.type.toLowerCase() === 'boapp' &&
+                        announcementText(item) &&
+                        isEventVisible(item, now)
+                    )
                     .sort((a, b) => announcementStartTime(a) - announcementStartTime(b));
 
                 importantMessage.replaceChildren();
@@ -2048,18 +2175,19 @@
                 }
 
                 ongoingList.replaceChildren();
-                if (ongoingItems.length) {
-                    ongoingInfo.classList.remove('is-boappa-chat');
+                ongoingMode = ongoingItems.length ? 'ongoing' : boappPosts.length ? 'boapp' : 'news';
+                ongoingInfo.classList.toggle('is-boappa-chat', ongoingMode === 'boapp');
+                ongoingInfo.classList.toggle('is-news', ongoingMode === 'news');
+                ongoingFooter.hidden = ongoingMode !== 'ongoing';
+                ongoingMoreLink.hidden = ongoingMode !== 'ongoing';
+                if (ongoingMode === 'ongoing') {
                     ongoingInfoHeading.textContent = 'På gång';
-                    ongoingFooter.hidden = false;
-                    ongoingMoreLink.hidden = false;
                     ongoingItems.forEach(item => ongoingList.append(announcementElement(item, 'li')));
-                } else {
-                    ongoingInfo.classList.add('is-boappa-chat');
+                } else if (ongoingMode === 'boapp') {
                     ongoingInfoHeading.textContent = 'Från styrelsen i Boappa-chatten';
-                    ongoingFooter.hidden = true;
-                    ongoingMoreLink.hidden = true;
-                    ongoingList.append(boappaChatMockupElement());
+                    boappPosts.forEach(item => ongoingList.append(boappaPostElement(item)));
+                } else {
+                    renderNews();
                 }
             }
 
@@ -2078,7 +2206,8 @@
                     importantInfo.classList.remove('is-clear');
                     importantMessage.textContent = 'Aktuell information kunde inte hämtas';
                     ongoingList.replaceChildren();
-                    ongoingInfo.classList.remove('is-boappa-chat');
+                    ongoingMode = 'error';
+                    ongoingInfo.classList.remove('is-boappa-chat', 'is-news');
                     ongoingInfoHeading.textContent = 'På gång';
                     ongoingFooter.hidden = false;
                     ongoingMoreLink.hidden = true;
@@ -2090,6 +2219,8 @@
 
             loadAnnouncements();
             setInterval(loadAnnouncements, ANNOUNCEMENT_REFRESH_INTERVAL_MS);
+            loadNews();
+            setInterval(loadNews, NEWS_REFRESH_INTERVAL_MS);
 
             // ============================================================
             //  2. CLOCK
