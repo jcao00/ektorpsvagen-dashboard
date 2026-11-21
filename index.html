@@ -467,7 +467,7 @@
             grid-template-columns: minmax(0, 1fr) auto;
         }
 
-        /* --- AUTUMN DECORATION (Viktigt just nu) --- */
+        /* --- CHRISTMAS DECORATION (Viktigt just nu) --- */
         .info-important {
             min-height: calc(clamp(6rem, 13vh, 12rem) - 30px);
             position: relative;
@@ -479,7 +479,7 @@
             z-index: 1;
         }
 
-        .autumn-layer {
+        .xmas-layer {
             border-radius: inherit;
             container-type: size;
             inset: 0;
@@ -491,7 +491,7 @@
             z-index: 0;
         }
 
-        .autumn-scene {
+        .xmas-scene {
             bottom: 0;
             height: 100%;
             left: 0;
@@ -499,44 +499,74 @@
             width: 100%;
         }
 
-        .autumn-tree {
-            animation: autumn-sway 6s ease-in-out infinite;
-            transform-box: fill-box;
-            transform-origin: bottom center;
+        .xmas-twinkle {
+            animation: xmas-twinkle 2.6s ease-in-out infinite;
         }
 
-        .autumn-tree.t2 { animation-delay: -2s; }
-        .autumn-tree.t3 { animation-delay: -4s; }
+        .xmas-twinkle.d1 { animation-delay: -0.6s; }
+        .xmas-twinkle.d2 { animation-delay: -1.3s; }
+        .xmas-twinkle.d3 { animation-delay: -1.9s; }
 
-        .autumn-leaf {
-            animation: autumn-fall linear infinite;
+        .xmas-star-top {
+            animation: xmas-glow 2s ease-in-out infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .xmas-sleigh {
+            animation: xmas-sleigh 26s linear infinite;
+            height: clamp(1.2rem, 2.4vh, 2.2rem);
+            left: 0;
+            position: absolute;
+            top: 6%;
+            width: auto;
+        }
+
+        .xmas-flake {
+            animation: xmas-fall linear infinite;
+            color: #FFFFFF;
             height: 1em;
+            opacity: 0.85;
             position: absolute;
             top: -2em;
             width: 1em;
         }
 
-        .autumn-leaf:nth-of-type(2) { left: 5%;  font-size: 1.1rem; animation-duration: 11s; animation-delay: 0s; }
-        .autumn-leaf:nth-of-type(3) { left: 17%; font-size: 1.5rem; animation-duration: 14s; animation-delay: -6s; }
-        .autumn-leaf:nth-of-type(4) { left: 29%; font-size: 1rem;   animation-duration: 10s; animation-delay: -3s; }
-        .autumn-leaf:nth-of-type(5) { left: 42%; font-size: 1.3rem; animation-duration: 13s; animation-delay: -9s; }
-        .autumn-leaf:nth-of-type(6) { left: 55%; font-size: 1.1rem; animation-duration: 12s; animation-delay: -1s; }
-        .autumn-leaf:nth-of-type(7) { left: 67%; font-size: 1.6rem; animation-duration: 15s; animation-delay: -7s; }
-        .autumn-leaf:nth-of-type(8) { left: 79%; font-size: 1rem;   animation-duration: 11s; animation-delay: -4s; }
-        .autumn-leaf:nth-of-type(9) { left: 91%; font-size: 1.3rem; animation-duration: 13s; animation-delay: -10s; }
+        .xmas-flake:nth-of-type(2) { left: 3%; font-size: 0.7rem; animation-duration: 10s; animation-delay: -0s; }
+        .xmas-flake:nth-of-type(3) { left: 12%; font-size: 1.0rem; animation-duration: 13s; animation-delay: -5s; }
+        .xmas-flake:nth-of-type(4) { left: 22%; font-size: 0.6rem; animation-duration: 9s; animation-delay: -2s; }
+        .xmas-flake:nth-of-type(5) { left: 33%; font-size: 0.9rem; animation-duration: 12s; animation-delay: -8s; }
+        .xmas-flake:nth-of-type(6) { left: 44%; font-size: 0.7rem; animation-duration: 11s; animation-delay: -1s; }
+        .xmas-flake:nth-of-type(7) { left: 54%; font-size: 1.1rem; animation-duration: 14s; animation-delay: -6s; }
+        .xmas-flake:nth-of-type(8) { left: 64%; font-size: 0.6rem; animation-duration: 10s; animation-delay: -3s; }
+        .xmas-flake:nth-of-type(9) { left: 74%; font-size: 0.9rem; animation-duration: 12s; animation-delay: -9s; }
+        .xmas-flake:nth-of-type(10) { left: 84%; font-size: 0.7rem; animation-duration: 11s; animation-delay: -4s; }
+        .xmas-flake:nth-of-type(11) { left: 94%; font-size: 1.0rem; animation-duration: 13s; animation-delay: -7s; }
 
-        @keyframes autumn-fall {
+        @keyframes xmas-fall {
             0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-            10%  { opacity: 1; }
-            30%  { transform: translate(1.4rem, 30cqh) rotate(120deg); }
-            55%  { transform: translate(-1rem, 58cqh) rotate(220deg); }
-            80%  { transform: translate(1.2rem, 82cqh) rotate(320deg); opacity: 1; }
-            100% { transform: translate(0, calc(100cqh + 2em)) rotate(400deg); opacity: 0; }
+            10%  { opacity: 0.9; }
+            50%  { transform: translate(1rem, 50cqh) rotate(180deg); }
+            90%  { opacity: 0.9; }
+            100% { transform: translate(-0.5rem, calc(100cqh + 2em)) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes autumn-sway {
-            0%, 100% { transform: rotate(-1.5deg); }
-            50%      { transform: rotate(1.5deg); }
+        @keyframes xmas-twinkle {
+            0%, 100% { opacity: 0.25; }
+            50%      { opacity: 1; }
+        }
+
+        @keyframes xmas-glow {
+            0%, 100% { transform: scale(0.9); opacity: 0.8; }
+            50%      { transform: scale(1.15); opacity: 1; }
+        }
+
+        @keyframes xmas-sleigh {
+            0%   { transform: translate(calc(-100% - 2rem), 0.4rem); }
+            25%  { transform: translate(25cqw, -0.2rem); }
+            50%  { transform: translate(50cqw, 0.4rem); }
+            75%  { transform: translate(75cqw, -0.2rem); }
+            100% { transform: translate(calc(100cqw + 2rem), 0.4rem); }
         }
 
         /* No active alerts: hide heading and message, show only the picture */
@@ -545,7 +575,7 @@
             border-color: rgba(232, 199, 102, 0.35);
         }
 
-        .info-important.is-clear .autumn-layer {
+        .info-important.is-clear .xmas-layer {
             opacity: 1;
         }
 
@@ -560,11 +590,14 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .autumn-tree,
-            .autumn-leaf {
+            .xmas-twinkle,
+            .xmas-star-top,
+            .xmas-sleigh,
+            .xmas-flake {
                 animation: none;
             }
-            .autumn-leaf {
+            .xmas-sleigh,
+            .xmas-flake {
                 display: none;
             }
         }
@@ -1480,127 +1513,197 @@
             <div class="grid-wrapper">
                 <div class="info-board">
                     <section class="info-field info-important" id="importantInfo" aria-labelledby="importantInfoHeading">
-                        <div class="autumn-layer" aria-hidden="true">
-                            <svg class="autumn-scene" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice">
+                        <div class="xmas-layer" aria-hidden="true">
+                            <svg class="xmas-scene" viewBox="0 40 1200 80" preserveAspectRatio="xMidYMax slice">
                                 <defs>
-                                    <symbol id="autumnLeafShape" viewBox="0 0 24 24">
-                                        <path d="M12 1 L14 7 L20 4 L18 10 L23 12 L18 14 L20 20 L14 17 L12 23 L10 17 L4 20 L6 14 L1 12 L6 10 L4 4 L10 7Z" fill="currentColor"/>
-                                        <path d="M12 6 V23" stroke="#4A2C17" stroke-width="1" opacity="0.6"/>
+                                    <symbol id="xmasFlakeShape" viewBox="0 0 24 24">
+                                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                            <path d="M12 2 V22 M3.3 7 L20.7 17 M3.3 17 L20.7 7"/>
+                                            <path d="M9 4 L12 6.5 L15 4 M9 20 L12 17.5 L15 20"/>
+                                        </g>
                                     </symbol>
-                                    <linearGradient id="autumnSky" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0" stop-color="#E8A04A" stop-opacity="0"/>
-                                        <stop offset="1" stop-color="#E8A04A" stop-opacity="0.2"/>
+                                    <linearGradient id="xmasSky" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0" stop-color="#0D1B33" stop-opacity="0.9"/>
+                                        <stop offset="1" stop-color="#1F3557" stop-opacity="0.9"/>
                                     </linearGradient>
-                                    <radialGradient id="autumnSun" cx="0.5" cy="0.5" r="0.5">
-                                        <stop offset="0" stop-color="#F6C56B" stop-opacity="0.5"/>
-                                        <stop offset="1" stop-color="#F6C56B" stop-opacity="0"/>
+                                    <radialGradient id="xmasMoon" cx="0.5" cy="0.5" r="0.5">
+                                        <stop offset="0" stop-color="#F4E9C8" stop-opacity="0.45"/>
+                                        <stop offset="1" stop-color="#F4E9C8" stop-opacity="0"/>
                                     </radialGradient>
                                 </defs>
-                                <rect width="1200" height="120" fill="url(#autumnSky)"/>
-                                <circle cx="960" cy="38" r="55" fill="url(#autumnSun)"/>
-                                <circle cx="960" cy="38" r="15" fill="#F6C56B" opacity="0.5"/>
-                                <path d="M0 82 Q200 58 420 74 T840 68 T1200 72 V120 H0Z" fill="#6B3E1E" opacity="0.55"/>
-                                <g class="autumn-tree t1">
-                                    <rect x="67" y="72.0" width="6" height="24.0" rx="2" fill="#4A2C17"/>
-                                    <circle cx="70" cy="64.0" r="20" fill="#C8562A"/>
-                                    <circle cx="57" cy="75" r="14" fill="#D9822B"/>
-                                    <circle cx="83" cy="74" r="14" fill="#B8402A"/>
-                                    <circle cx="70" cy="51" r="12" fill="#E3A23B"/>
+                                <rect y="40" width="1200" height="80" fill="url(#xmasSky)"/>
+                                <circle class="xmas-twinkle d0" cx="40" cy="48" r="1.1" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d1" cx="120" cy="58" r="0.9" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d2" cx="190" cy="46" r="1.3" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d3" cx="300" cy="54" r="0.9" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d0" cx="380" cy="45" r="1.1" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d1" cx="460" cy="57" r="0.9" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d2" cx="530" cy="47" r="1.2" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d3" cx="690" cy="55" r="0.9" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d0" cx="760" cy="46" r="1.1" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d1" cx="830" cy="58" r="0.9" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d2" cx="900" cy="48" r="1.3" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d3" cx="1080" cy="52" r="1" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d0" cx="1140" cy="45" r="1.2" fill="#FFFFFF"/>
+                                <circle class="xmas-twinkle d1" cx="1180" cy="60" r="0.9" fill="#FFFFFF"/>
+                                <circle cx="1010" cy="56" r="26" fill="url(#xmasMoon)"/>
+                                <circle cx="1010" cy="56" r="8" fill="#F4E9C8"/>
+                                <circle cx="1014" cy="54" r="7.2" fill="#18294A" opacity="0.9"/>
+                                <path d="M0 88 Q200 74 420 84 T840 79 T1200 82 V120 H0Z" fill="#C9D6E3" opacity="0.45"/>
+                                <g>
+                                    <rect x="57.5" y="94" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M40.2 94.0 L60 77.8 L79.8 94.0Z" fill="#1E5233"/>
+                                    <path d="M51.7 83.0 L60 77.8 L68.3 83.0 Q60 81.0 51.7 83.0Z" fill="#F2F6FA"/>
+                                    <path d="M44.6 83.9 L60 68.1 L75.4 83.9Z" fill="#22603B"/>
+                                    <path d="M53.5 73.1 L60 68.1 L66.5 73.1 Q60 71.1 53.5 73.1Z" fill="#F2F6FA"/>
+                                    <path d="M49.1 75.3 L60 58.0 L70.9 75.3Z" fill="#277045"/>
+                                    <path d="M55.4 63.5 L60 58.0 L64.6 63.5 Q60 61.5 55.4 63.5Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t2">
-                                    <rect x="162" y="75.19999999999999" width="6" height="16.800000000000004" rx="2" fill="#4A2C17"/>
-                                    <circle cx="165" cy="69.6" r="14" fill="#E3A23B"/>
-                                    <circle cx="156" cy="77" r="10" fill="#D9822B"/>
-                                    <circle cx="174" cy="77" r="10" fill="#C8562A"/>
-                                    <circle cx="165" cy="60" r="9" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="127.5" y="90" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M115.7 90.0 L130 78.3 L144.3 90.0Z" fill="#1E5233"/>
+                                    <path d="M124.0 82.0 L130 78.3 L136.0 82.0 Q130 80.0 124.0 82.0Z" fill="#F2F6FA"/>
+                                    <path d="M118.8 82.7 L130 71.3 L141.2 82.7Z" fill="#22603B"/>
+                                    <path d="M125.3 74.9 L130 71.3 L134.7 74.9 Q130 72.9 125.3 74.9Z" fill="#F2F6FA"/>
+                                    <path d="M122.1 76.5 L130 64.0 L137.9 76.5Z" fill="#277045"/>
+                                    <path d="M126.7 68.0 L130 64.0 L133.3 68.0 Q130 66.0 126.7 68.0Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t3">
-                                    <rect x="297" y="73.4" width="6" height="21.6" rx="2" fill="#4A2C17"/>
-                                    <circle cx="300" cy="66.2" r="18" fill="#B8402A"/>
-                                    <circle cx="288" cy="76" r="12" fill="#C8562A"/>
-                                    <circle cx="312" cy="75" r="13" fill="#D9822B"/>
-                                    <circle cx="300" cy="54" r="11" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="392.5" y="89" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M381.8 89.0 L395 78.2 L408.2 89.0Z" fill="#1E5233"/>
+                                    <path d="M389.5 81.7 L395 78.2 L400.5 81.7 Q395 79.7 389.5 81.7Z" fill="#F2F6FA"/>
+                                    <path d="M384.7 82.3 L395 71.7 L405.3 82.3Z" fill="#22603B"/>
+                                    <path d="M390.7 75.1 L395 71.7 L399.3 75.1 Q395 73.1 390.7 75.1Z" fill="#F2F6FA"/>
+                                    <path d="M387.7 76.5 L395 65.0 L402.3 76.5Z" fill="#277045"/>
+                                    <path d="M392.0 68.7 L395 65.0 L398.0 68.7 Q395 66.7 392.0 68.7Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t1">
-                                    <rect x="467" y="75.6" width="6" height="14.400000000000006" rx="2" fill="#4A2C17"/>
-                                    <circle cx="470" cy="70.8" r="12" fill="#D9822B"/>
-                                    <circle cx="462" cy="77" r="8" fill="#E3A23B"/>
-                                    <circle cx="478" cy="77" r="8" fill="#C8562A"/>
-                                    <circle cx="470" cy="63" r="7" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="467.5" y="92" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M452.4 92.0 L470 77.6 L487.6 92.0Z" fill="#1E5233"/>
+                                    <path d="M462.6 82.2 L470 77.6 L477.4 82.2 Q470 80.2 462.6 82.2Z" fill="#F2F6FA"/>
+                                    <path d="M456.3 83.0 L470 69.0 L483.7 83.0Z" fill="#22603B"/>
+                                    <path d="M464.2 73.5 L470 69.0 L475.8 73.5 Q470 71.5 464.2 73.5Z" fill="#F2F6FA"/>
+                                    <path d="M460.3 75.4 L470 60.0 L479.7 75.4Z" fill="#277045"/>
+                                    <path d="M465.9 64.9 L470 60.0 L474.1 64.9 Q470 62.9 465.9 64.9Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t2">
-                                    <rect x="717" y="72.6" width="6" height="20.400000000000006" rx="2" fill="#4A2C17"/>
-                                    <circle cx="720" cy="65.8" r="17" fill="#C8562A"/>
-                                    <circle cx="709" cy="75" r="12" fill="#B8402A"/>
-                                    <circle cx="731" cy="74" r="12" fill="#D9822B"/>
-                                    <circle cx="720" cy="55" r="11" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="757.5" y="91" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M743.5 91.0 L760 77.5 L776.5 91.0Z" fill="#1E5233"/>
+                                    <path d="M753.1 81.8 L760 77.5 L766.9 81.8 Q760 79.8 753.1 81.8Z" fill="#F2F6FA"/>
+                                    <path d="M747.1 82.6 L760 69.4 L772.9 82.6Z" fill="#22603B"/>
+                                    <path d="M754.6 73.6 L760 69.4 L765.4 73.6 Q760 71.6 754.6 73.6Z" fill="#F2F6FA"/>
+                                    <path d="M750.9 75.4 L760 61.0 L769.1 75.4Z" fill="#277045"/>
+                                    <path d="M756.2 65.6 L760 61.0 L763.8 65.6 Q760 63.6 756.2 65.6Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t3">
-                                    <rect x="842" y="74.4" width="6" height="15.600000000000001" rx="2" fill="#4A2C17"/>
-                                    <circle cx="845" cy="69.2" r="13" fill="#E3A23B"/>
-                                    <circle cx="837" cy="76" r="9" fill="#C8562A"/>
-                                    <circle cx="853" cy="76" r="9" fill="#D9822B"/>
-                                    <circle cx="845" cy="61" r="8" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="827.5" y="89" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M817.9 89.0 L830 79.1 L842.1 89.0Z" fill="#1E5233"/>
+                                    <path d="M824.9 82.3 L830 79.1 L835.1 82.3 Q830 80.3 824.9 82.3Z" fill="#F2F6FA"/>
+                                    <path d="M820.6 82.8 L830 73.2 L839.4 82.8Z" fill="#22603B"/>
+                                    <path d="M826.0 76.3 L830 73.2 L834.0 76.3 Q830 74.3 826.0 76.3Z" fill="#F2F6FA"/>
+                                    <path d="M823.3 77.6 L830 67.0 L836.7 77.6Z" fill="#277045"/>
+                                    <path d="M827.2 70.4 L830 67.0 L832.8 70.4 Q830 68.4 827.2 70.4Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t1">
-                                    <rect x="1057" y="72.19999999999999" width="6" height="22.800000000000004" rx="2" fill="#4A2C17"/>
-                                    <circle cx="1060" cy="64.6" r="19" fill="#B8402A"/>
-                                    <circle cx="1048" cy="75" r="13" fill="#D9822B"/>
-                                    <circle cx="1072" cy="74" r="13" fill="#C8562A"/>
-                                    <circle cx="1060" cy="52" r="12" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="1107.5" y="93" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M1091.3 93.0 L1110 77.7 L1128.7 93.0Z" fill="#1E5233"/>
+                                    <path d="M1102.1 82.6 L1110 77.7 L1117.9 82.6 Q1110 80.6 1102.1 82.6Z" fill="#F2F6FA"/>
+                                    <path d="M1095.4 83.5 L1110 68.5 L1124.6 83.5Z" fill="#22603B"/>
+                                    <path d="M1103.9 73.3 L1110 68.5 L1116.1 73.3 Q1110 71.3 1103.9 73.3Z" fill="#F2F6FA"/>
+                                    <path d="M1099.7 75.3 L1110 59.0 L1120.3 75.3Z" fill="#277045"/>
+                                    <path d="M1105.7 64.2 L1110 59.0 L1114.3 64.2 Q1110 62.2 1105.7 64.2Z" fill="#F2F6FA"/>
                                 </g>
-                                <g class="autumn-tree t2">
-                                    <rect x="1147" y="76.4" width="6" height="15.600000000000001" rx="2" fill="#4A2C17"/>
-                                    <circle cx="1150" cy="71.2" r="13" fill="#D9822B"/>
-                                    <circle cx="1142" cy="78" r="9" fill="#E3A23B"/>
-                                    <circle cx="1158" cy="78" r="9" fill="#B8402A"/>
-                                    <circle cx="1150" cy="63" r="8" fill="#E3A23B"/>
+                                <g>
+                                    <rect x="1172.5" y="90" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M1161.8 90.0 L1175 79.2 L1188.2 90.0Z" fill="#1E5233"/>
+                                    <path d="M1169.5 82.7 L1175 79.2 L1180.5 82.7 Q1175 80.7 1169.5 82.7Z" fill="#F2F6FA"/>
+                                    <path d="M1164.7 83.3 L1175 72.7 L1185.3 83.3Z" fill="#22603B"/>
+                                    <path d="M1170.7 76.1 L1175 72.7 L1179.3 76.1 Q1175 74.1 1170.7 76.1Z" fill="#F2F6FA"/>
+                                    <path d="M1167.7 77.5 L1175 66.0 L1182.3 77.5Z" fill="#277045"/>
+                                    <path d="M1172.0 69.7 L1175 66.0 L1178.0 69.7 Q1175 67.7 1172.0 69.7Z" fill="#F2F6FA"/>
                                 </g>
-                                <path d="M0 100 Q300 86 600 97 T1200 93 V120 H0Z" fill="#3E2614"/>
-                                <ellipse cx="40" cy="110" rx="5" ry="2.2" fill="#D9822B" transform="rotate(15 40 110)"/>
-                                <ellipse cx="130" cy="106" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(-20 130 106)"/>
-                                <ellipse cx="240" cy="112" rx="5" ry="2.2" fill="#B8402A" transform="rotate(10 240 112)"/>
-                                <ellipse cx="380" cy="108" rx="5" ry="2.2" fill="#D9822B" transform="rotate(-10 380 108)"/>
-                                <ellipse cx="540" cy="113" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(25 540 113)"/>
-                                <ellipse cx="650" cy="107" rx="5" ry="2.2" fill="#B8402A" transform="rotate(-15 650 107)"/>
-                                <ellipse cx="790" cy="111" rx="5" ry="2.2" fill="#D9822B" transform="rotate(5 790 111)"/>
-                                <ellipse cx="930" cy="108" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(-25 930 108)"/>
-                                <ellipse cx="1000" cy="113" rx="5" ry="2.2" fill="#B8402A" transform="rotate(20 1000 113)"/>
-                                <ellipse cx="1110" cy="109" rx="5" ry="2.2" fill="#D9822B" transform="rotate(-5 1110 109)"/>
-                                <ellipse cx="1185" cy="112" rx="5" ry="2.2" fill="#E3A23B" transform="rotate(10 1185 112)"/>
-                                <g transform="translate(600 103) scale(1)">
-                                    <ellipse cx="-6" cy="0" rx="10" ry="9" fill="#D9822B"/>
-                                    <ellipse cx="6" cy="0" rx="10" ry="9" fill="#E3A23B"/>
-                                    <ellipse cx="0" cy="0" rx="9" ry="10" fill="#E8913A"/>
-                                    <rect x="-1.5" y="-13" width="3" height="5" rx="1" fill="#4F6B2A"/>
+                                <g>
+                                    <rect x="253" y="61" width="5" height="10" fill="#6E1E1F"/>
+                                    <rect x="252" y="59" width="7" height="2.5" fill="#F2F6FA"/>
+                                    <rect x="225" y="77" width="46" height="24" fill="#9E2A2B"/>
+                                    <rect x="225" y="77" width="2.5" height="24" fill="#F2F6FA"/>
+                                    <rect x="268.5" y="77" width="2.5" height="24" fill="#F2F6FA"/>
+                                    <path d="M220 78 L248 61 L276 78Z" fill="#3A2A2A"/>
+                                    <path d="M219 79 L248 60 L277 79 Q248 72 219 79Z" fill="#F2F6FA"/>
+                                    <circle cx="238" cy="89" r="12" fill="#F6C56B" opacity="0.14"/>
+                                    <rect x="233" y="84" width="10" height="9" fill="#F6C56B"/>
+                                    <path d="M238 84 V93 M233 88.5 H243" stroke="#F2F6FA" stroke-width="1.3"/>
+                                    <rect x="253" y="85" width="9" height="16" fill="#5A1A1B"/>
                                 </g>
-                                <g transform="translate(985 104) scale(0.75)">
-                                    <ellipse cx="-6" cy="0" rx="10" ry="9" fill="#D9822B"/>
-                                    <ellipse cx="6" cy="0" rx="10" ry="9" fill="#E3A23B"/>
-                                    <ellipse cx="0" cy="0" rx="9" ry="10" fill="#E8913A"/>
-                                    <rect x="-1.5" y="-13" width="3" height="5" rx="1" fill="#4F6B2A"/>
+                                <g transform="translate(600 102) scale(0.82) translate(-600 -102)">
+                                <g>
+                                    <rect x="597.5" y="96" width="5" height="7" fill="#4A2C17"/>
+                                    <path d="M573.6 96.0 L600 74.4 L626.4 96.0Z" fill="#1E5233"/>
+                                    <path d="M579.4 82.6 L600 61.4 L620.6 82.6Z" fill="#22603B"/>
+                                    <path d="M585.5 71.0 L600 48.0 L614.5 71.0Z" fill="#277045"/>
                                 </g>
-                                <g transform="translate(410 104)">
-                                    <rect x="-2.5" y="-1" width="5" height="9" rx="1.5" fill="#F1E3C6"/>
-                                    <path d="M-9.5 0 Q0 -15 9.5 0Z" fill="#B8402A"/>
-                                    <circle cx="-3.5" cy="-5" r="1.4" fill="#F1E3C6"/>
-                                    <circle cx="3.5" cy="-4" r="1.2" fill="#F1E3C6"/>
+                                <circle class="xmas-twinkle d0" cx="590.4" cy="92.4" r="1.8" fill="#E0473B"/>
+                                <circle class="xmas-twinkle d1" cx="606.9" cy="91.0" r="1.8" fill="#F6C56B"/>
+                                <circle class="xmas-twinkle d2" cx="595.9" cy="84.2" r="1.8" fill="#5DA9E9"/>
+                                <circle class="xmas-twinkle d3" cx="610.3" cy="82.8" r="1.8" fill="#E0473B"/>
+                                <circle class="xmas-twinkle d0" cx="591.8" cy="77.3" r="1.8" fill="#F6C56B"/>
+                                <circle class="xmas-twinkle d1" cx="603.4" cy="74.6" r="1.8" fill="#5DA9E9"/>
+                                <circle class="xmas-twinkle d2" cx="597.3" cy="66.3" r="1.8" fill="#E0473B"/>
+                                <circle class="xmas-twinkle d3" cx="605.5" cy="67.7" r="1.8" fill="#F6C56B"/>
+                                <polygon class="xmas-star-top" points="600.0,42.0 601.3,45.2 604.8,45.5 602.1,47.7 602.9,51.0 600.0,49.2 597.1,51.0 597.9,47.7 595.2,45.5 598.7,45.2" fill="#F6C56B"/>
                                 </g>
-                                <g transform="translate(1095 106)">
-                                    <rect x="-2.5" y="-1" width="5" height="9" rx="1.5" fill="#F1E3C6"/>
-                                    <path d="M-9.5 0 Q0 -15 9.5 0Z" fill="#B8402A"/>
-                                    <circle cx="-3.5" cy="-5" r="1.4" fill="#F1E3C6"/>
-                                    <circle cx="3.5" cy="-4" r="1.2" fill="#F1E3C6"/>
+                                <path d="M0 102 Q300 92 600 100 T1200 97 V120 H0Z" fill="#E8EEF4"/>
+                                <rect x="572" y="99" width="9" height="7" fill="#C0392B"/>
+                                <path d="M576.5 99 V106 M572 102.5 H581" stroke="#F6C56B" stroke-width="1.5"/>
+                                <rect x="613" y="98" width="11" height="8" fill="#2E7D4F"/>
+                                <path d="M618.5 98 V106 M613 102.0 H624" stroke="#F2F6FA" stroke-width="1.5"/>
+                                <rect x="626" y="101" width="7" height="5" fill="#5DA9E9"/>
+                                <path d="M629.5 101 V106 M626 103.5 H633" stroke="#F6C56B" stroke-width="1.5"/>
+                                <g>
+                                    <circle cx="930" cy="102" r="8.5" fill="#F2F6FA"/>
+                                    <circle cx="930" cy="89" r="6" fill="#F2F6FA"/>
+                                    <circle cx="930" cy="79.5" r="4.3" fill="#F2F6FA"/>
+                                    <rect x="925" y="83" width="10" height="2.2" rx="1" fill="#C0392B"/>
+                                    <rect x="925.5" y="74.5" width="9" height="1.8" fill="#1C1C1C"/>
+                                    <rect x="927" y="68.5" width="6" height="6" fill="#1C1C1C"/>
+                                    <path d="M930 79.5 L935 80.3 L930 80.8Z" fill="#E8913A"/>
+                                    <circle cx="928.4" cy="77.8" r="0.7" fill="#1C1C1C"/>
+                                    <circle cx="931.6" cy="77.8" r="0.7" fill="#1C1C1C"/>
+                                    <path d="M924 88 L917 83 M936 88 L943 83" stroke="#4A2C17" stroke-width="1.2"/>
                                 </g>
                             </svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #D9822B"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #B8402A"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #E3A23B"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #C8562A"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #D9822B"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #E3A23B"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #B8402A"><use href="#autumnLeafShape"/></svg>
-                            <svg class="autumn-leaf" viewBox="0 0 24 24" style="color: #C8562A"><use href="#autumnLeafShape"/></svg>
+                            <svg class="xmas-sleigh" viewBox="0 0 130 34">
+                                <g stroke="#8B5A2B" stroke-width="1.6" stroke-linecap="round" fill="none">
+                                    <path d="M104 6 L101 1 M104 6 L107 1 M106 4 L109 3"/>
+                                    <path d="M74 6 L71 1 M74 6 L77 1 M76 4 L79 3"/>
+                                    <path d="M88 20 L84 28 M96 20 L99 28 M58 20 L54 28 M66 20 L69 28"/>
+                                    <path d="M54 15 L44 18" stroke="#F6C56B" stroke-width="1"/>
+                                    <path d="M84 15 L70 15" stroke="#F6C56B" stroke-width="1"/>
+                                </g>
+                                <ellipse cx="92" cy="16" rx="9" ry="5" fill="#8B5A2B"/>
+                                <path d="M99 14 L104 7 L108 9 L102 16Z" fill="#8B5A2B"/>
+                                <circle cx="108" cy="9" r="1.3" fill="#E0473B"/>
+                                <ellipse cx="62" cy="16" rx="9" ry="5" fill="#8B5A2B"/>
+                                <path d="M69 14 L74 7 L78 9 L72 16Z" fill="#8B5A2B"/>
+                                <path d="M4 16 H40 Q44 16 44 21 Q44 26 38 26 H10 Q4 26 4 16Z" fill="#C0392B"/>
+                                <path d="M2 29 H40 Q46 29 46 24" stroke="#F6C56B" stroke-width="1.6" fill="none"/>
+                                <path d="M10 26 V29 M36 26 V29" stroke="#F6C56B" stroke-width="1.4"/>
+                                <rect x="14" y="8" width="11" height="10" rx="3" fill="#C0392B"/>
+                                <circle cx="19.5" cy="6" r="3.6" fill="#F1D3B3"/>
+                                <path d="M15.5 5 L19.5 -1 L23.5 5Z" fill="#C0392B"/>
+                                <path d="M16 7 Q19.5 12 23 7" fill="#F2F6FA"/>
+                                <rect x="27" y="9" width="9" height="8" rx="1.5" fill="#2E7D4F"/>
+                            </svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
+                            <svg class="xmas-flake" viewBox="0 0 24 24"><use href="#xmasFlakeShape"/></svg>
                         </div>
                         <div class="important-content">
                             <h2 class="info-heading" id="importantInfoHeading">
